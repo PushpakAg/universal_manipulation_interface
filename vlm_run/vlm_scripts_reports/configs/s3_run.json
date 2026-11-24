@@ -26,11 +26,11 @@
   "workers": 4,
   "_workers_note": "Episodes downloaded and decoded in parallel processes while preparing the requests.",
   "work_dir": "work",
-  "results_dir": "results/final_v1.2",
-  "_results_note": "Everything of one episode in one folder: <results_dir>/<task path>/<episode>/ (<name><s3_result_suffix>, step_table.json, frames/ and raw_response.json with debug), e.g. results/final_v1.2/station1/2026-11-21/task01/episode_000000/. Plus <results_dir>/summary.csv (canonical task, task, count and the three confidences per episode) and <results_dir>/batches/<id>/job.json. One results_dir per prompt version: an episode counts as done only when its file in THIS results_dir has a parsed response. Earlier runs: results/station2/2026-11-22 (final_prompts 1.0).",
+  "results_dir": "results",
+  "_results_note": "Everything of one episode in one folder: <results_dir>/<task path>/<episode>/ (<name>_vlm_result.json, step_table.json, frames/ and raw_response.json with debug), e.g. results/station1/2026-11-21/task01/episode_000000/. Plus <results_dir>/summary.csv (task path, prompt version, canonical task, task, count and the three confidences per episode) and <results_dir>/batches/<id>/job.json. An episode is done only when its result has a parsed response from the current prompt set; a result of an earlier prompt version (e.g. final_prompts 1.0 in results/station2/2026-11-22/) is redone and overwritten.",
   "upload_results_to_s3": true,
-  "s3_result_suffix": "_vlm_result_v1.2.json",
-  "_upload_note": "Each parsed result is also written (same file name) into the S3 folder of its MP4: <...>/<episode>/<name>_head.mp4 -> <...>/<episode>/<name>_vlm_result_v1.2.json. The versioned suffix keeps the earlier <name>_vlm_result.json (final_prompts 1.0, station2) in place. --no-upload keeps everything local.",
+  "s3_result_suffix": "_vlm_result.json",
+  "_upload_note": "Each parsed result is also written (same file name) into the S3 folder of its MP4: <...>/<episode>/<name>_head.mp4 -> <...>/<episode>/<name>_vlm_result.json, replacing an earlier result there. Episodes without a parsed response are not uploaded (an older S3 result then stays). --no-upload keeps everything local.",
   "debug": false,
   "keep_videos": false
 }

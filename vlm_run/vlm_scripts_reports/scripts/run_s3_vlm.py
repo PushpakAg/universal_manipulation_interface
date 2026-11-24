@@ -20,7 +20,8 @@
        s3://.../<task>/<episode>/<name>_head.mp4  ->  s3://.../<task>/<episode>/<name>_vlm_result.json
    (config upload_results_to_s3 / s3_result_suffix; --no-upload keeps results local; failed episodes are not uploaded).
 
-Episodes that already have a parsed result are skipped (--force redoes them).
+Episodes that already have a parsed result from the current prompt set are skipped (--force redoes them);
+results of an earlier prompt version are redone and overwritten, locally and in S3.
 
     python scripts/run_s3_vlm.py --list                   # episodes in S3
     python scripts/run_s3_vlm.py --dry-run                # download + sample + build requests, print size and cost estimate
@@ -152,11 +153,14 @@ def migrate_legacy(a):
 
 
 def is_done(a, e):
+    """Done = a parsed response made with the CURRENT prompt set (same versions of all three prompt files). A result
+    from an earlier prompt version does not block the run: the episode is redone and its file overwritten."""
     f = result_file(a, e)
     try:
-        return json.loads(f.read_text()).get("response") is not None
+        r = json.loads(f.read_text())
     except Exception:
         return False
+    return r.get("response") is not None and r.get("prompt_versions") == R.prompt_versions(False)
 
 
 # ---------------------------------------------------------------- prepare (runs in worker processes)

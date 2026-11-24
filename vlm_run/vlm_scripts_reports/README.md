@@ -13,8 +13,8 @@ Every station (station1, station2, station3), every task and every episode; some
 between station and task, some do not. The task is its whole path (`station1/2026-11-21/task01`), so equal task names
 of different stations or dates never mix; the prompt gets the folder name (`task01`) as `context.task_folder`.
 On 2026-11-24: 1,171 episodes in 25 tasks (station1 799, station2 112, station3 260; `reports/s3_head_video_summary.csv`).
-Prompt set `final_v1.2` (canonical task, count, confidences); results go to `results/final_v1.2/` and to S3 as
-`<name>_vlm_result_v1.2.json`, so the earlier `<name>_vlm_result.json` files stay in place.
+Prompt set `final_v1.2` (canonical task, count, confidences). Results keep the usual name `<name>_vlm_result.json`
+(locally and next to each MP4 in S3); results of an earlier prompt version are redone and overwritten.
 
 ## How it runs
 
@@ -90,12 +90,13 @@ On an instance run it detached: `nohup ./run.sh > run.log 2>&1 &`. Batch jobs ta
 ## Output (one folder per episode)
 
 ```
-results/final_v1.2/<station>/[<date>/]<task>/<episode>/<name>_vlm_result.json     response, code flags, step -> time, usage, cost, batch name, S3 video
-results/final_v1.2/<station>/[<date>/]<task>/<episode>/step_table.json     step -> t_s and frame index
-results/final_v1.2/<station>/[<date>/]<task>/<episode>/frames/             (--debug) the JPEGs the model saw
-results/final_v1.2/<station>/[<date>/]<task>/<episode>/raw_response.json   (--debug) the batch output line
-results/final_v1.2/summary.csv      task path, episode, canonical task, task, count, the three confidences, flags, cost
-results/final_v1.2/batches/<id>/job.json                batch name, input file, episodes, state, cost
+results/<station>/[<date>/]<task>/<episode>/<name>_vlm_result.json     response, code flags, step -> time, usage, cost, batch name, S3 video
+results/<station>/[<date>/]<task>/<episode>/step_table.json     step -> t_s and frame index
+results/<station>/[<date>/]<task>/<episode>/frames/             (--debug) the JPEGs the model saw
+results/<station>/[<date>/]<task>/<episode>/raw_response.json   (--debug) the batch output line
+results/summary.csv      task path, episode, canonical task, task, count, the three confidences, flags, cost
+results/batches/<id>/job.json                batch name, input file, episodes, state, cost
 ```
 
-A rerun skips episodes whose `<name>_vlm_result.json` has a parsed response; `--force` redoes them.
+A rerun skips episodes whose `<name>_vlm_result.json` has a parsed response from the current prompt set; results of
+an earlier prompt version are redone and overwritten; `--force` redoes everything.
