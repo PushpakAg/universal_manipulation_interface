@@ -7,7 +7,6 @@ paths now point to `vlm_run/`.
 ```
 run_vlm_repetitions.py          runner: prompt sets, request building (images or MCAP views), Gemini / OpenRouter, checks
 configs/config.json             models, prices, prompt sets, frame grid, checks (keys come from env: GEMINI_API_KEY, ...)
-mcap_mp4.py                     MCAP -> three synchronised MP4s (VLM input)
 final_prompts/                  image prompts 1.0 (output: task, n_repetitions, counting_reasoning, repetitions)
 final_prompts_v1.1/             1.0 + small objects, follow the UMI grippers, re-check before 0
 final_video_prompts/, final_video_prompts_v1.1/      same for video input (Gemini Files API)
