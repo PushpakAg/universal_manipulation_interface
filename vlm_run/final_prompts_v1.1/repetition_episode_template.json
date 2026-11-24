@@ -1,0 +1,49 @@
+{
+ "version": "umi-repetition-episode-final-1.1",
+ "description": "The episode prompt for the repetition pass: one JSON object per episode, sent first in the user turn. Steps are sampled at a fixed interval from the three video topics of one trimmed delivery MCAP (data/trimmed/episode_NNNNNN.mcap, 14_trim_mcap_common_span.py: the three views start and end within one frame, so the cameras of a step show the same instant). Camera roles come from the MCAP metadata: /cameras/camera0 = right wrist (robot0), camera1 = left wrist (robot1), camera2 = head. The images follow in the order of 'images', each preceded by '<image id> | camera <camera> | t = <t_s> s | step <n>'. The steps are the fixed grid the model must answer in; it never builds its own step numbering, so code can map every step to a timestamp. Steps are sampled frames, not every frame: the model should not assume actions between steps that the images do not show. No sensor timeline is included: the model counts repetitions from video only. The model identifies the task from the three views and counts the cycles (repetitions) of that task in this episode.",
+ "fields": {
+  "episode_id": "MCAP metadata recording.episode_index, as episode_NNNNNN",
+  "context": {
+   "rig": "MCAP metadata recording.robot_type (umi_bimanual); 'UMI handheld rig' when unset",
+   "duration_s": "episode length in seconds: recording.episode_length / video_fps (59.94)",
+   "step_interval_s": "seconds between steps",
+   "n_steps": "number of steps",
+   "given_task": "task text of the delivery order for this task folder (e.g. task01), when one was given; null when none. A hint, not a fact: the model describes what the images show"
+  },
+  "steps": [
+   {
+    "step": 1,
+    "head": "f001_head",
+    "wrist_left": "f001_wrist_left",
+    "wrist_right": "f001_wrist_right"
+   }
+  ],
+  "image_order": [
+   "head (camera2)",
+   "wrist_left (camera1)",
+   "wrist_right (camera0)"
+  ]
+ },
+ "views": {
+  "head": "head-mounted, forward facing: scene, object and destination locations, overall task progress",
+  "wrist_left": "left gripper camera: left-hand grasp, contact, manipulation and release",
+  "wrist_right": "right gripper camera: right-hand grasp, contact, manipulation and release",
+  "missing_views": "image_order lists only the views actually sent (head only for a head MP4); the model uses the remaining views and does not invent the missing ones"
+ },
+ "never_included": [
+  "operator_id",
+  "station_id",
+  "environment_id",
+  "consent_reference",
+  "location",
+  "camera serials",
+  "raw sensor values",
+  "gripper width",
+  "pose",
+  "IMU",
+  "world_frame",
+  "annotation_model",
+  "any pre-computed cycle count"
+ ],
+ "example": null
+}

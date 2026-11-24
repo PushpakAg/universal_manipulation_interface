@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UMI VLM Task and Trajectory Repetition Output",
+  "description": "Strict output contract for task description and object-level robot-learnable manipulation trajectory cycles.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "task",
+    "n_repetitions",
+    "counting_reasoning",
+    "repetitions"
+  ],
+  "properties": {
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_text",
+        "task_family",
+        "action"
+      ],
+      "properties": {
+        "task_text": {
+          "type": "string",
+          "description": "Exactly one sentence describing the goal of one complete object-manipulation trajectory."
+        },
+        "task_family": {
+          "type": "string",
+          "enum": [
+            "pick_and_place",
+            "grasp_and_place",
+            "pick_and_transfer",
+            "insertion",
+            "assembly",
+            "disassembly",
+            "sorting",
+            "tool_use",
+            "opening_and_closing",
+            "pouring",
+            "folding",
+            "cleaning",
+            "wiping",
+            "pushing_and_pulling",
+            "rotation",
+            "transportation",
+            "other"
+          ],
+          "description": "Exactly one category from vocabulary.task_families. Replace or constrain this enum to the exact vocabulary supplied with the episode."
+        },
+        "action": {
+          "type": "string",
+          "description": "A 3 to 7 word imperative phrase describing the primary manipulation action.",
+          "x-minWords": 3,
+          "x-maxWords": 7
+        }
+      }
+    },
+    "n_repetitions": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of distinct, complete, independently executed object-manipulation trajectories. Identical objects and repeated executions on the same object count separately when each is a distinct completed execution."
+    },
+    "counting_reasoning": {
+      "type": "string",
+      "description": "2 to 5 sentences explaining trajectory starts and completions, how distinct executions were separated, excluded activities and their rationale, and how the three camera views were used.",
+      "x-minSentences": 2,
+      "x-maxSentences": 5
+    },
+    "repetitions": {
+      "type": "array",
+      "description": "Chronologically ordered complete object-level manipulation trajectories. Each element is one robot-learnable execution, not one unique object or one unique task category.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "index",
+          "start_step",
+          "end_step"
+        ],
+        "properties": {
+          "index": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Sequential trajectory index starting at 1."
+          },
+          "start_step": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "First meaningful action step initiating this specific object-manipulation trajectory."
+          },
+          "end_step": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Last meaningful action step completing this specific object-manipulation trajectory. Must be greater than or equal to start_step."
+          }
+        }
+      }
+    }
+  },
+  "x-validation": {
+    "n_repetitions_equals_repetitions_length": true,
+    "indices_are_sequential_starting_at_one": true,
+    "repetitions_are_chronological": true,
+    "all_step_boundaries_reference_the_internally_generated_global_step_sequence": true,
+    "end_step_greater_than_or_equal_to_start_step": true,
+    "separate_completed_object_trajectories_are_counted_separately_even_for_identical_objects": true,
+    "one_coordinated_bimanual_trajectory_on_one_object_counts_once": true,
+    "zero_repetitions_requires_empty_array": true,
+    "task_family_must_match_episode_vocabulary": true,
+    "word_and_sentence_constraints_require_application_side_validation": true
+  }
+}

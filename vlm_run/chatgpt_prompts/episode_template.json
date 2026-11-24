@@ -1,0 +1,100 @@
+{
+  "episode": {
+    "episode_id": "umi_episode_001",
+    "recording_type": "umi",
+    "description": "One UMI data-collection episode represented by three monocular egocentric camera streams.",
+    "synchronization": {
+      "timestamp_unit": "seconds",
+      "timestamp_reference": "Use the supplied timestamps as the primary temporal reference. If timestamps are in separate camera clock domains, provide the applicable offsets or synchronization metadata.",
+      "camera_time_offsets_seconds": {
+        "head": 0.0,
+        "left": 0.0,
+        "right": 0.0
+      },
+      "synchronization_notes": "Replace example offsets with measured offsets when available. Do not assume streams are synchronized merely because frames have matching indices."
+    },
+    "camera_streams": {
+      "head": {
+        "camera_id": "head",
+        "view_description": "Forward-facing head-mounted monocular camera; scene and task context.",
+        "video_file": "head.mp4",
+        "frames": [
+          {
+            "frame_id": "head_000001",
+            "timestamp_seconds": 0.0,
+            "image": "<IMAGE_INPUT>"
+          },
+          {
+            "frame_id": "head_000002",
+            "timestamp_seconds": 1.0,
+            "image": "<IMAGE_INPUT>"
+          }
+        ]
+      },
+      "left": {
+        "camera_id": "left",
+        "view_description": "Left-hand monocular camera; left-hand grasping and manipulation detail.",
+        "video_file": "left.mp4",
+        "frames": [
+          {
+            "frame_id": "left_000001",
+            "timestamp_seconds": 0.0,
+            "image": "<IMAGE_INPUT>"
+          },
+          {
+            "frame_id": "left_000002",
+            "timestamp_seconds": 1.0,
+            "image": "<IMAGE_INPUT>"
+          }
+        ]
+      },
+      "right": {
+        "camera_id": "right",
+        "view_description": "Right-hand monocular camera; right-hand grasping and manipulation detail.",
+        "video_file": "right.mp4",
+        "frames": [
+          {
+            "frame_id": "right_000001",
+            "timestamp_seconds": 0.0,
+            "image": "<IMAGE_INPUT>"
+          },
+          {
+            "frame_id": "right_000002",
+            "timestamp_seconds": 1.0,
+            "image": "<IMAGE_INPUT>"
+          }
+        ]
+      }
+    },
+    "vocabulary": {
+      "task_families": [
+        "pick_and_place",
+        "grasp_and_place",
+        "pick_and_transfer",
+        "insertion",
+        "assembly",
+        "disassembly",
+        "sorting",
+        "tool_use",
+        "opening_and_closing",
+        "pouring",
+        "folding",
+        "cleaning",
+        "wiping",
+        "pushing_and_pulling",
+        "rotation",
+        "transportation",
+        "other"
+      ]
+    },
+    "annotation_instructions": {
+      "frame_order": "Frames within each camera stream are listed in timestamp order.",
+      "frame_sampling": "These are sampled keyframes, not necessarily every frame from the MP4. Use the timestamps to understand temporal spacing and avoid assuming that unobserved intermediate actions definitely occurred.",
+      "cross_view_fusion": "Treat head, left, and right streams as complementary observations of one episode. Align observations using timestamps and synchronization metadata.",
+      "global_step_numbering": "Construct one global chronological action-step sequence across all three camera streams. Do not number steps independently per camera.",
+      "trajectory_counting": "Count every distinct, complete object-level manipulation trajectory as one cycle. Repeated executions involving identical objects or the same physical object count separately when they are distinct completed executions. One coordinated bimanual trajectory involving one object counts once.",
+      "step_output_note": "The global action steps are used internally to assign start_step and end_step. The final response must contain only the fields specified by output_contract; do not add a steps array unless the output contract is changed.",
+      "missing_or_unusable_views": "If a camera stream is unavailable or uninformative, rely on the remaining views and do not invent missing evidence."
+    }
+  }
+}

@@ -1,0 +1,14 @@
+# secrets
+.env
+**/.env
+# environments and caches
+.venv/
+__pycache__/
+*.pyc
+# run data (large; local only)
+instance_vlm_run/work/
+instance_vlm_run/results/
+instance_vlm_run/snapshots/
+instance_vlm_run/video_test/
+instance_vlm_run/task_only/
+*.log

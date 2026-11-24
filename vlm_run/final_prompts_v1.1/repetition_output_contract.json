@@ -1,0 +1,182 @@
+{
+ "version": "umi-repetition-output-final-1.1",
+ "instruction": "Return ONLY one JSON object matching `schema`, with no text before or after it. Identify the task, count its cycles (repetitions) using the views provided in image_order together (head, left wrist, right wrist, or the head alone), explain how you counted them, and give the step segment of every cycle with the gripper that did it, the object handled and a confidence. Use step numbers only, never a time. Do not add keys that are not in the schema. task_family must be one of vocabulary.task_families. n_repetitions must equal the length of repetitions.",
+ "vocabulary": {
+  "task_families": [
+   "grasp",
+   "place",
+   "stack",
+   "sort",
+   "insert",
+   "bin_pick",
+   "tool_use",
+   "pour",
+   "fold",
+   "wipe",
+   "assemble",
+   "disassemble",
+   "open_close",
+   "push_pull",
+   "rotate",
+   "transport",
+   "handover",
+   "restock",
+   "pack",
+   "other"
+  ],
+  "grippers": [
+   "left",
+   "right",
+   "both"
+  ]
+ },
+ "fields": {
+  "task.task_text": "one sentence: the goal of a single repetition",
+  "task.task_family": "one of vocabulary.task_families ('other' only when none fits)",
+  "task.action": "3 to 7 word imperative phrase",
+  "task.object_categories": "list of object names or categories handled (may differ between repetitions); name only what you can see, as specifically as the images allow",
+  "n_repetitions": "number of cycles listed",
+  "counting_reasoning": "2 to 5 sentences: what event starts a cycle, what event ends it, what separates one cycle from the next, what was left out (reset, docking, sync taps, walking) and why, and how the three views were used; name step numbers; claim only exclusions you saw",
+  "repetitions[].index": "1, 2, 3 ... in order, no gaps",
+  "repetitions[].start_step": "first step of the cycle",
+  "repetitions[].end_step": "last step of the cycle (>= start_step)",
+  "repetitions[].gripper": "which gripper did the cycle: left, right, or both (one object worked by both grippers together)",
+  "repetitions[].object": "what was handled in this cycle, as seen in the images",
+  "repetitions[].object_confidence": "0 to 1: how sure you are of the object's identity in this cycle (use a low value when the object is small, occluded or unclear)"
+ },
+ "validation": {
+  "n_repetitions_equals_repetitions_length": true,
+  "indices_sequential_from_one": true,
+  "ordered_by_start_step": true,
+  "steps_within_1_to_n_steps": true,
+  "end_step_at_least_start_step": true,
+  "ranges_overlap_only_for_independent_simultaneous_grippers": true,
+  "zero_repetitions_means_empty_list": true,
+  "task_family_from_vocabulary": true
+ },
+ "code_checks_after_response": [
+  "start_step/end_step map to timestamps via the step table, never from the model",
+  "at least 3 repetitions, else flag the recording (do not edit the count)",
+  "each repetition lasts 3 to 30 s, computed from the mapped timestamps; flag outside",
+  "overlapping ranges are flagged unless the two repetitions have different grippers (left vs right)",
+  "word and sentence limits (action 3 to 7 words, counting_reasoning 2 to 5 sentences) are checked in code and flagged",
+  "optional cross-check: compare n_repetitions with the gripper close/open cycle count measured from robot{0,1}/gripper/state of the same MCAP (umi.tag_tracking.annotation) and report disagreement; never overwrite the model count"
+ ],
+ "schema": {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UMI task and cycle count per episode (VLM response)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+   "task",
+   "n_repetitions",
+   "counting_reasoning",
+   "repetitions"
+  ],
+  "properties": {
+   "task": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "task_text",
+     "task_family",
+     "action",
+     "object_categories"
+    ],
+    "properties": {
+     "task_text": {
+      "type": "string",
+      "minLength": 10
+     },
+     "task_family": {
+      "enum": [
+       "grasp",
+       "place",
+       "stack",
+       "sort",
+       "insert",
+       "bin_pick",
+       "tool_use",
+       "pour",
+       "fold",
+       "wipe",
+       "assemble",
+       "disassemble",
+       "open_close",
+       "push_pull",
+       "rotate",
+       "transport",
+       "handover",
+       "restock",
+       "pack",
+       "other"
+      ]
+     },
+     "action": {
+      "type": "string",
+      "minLength": 5
+     },
+     "object_categories": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "minItems": 1
+     }
+    }
+   },
+   "n_repetitions": {
+    "type": "integer",
+    "minimum": 0
+   },
+   "counting_reasoning": {
+    "type": "string",
+    "minLength": 20
+   },
+   "repetitions": {
+    "type": "array",
+    "items": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "index",
+      "start_step",
+      "end_step",
+      "gripper",
+      "object",
+      "object_confidence"
+     ],
+     "properties": {
+      "index": {
+       "type": "integer",
+       "minimum": 1
+      },
+      "start_step": {
+       "type": "integer",
+       "minimum": 1
+      },
+      "end_step": {
+       "type": "integer",
+       "minimum": 1
+      },
+      "gripper": {
+       "enum": [
+        "left",
+        "right",
+        "both"
+       ]
+      },
+      "object": {
+       "type": "string"
+      },
+      "object_confidence": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 1
+      }
+     }
+    }
+   }
+  }
+ }
+}

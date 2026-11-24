@@ -1,0 +1,121 @@
+{
+  "_comment": "Repetition (cycle count) VLM config for vlm_run/run_vlm_repetitions.py, final_prompts set. Keys are NEVER stored here: each model names the environment variable that holds its API key. Relative paths resolve against the repo root. A key is read from the environment first, then from env_files (env_override true: the file wins over the shell). Command-line options override the values here.",
+  "env_files": [
+    "vlm_run/.env"
+  ],
+  "env_override": false,
+  "results_dir": "data/vlm_run",
+  "_results_comment": "One file per model and episode: <results_dir>/<experiment>/<model key>/<episode>/vlm_result.json. experiment: '' for trimmed MCAPs (three views), experiment_2 for head MP4s, experiment_3 for head+left+right MP4s (--wrists), experiment_4 for the chatgpt prompt set. --debug also keeps frames/, step_table.json and raw_response.json.",
+  "input": {
+    "_comment": "Head-camera MP4s (head view only) or trimmed delivery MCAPs (three synchronized views). The MCAP camera roles come from the recording metadata. With --wrists, <ep>_left.mp4 and <ep>_right.mp4 next to the head file are used too.",
+    "mp4_glob": "data/newmp4/*_head.mp4",
+    "mcap_glob": "data/trimmed/episode_*.mcap",
+    "camera_roles": {
+      "/cameras/camera2/video": "head",
+      "/cameras/camera1/video": "wrist_left",
+      "/cameras/camera0/video": "wrist_right"
+    },
+    "view_order": [
+      "head",
+      "wrist_left",
+      "wrist_right"
+    ]
+  },
+  "frames": {
+    "_comment": "The fixed step grid of final_prompts: one step every 1/fps seconds on the shared timeline, the same instant in every view. The model answers in these step numbers only; code maps steps to seconds (step table). Identical for every model.",
+    "fps": 5.0,
+    "long_side_px": 768,
+    "jpeg_quality": 80,
+    "label_format": "f{step:03d}_{view} | camera {view} | t = {t_s:.2f} s | step {step}",
+    "_label_note": "Each image is preceded by its label, as repetition_system.json describes: 'f003_head | camera head | t = 0.40 s | step 3'."
+  },
+  "prompt": {
+    "set": "final",
+    "sets": {
+      "final": "vlm_run/final_prompts",
+      "mcap": "vlm_run/mcap_prompts",
+      "chatgpt": "vlm_run/chatgpt_prompts"
+    },
+    "system_prompt": "repetition_system.json",
+    "episode_template": "repetition_episode_template.json",
+    "output_contract": "repetition_output_contract.json",
+    "include_output_contract": true,
+    "_note": "repetition_system.json is the system turn. The user turn opens with the episode prompt (episode_id, context, steps, image_order) with the output contract inside it, then the labelled images in step order (head, wrist_left, wrist_right per step). The versions of the three files are written into every result. The chatgpt set has its own file names and builds its own step numbering (no step->time mapping); it is kept only for comparison."
+  },
+  "models": {
+    "gemini-3.8-flash": {
+      "provider": "gemini",
+      "model": "gemini-3.8-flash",
+      "api_key_env": "GEMINI_API_KEY",
+      "base_url": "https://generativelanguage.googleapis.com/v1beta",
+      "use_batch": true,
+      "media_resolution": "low",
+      "_media_resolution_note": "Gemini 3 image tokens: low about 280, medium 560, high 1120 per image. Measured on episode_000007 (128 head images): high 145,121 input tokens; low 42,976 (34,048 image = 266 per image, 8,928 text). Low + batch on 2026-11-24: 3 cycles, $0.0254, 246 s.",
+      "temperature": 0.0,
+      "max_output_tokens": 32768,
+      "reasoning_effort": null,
+      "price_per_mtok": [
+        0.75,
+        3.75
+      ],
+      "batch_price_per_mtok": [
+        0.375,
+        1.875
+      ],
+      "_price_note": "USD per 1M tokens [input, output incl. thinking], introductory until 2026-12-31; from 2027-01-01 live $1.50/$7.50 and batch $0.75/$3.75 (update both).",
+      "inline_limit_mb": 19.5,
+      "timeout_s": 360,
+      "max_retries": 3
+    },
+    "deepseek-v4.1-flash": {
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "api_key_env": "OPENROUTER_API_KEY",
+      "base_url": "https://openrouter.ai/api/v1",
+      "use_batch": false,
+      "openrouter_provider": null,
+      "_provider_note": "null: any OpenRouter provider that takes images (DeepInfra, the bench config's pin, serves this model text-only).",
+      "temperature": 0.0,
+      "max_output_tokens": 40000,
+      "reasoning_effort": "low",
+      "_reasoning_note": "medium spent all 40,000 output tokens on reasoning and returned no answer on episode_000007 (2026-11-24); low leaves room for the JSON.",
+      "price_per_mtok": [
+        0.12,
+        0.48
+      ],
+      "_price_note": "measured from OpenRouter's reported cost on 2026-11-24 (44,066 input + 40,000 output = $0.0245); OpenRouter also returns usage.cost per call, which is what the result records.",
+      "timeout_s": 720,
+      "max_retries": 5
+    }
+  },
+  "default_models": [
+    "gemini-3.8-flash",
+    "deepseek-v4.1-flash"
+  ],
+  "batch": {
+    "_comment": "Gemini Batch API (models/<model>:batchGenerateContent) with inline requests: all episodes of one call in one job while the request stays under inline_limit_mb (about 2 head-only episodes of 128 steps, 9.7 MB each); otherwise run fewer episodes per call. Batch is half the live price and finishes in minutes to 24 h. A job can be resumed with --batch-name batches/<id>. countTokens (free) runs before submit and prints the input cost.",
+    "poll_seconds": 30
+  },
+  "checks": {
+    "_comment": "Code checks after each response, from the output contract: flags only, the model count is never edited.",
+    "min_repetitions": 3,
+    "repetition_seconds": [
+      3,
+      30
+    ],
+    "low_object_confidence": 0.5,
+    "action_words": [
+      3,
+      7
+    ],
+    "reasoning_sentences": [
+      2,
+      5
+    ],
+    "require_gripper": true,
+    "overlap_allowed_for": [
+      "left",
+      "right"
+    ]
+  }
+}
