@@ -1,8 +1,8 @@
 {
   "_comment": "Settings for run_s3_vlm.py. Relative paths resolve against vlm_scripts_reports/ (the project root, not scripts/). Prompts (final_prompts), prices, checks and the model's max_output_tokens come from vlm_run/configs/config.json. Command-line options override these values.",
-  "source": "s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-22/",
+  "source": "s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/",
   "head_suffix": "_head.mp4",
-  "_layout_note": "Every object under source ending in head_suffix is one episode: <task>/<episode>/<name>_head.mp4. Head view only.",
+  "_layout_note": "Every object under source ending in head_suffix is one episode, in either layout: <station>/<date>/<taskNN>/<episode>/<name>_head.mp4 or <station>/<taskNN>/<episode>/<name>_head.mp4 (no date folder). The task is its whole path (station1/2026-11-21/task01), so equal task names of different stations or dates stay separate; the prompt gets the task folder name (task01). --source s3://.../station2/2026-11-22/ runs one folder; --task station1, station1/2026-11-21, station1/2026-11-21/task01 or task01 narrows the run. Head view only. Inventory 2026-11-24: station1 799, station2 112, station3 260 episodes (reports/s3_head_video_summary.csv).",
   "region": null,
   "model": "gemini-3.8-flash",
   "fps": 3.0,
@@ -25,12 +25,12 @@
   "poll_seconds": 60,
   "workers": 4,
   "_workers_note": "Episodes downloaded and decoded in parallel processes while preparing the requests.",
-  "work_dir": "work/station2/2026-11-22",
-  "results_dir": "results/station2/2026-11-22",
-  "_results_note": "Everything of one episode in one folder: <results_dir>/<task>/<episode>/ (<name>_vlm_result.json, step_table.json, frames/ and raw_response.json with debug). Plus <results_dir>/summary.csv and <results_dir>/batches/<id>/job.json.",
+  "work_dir": "work",
+  "results_dir": "results/final_v1.2",
+  "_results_note": "Everything of one episode in one folder: <results_dir>/<task path>/<episode>/ (<name><s3_result_suffix>, step_table.json, frames/ and raw_response.json with debug), e.g. results/final_v1.2/station1/2026-11-21/task01/episode_000000/. Plus <results_dir>/summary.csv (canonical task, task, count and the three confidences per episode) and <results_dir>/batches/<id>/job.json. One results_dir per prompt version: an episode counts as done only when its file in THIS results_dir has a parsed response. Earlier runs: results/station2/2026-11-22 (final_prompts 1.0).",
   "upload_results_to_s3": true,
-  "s3_result_suffix": "_vlm_result.json",
-  "_upload_note": "Each parsed <name>_vlm_result.json is also written (same file name) into the S3 folder of its MP4: <task>/<episode>/<name>_head.mp4 -> <task>/<episode>/<name>_vlm_result.json. Episodes without a parsed response are not uploaded. --no-upload keeps everything local.",
+  "s3_result_suffix": "_vlm_result_v1.2.json",
+  "_upload_note": "Each parsed result is also written (same file name) into the S3 folder of its MP4: <...>/<episode>/<name>_head.mp4 -> <...>/<episode>/<name>_vlm_result_v1.2.json. The versioned suffix keeps the earlier <name>_vlm_result.json (final_prompts 1.0, station2) in place. --no-upload keeps everything local.",
   "debug": false,
   "keep_videos": false
 }

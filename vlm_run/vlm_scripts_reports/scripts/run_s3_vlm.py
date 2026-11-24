@@ -34,6 +34,7 @@ import argparse
 import concurrent.futures as cf
 import csv
 import json
+import re
 import os
 import shutil
 import sys
@@ -86,16 +87,44 @@ def s3_client(region):
     return boto3.Session(region_name=region or None).client("s3")
 
 
+TASK_DIR = re.compile(r"^task\d+$", re.I)
+
+
 def list_episodes(client, bucket, prefix, suffix):
-    """All <prefix><task>/.../<episode>/<name><suffix> objects (deeper folders joined into the episode id)."""
+    """All head MP4s under prefix, in either layout:
+        <prefix>[<station>/[<date>/]]<taskNN>/<episode>/<name><suffix>
+    task is the task's whole path below the prefix (e.g. station1/2026-11-21/task01, station1/task03, or task01 when
+    the prefix already points into a station/date folder), so equal task names of different stations or dates stay
+    separate everywhere (work dir, results, batch keys, --limit). task_folder is the task folder's own name (task01),
+    which the prompt gets. The first folder named task<digits> is the task; deeper folders form the episode id."""
     eps = []
     for page in client.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=prefix):
         for o in page.get("Contents", []):
             parts = o["Key"][len(prefix):].split("/")
-            if len(parts) >= 3 and parts[-1].endswith(suffix):
-                eps.append({"task": parts[0], "episode": "__".join(parts[1:-1]), "key": o["Key"], "size": o["Size"],
-                            "s3_uri": f"s3://{bucket}/{o['Key']}"})
+            if not parts[-1].endswith(suffix):
+                continue
+            i = next((j for j, p in enumerate(parts[:-1]) if TASK_DIR.match(p)), 0 if len(parts) >= 3 else None)
+            if i is None or len(parts) - i < 3:  # need <task>/<episode>/<file>
+                continue
+            eps.append({"task": "/".join(parts[: i + 1]), "task_folder": parts[i],
+                        "episode": "__".join(parts[i + 1:-1]), "key": o["Key"], "size": o["Size"],
+                        "s3_uri": f"s3://{bucket}/{o['Key']}"})
     return sorted(eps, key=lambda e: (e["task"], e["episode"]))
+
+
+def task_matches(task, wanted):
+    """--task filter: the full task path (station1/2026-11-21/task01), a path prefix (station1, station1/2026-11-21)
+    or a bare task folder name (task01, any station or date)."""
+    return any(task == w or task.startswith(w.rstrip("/") + "/") or task.rsplit("/", 1)[-1] == w for w in wanted)
+
+
+def result_files(a):
+    """Local result files of every episode: <results>/<task path>/<episode>/<name><s3_result_suffix>."""
+    return sorted(f for f in a.results.rglob("*" + a.s3_result_suffix) if "batches" not in f.relative_to(a.results).parts)
+
+
+def result_task(a, f):
+    return "/".join(f.relative_to(a.results).parts[:-2])
 
 
 def episode_dir(a, e):
@@ -152,7 +181,7 @@ def prepare(e, a_dict, bucket, region):
         tmp.replace(head)
     meta = R.read_meta_mp4(head)
     steps = R.sample_mp4(head, a.fps, a.max_side, a.jpeg_quality)
-    messages, _ = R.build_messages(e["episode"], meta, steps, a.fps, a.given_task, task_folder=e["task"])
+    messages, _ = R.build_messages(e["episode"], meta, steps, a.fps, a.given_task, task_folder=e.get("task_folder") or e["task"].rsplit("/", 1)[-1])
     req = R.to_gemini_request(messages, a.media_resolution, a.max_output_tokens)
     req_f.write_text(json.dumps(req))
     (work / "request_sig.json").write_text(json.dumps(sig))
@@ -319,13 +348,19 @@ def upload_all(client, a, files):
     print(f"uploaded {n}/{len(files)} result(s) next to their MP4s")
 
 
-def summarize(results):
+def summarize(results, suffix="_vlm_result.json"):
     rows = []
-    for f in sorted(results.glob("*/*/*_vlm_result.json")):
+    for f in sorted(f for f in results.rglob("*" + suffix) if "batches" not in f.relative_to(results).parts):
         r = json.loads(f.read_text())
         resp = r.get("response") or {}
-        rows.append({"task": f.parts[-3], "episode": f.parts[-2], "model": r.get("model"),
-                     "n_repetitions": resp.get("n_repetitions"), "action": (resp.get("task") or {}).get("action"),
+        ct, t = resp.get("canonical_task") or {}, resp.get("task") or {}
+        rows.append({"task": "/".join(f.relative_to(results).parts[:-2]), "episode": f.parts[-2], "model": r.get("model"),
+                     "prompt_version": (r.get("prompt_versions") or {}).get("repetition_system"),
+                     "canonical_task": ct.get("task_text"), "canonical_action": ct.get("action"),
+                     "canonical_task_confidence": ct.get("confidence"),
+                     "task_text": t.get("task_text"), "action": t.get("action"), "task_confidence": t.get("confidence"),
+                     "n_repetitions": resp.get("n_repetitions"),
+                     "n_repetitions_confidence": resp.get("n_repetitions_confidence"),
                      "n_flags": len(r.get("code_flags") or []), "flags": " | ".join(r.get("code_flags") or []),
                      "n_steps": r.get("n_steps"), "fps": r.get("fps"), "cost_usd": (r.get("usage") or {}).get("cost_usd"),
                      "batch_name": r.get("batch_name"), "video": r.get("video")})
@@ -439,7 +474,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--config", type=Path, default=HERE / "configs" / "s3_run.json")
     ap.add_argument("--source", help="s3://bucket/prefix/ (default: config source)")
-    ap.add_argument("--task", action="append", help="only these task folders (repeatable)")
+    ap.add_argument("--task", action="append", help="only these tasks (repeatable): station1/2026-11-21/task01, a prefix such as station1 or station1/2026-11-21, or a bare task01 (every station and date)")
     ap.add_argument("--episode", action="append", help="only these episode ids (repeatable)")
     ap.add_argument("--limit", type=int, help="at most N episodes per task")
     ap.add_argument("--fps", type=float)
@@ -492,12 +527,12 @@ def main():
     migrate_legacy(a)
 
     if a.summary_only:
-        summarize(a.results)
+        summarize(a.results, a.s3_result_suffix)
         return
     if a.upload_only:
-        files = sorted(a.results.glob("*/*/*_vlm_result.json"))
+        files = result_files(a)
         if a.task:
-            files = [f for f in files if f.parts[-3] in a.task]
+            files = [f for f in files if task_matches(result_task(a, f), a.task)]
         if a.episode:
             files = [f for f in files if f.parts[-2] in a.episode]
         upload_all(s3_client(cfg_run.get("region")), a, files)
@@ -514,7 +549,7 @@ def main():
         bad = [e for d in open_jobs for e in collect(a, cfg, key, d, client)]
         if not any(d.name.endswith("_retry_01") or "_retry_" in d.name for d in open_jobs):
             bad = retry_failed(a, cfg, key, client, bad)
-        summarize(a.results)
+        summarize(a.results, a.s3_result_suffix)
         sys.exit(f"{len(bad)} episode(s) without a parsed result" if bad else 0)
 
     bucket, prefix = split_s3(a.source or cfg_run["source"])
@@ -525,7 +560,7 @@ def main():
         sys.exit(f"S3 listing of s3://{bucket}/{prefix} failed: {ex}\n"
                  f"(AWS_PROFILE={os.environ.get('AWS_PROFILE') or '-'}; on a laptop: aws sso login --profile prod)")
     if a.task:
-        eps = [e for e in eps if e["task"] in a.task]
+        eps = [e for e in eps if task_matches(e["task"], a.task)]
     if a.episode:
         eps = [e for e in eps if e["episode"] in a.episode]
     if a.limit:
@@ -542,7 +577,7 @@ def main():
     todo = [e for e in eps if a.force or not is_done(a, e)]
     print(f"{len(eps) - len(todo)} already done, {len(todo)} to run")
     if not todo:
-        summarize(a.results)
+        summarize(a.results, a.s3_result_suffix)
         return
 
     # prepare in parallel processes (decode is CPU bound)
@@ -577,7 +612,7 @@ def main():
     bad = [e for jd in job_dirs for e in collect(a, cfg, key, jd, client)]
     bad = retry_failed(a, cfg, key, client, bad)
     bad = len(bad) + failed
-    summarize(a.results)
+    summarize(a.results, a.s3_result_suffix)
     if bad:
         sys.exit(f"{bad} episode(s) without a parsed result")
 

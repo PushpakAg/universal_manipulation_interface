@@ -74,7 +74,8 @@ def check_episode(a, client, bucket, e):
         reps = resp.get("repetitions") or []
         n = resp.get("n_repetitions")
         row["n_repetitions"] = n
-        row["count"] = isinstance(n, int) and n == len(reps)
+        # count-only answers (v1.2+) list no repetitions: then the count only has to be a non-negative integer
+        row["count"] = isinstance(n, int) and (n >= 0 if "repetitions" not in resp else n == len(reps))
         if not row["count"]:
             row["problems"].append(f"n_repetitions {n!r} vs {len(reps)} repetitions listed")
         st = d / "step_table.json"
@@ -105,7 +106,7 @@ def main():
     s3 = D.s3_client(cfg.get("region"))
     eps = D.list_episodes(s3, bucket, prefix, a.head_suffix)
     if a.task:
-        eps = [e for e in eps if e["task"] in a.task]
+        eps = [e for e in eps if D.task_matches(e["task"], a.task)]
     client = None if a.local_only else s3
     rows = [check_episode(a, client, bucket, e) for e in eps]
 
