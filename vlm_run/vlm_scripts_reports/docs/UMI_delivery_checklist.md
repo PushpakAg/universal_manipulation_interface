@@ -32,14 +32,33 @@ The egocentric "at least five of eight rules" matrix (PRD section 3) is not used
 | D1 | U1, Delivery | Three original views per recording | file names in the episode folder | `_head.mp4`, `_left.mp4`, `_right.mp4` all present and readable. Head-only is not UMI data. A mosaic does not replace them. |
 | D2 | Delivery | Per camera: model, lens / field of view, resolution, frame rate, intrinsic calibration | `_meta.json` `cameras.head/left/right` | every camera has `model`, a lens or FOV value (`lens` or `fov_*_deg`), `resolution`, `frame_rate_hz`, `intrinsics_model`, `fx fy cx cy` (and `k1..k4` for Kannala-Brandt) |
 | D3 | Delivery | Sync method and the frame index of the sync event in each file | `_meta.json` `sync.method`, `sync.frame_index` | method is a non-empty string; one integer frame index per file (head, left, right), each within the file's frame count |
-| D4 | Delivery, U6 | Gripper width per frame (gripper opening measurable) | `_right_gripper.csv`, `_left_gripper.csv` | both present; one row per video frame (rows = frame count ± 1); every `width_m` a number in 0 … 0.15 m (0 = fully closed), no NaN |
+| D4 | Delivery, U6 | Gripper width per frame (gripper opening measurable) | `_right_gripper.csv`, `_left_gripper.csv` | both present; **exactly one row per video frame**; `frame` column 0, 1, 2 … without gaps; every `width_m` a number in 0 … 0.15 m (0 = fully closed), no NaN |
+| D5 | Delivery | Files complete and consistent | file sizes, `_meta.json` `files` / `gripper_width` | no empty file; the names in meta are the delivered files; no files of another recording name in the folder |
 | V1 | U2 | Same frame rate on all three views | ffprobe `r_frame_rate` | equal on head, left, right, and equal to `frame_rate_hz` in meta (± 0.01 fps); 59.94 fps expected for GoPro HERO12 |
-| V2 | U2 | Same time span (full length, trimmed to what all three share) | ffprobe frame count and duration | frame counts differ by ≤ 1 frame; durations differ by ≤ 1 frame period (16.7 ms at 59.94 fps) |
+| V2 | U2 | Same time span (full length, trimmed to what all three share) | ffprobe frame count and duration | **frame counts exactly equal**; durations within half a frame (8.3 ms). The PRD allows 1 frame; the export cuts every file to the same steps, so any difference is a broken file. |
 | V3 | U2, Delivery | Video readable, resolution as declared | ffprobe codec, width × height | H.265 or H.264; width × height equals meta `resolution` for that camera |
 | V4 | U2 | Synchronized within 1 frame | `sync.frame_index` of the three files | all three files start at the sync event: their frame indices are equal (the delivered files are cut so frame i is the same instant in all three) |
+| V5 | U2 | Same start | ffprobe `start_time` | the three start times within half a frame |
+| V6 | U2 | Constant frame rate | ffprobe average vs nominal rate, frames / duration | each within 0.01 fps of the nominal rate (no variable frame rate) |
+| V7 | U2 | No dropped or repeated frames (`--deep`) | every packet timestamp of the three videos | packet count = header count, equal in all three; no gap > 1.5 frame periods; timestamps strictly increasing; same first timestamp |
+| V8 | U6 | Every frame decodes (`--decode`) | full decode with ffmpeg | no decoder error in any view |
 | C1 | R2 | At least 3 complete cycles of the same action | manual count (`reports/manual_counts.csv`, `n_repetitions_manual`), else the VLM count (`<rec>_vlm_result.json`) | count ≥ 3 (target 5 or more). Manual count < 3: FAIL. VLM count < 3: FAIL only when `n_repetitions_confidence` ≥ 0.8, else REVIEW (zero answers are often model misses). No count: REVIEW. |
 | C2 | R3 | Each cycle 3–30 s (UMI) | recording duration / count | duration ≥ 3 s × count (otherwise at least one cycle is shorter than 3 s). duration / count > 30 s is WARN (long cycles or idle time: review). |
 | C3 | R2, R3 | Recording long enough for 3 cycles | head duration | ≥ 9 s (3 cycles × 3 s) |
+
+V7 reads every frame's timestamp (on S3 it streams the whole files); V8 decodes every frame (CPU heavy). Without
+them a recording is "deliverable" for the checks that ran, and the report says which were skipped. Run `--deep` on
+the full delivery and `--decode` on a sample (or the full set on a large instance).
+
+## Report
+
+| File (reports/) | Content |
+|---|---|
+| `delivery_check_report.md` | deliverable recordings and hours, per task / station / overall, fail reasons ranked |
+| `delivery_check_summary.csv` | per task, station and overall: recordings and hours, deliverable / review / fail |
+| `delivery_check_failures.csv` | one row per failed or review check: recording, check, the S3 file at fault, the reason |
+| `delivery_check_deliverable.csv` | the deliverable (PASS) recordings with their length and cycle count |
+| `delivery_check.csv` | every recording with every check and its measured value |
 
 ## WARN / INFO checks (reported, never fail a recording)
 
@@ -49,7 +68,8 @@ The egocentric "at least five of eight rules" matrix (PRD section 3) is not used
 | W2 | R1 | One action type, repeated | VLM `canonical_task` / `task` present and not a setup activity (calibration, inspection, test, scan). Setup task: REVIEW. |
 | W3 | R2 | Target 5 or more cycles | count 3–4: INFO |
 | W4 | R3 | Cycles not much longer than 30 s | duration / count > 30 s: WARN |
-| W5 | Delivery | Mosaic | present or not: INFO (optional, not a substitute) |
+| W5 | Delivery | Mosaic | optional; when present its frame count equals the head video (WARN otherwise) |
+| W6 | Delivery | File naming | `<date>_<taskNN>_<episode>` (or `<taskNN>_<episode>` without a date folder) and ends with the episode folder name |
 
 ## MANUAL rules (not machine-checkable: sample the videos)
 

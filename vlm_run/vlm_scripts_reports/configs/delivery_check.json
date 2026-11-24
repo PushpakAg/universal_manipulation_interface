@@ -12,26 +12,58 @@
     "mosaic": "_mosaic.mp4",
     "vlm": "_vlm_result.json"
   },
-  "video_codecs": ["hevc", "h264"],
+  "video_codecs": [
+    "hevc",
+    "h264"
+  ],
   "expected_fps": 59.94,
   "_expected_fps_note": "GoPro HERO12 at 59.94 fps; a different rate is a WARN, unequal rates between the three views (or vs meta) a FAIL (V1).",
   "fps_tolerance": 0.01,
-  "max_frame_count_diff": 1,
-  "max_duration_diff_frames": 1,
-  "camera_keys_required": ["model", "resolution", "frame_rate_hz", "intrinsics_model", "fx", "fy", "cx", "cy"],
-  "camera_lens_keys_any": ["lens", "fov_horizontal_deg", "fov_vertical_deg", "fov_diagonal_deg"],
-  "kannala_brandt_keys": ["k1", "k2", "k3", "k4"],
-  "gripper_width_m": [0.0, 0.15],
-  "gripper_rows_tolerance": 1,
+  "max_frame_count_diff": 0,
+  "max_duration_diff_frames": 0.5,
+  "camera_keys_required": [
+    "model",
+    "resolution",
+    "frame_rate_hz",
+    "intrinsics_model",
+    "fx",
+    "fy",
+    "cx",
+    "cy"
+  ],
+  "camera_lens_keys_any": [
+    "lens",
+    "fov_horizontal_deg",
+    "fov_vertical_deg",
+    "fov_diagonal_deg"
+  ],
+  "kannala_brandt_keys": [
+    "k1",
+    "k2",
+    "k3",
+    "k4"
+  ],
+  "gripper_width_m": [
+    0.0,
+    0.15
+  ],
+  "gripper_rows_tolerance": 0,
   "gripper_active_range_m": 0.02,
   "min_cycles": 3,
   "target_cycles": 5,
-  "cycle_s": [3, 30],
+  "cycle_s": [
+    3,
+    30
+  ],
   "vlm_fail_confidence": 0.8,
   "_vlm_note": "A VLM count below min_cycles fails the recording only with n_repetitions_confidence >= vlm_fail_confidence; otherwise REVIEW. A manual count always decides.",
   "manual_counts": "reports/manual_counts.csv",
   "setup_task_regex": "calibrat|inspect|\\btest|\\bscan|no manipulation",
   "workers": 16,
   "out_csv": "reports/delivery_check.csv",
-  "out_summary_csv": "reports/delivery_check_summary.csv"
+  "max_start_diff_frames": 0.5,
+  "vfr_tolerance_fps": 0.01,
+  "max_pts_gap_frames": 1.5,
+  "_strict_note": "Equal length is exact: the three videos and both gripper csvs have the SAME frame count (0 difference); durations and start times within half a frame. 14_export_rhoda.py cuts every file to the episode's steps, so a difference means a broken export. A timeline gap above 1.5 frame periods (--deep) is a dropped frame.",
+  "_out_note": "out_csv names the per-recording CSV; _summary.csv, _failures.csv, _deliverable.csv and _report.md are written next to it with the same stem."
 }

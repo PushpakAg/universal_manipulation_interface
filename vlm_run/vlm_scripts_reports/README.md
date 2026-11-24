@@ -96,10 +96,18 @@ sudo apt-get install -y ffmpeg                         # ffprobe (once)
 .venv/bin/python scripts/check_delivery.py             # every station / date / task under the config source
 .venv/bin/python scripts/check_delivery.py --task station2/2026-11-22 --limit 2
 .venv/bin/python scripts/check_delivery.py --source /local/delivery/folder
+.venv/bin/python scripts/check_delivery.py --deep                          # + every frame timestamp (streams all videos)
+.venv/bin/python scripts/check_delivery.py --decode --task task06 --limit 3  # + full decode of a sample
 ```
 
+Reports in `reports/`: `delivery_check_report.md` (deliverable recordings and hours per task / station, fail reasons),
+`delivery_check_failures.csv` (every failed check with the S3 file at fault and the reason),
+`delivery_check_deliverable.csv`, `delivery_check_summary.csv`, `delivery_check.csv` (all checks per recording).
+
 Hard checks (any FAIL fails the recording): three views (D1), camera metadata (D2), sync method and index (D3),
-gripper width per frame (D4), same frame rate (V1), same span (V2), codec and resolution (V3), synchronized (V4),
+gripper width per frame (D4, exactly one row per frame), files and names (D5), same frame rate (V1), exactly the same
+frame count and duration (V2), codec and resolution (V3), synchronized (V4), same start (V5), constant frame rate (V6),
+no dropped frames (V7, --deep), every frame decodes (V8, --decode),
 at least 3 cycles (C1, manual count first, else the VLM count), cycles at least 3 s (C2), at least 9 s long (C3).
 Videos are read from the mp4 header only (presigned URL), so no video is downloaded. Rules R4-R8 and U3-U6 need a
 person: see `docs/UMI_delivery_checklist.md`.

@@ -10,19 +10,27 @@ configs/delivery_check.json. One recording = one episode folder of the delivery 
 HARD checks (any FAIL fails the recording):
   D1 three views present          D2 camera metadata complete     D3 sync method + frame index per file
   D4 gripper width per frame      V1 same frame rate              V2 same span (frame count, duration)
-  V3 codec + resolution as meta   V4 synchronized (same sync index)
+  V3 codec + resolution as meta   V4 synchronized (same sync index)  D5 files: none empty, names match meta
+  V5 same start time              V6 constant frame rate             V7 every frame's timestamp (--deep)
+  V8 every frame decodes (--decode)
   C1 >= 3 cycles (manual count, else VLM count)                   C2 cycles >= 3 s   C3 duration >= 9 s
 WARN / INFO: W1 both grippers move (U5, passive allowed), W2 task is not a setup activity, W3 target 5 cycles,
-  W4 duration / count > 30 s, W5 mosaic present.
+  W4 duration / count > 30 s, W5 mosaic frame count = head, W6 file naming <date>_<taskNN>_<episode>.
 Videos are probed with ffprobe from the mp4 header only (S3: a presigned URL, no download of the video).
 
     python scripts/check_delivery.py                                  # config source: every station / date / task
     python scripts/check_delivery.py --task station2/2026-11-22       # a part (prefix or bare task01)
     python scripts/check_delivery.py --source /path/to/local/delivery # a local folder
     python scripts/check_delivery.py --limit 2                        # 2 recordings per task
+    python scripts/check_delivery.py --deep                           # + every frame timestamp (reads whole files)
+    python scripts/check_delivery.py --decode --task task06 --limit 3 # + full decode of a sample
 
-Output: reports/delivery_check.csv (one row per recording: verdict, reasons, every check and its value) and
-reports/delivery_check_summary.csv (per task: recordings, PASS / FAIL / REVIEW, top fail reasons). Needs ffprobe
+Output (reports/):
+  delivery_check.csv              one row per recording: verdict (PASS / REVIEW / FAIL), reasons, every check and value
+  delivery_check_failures.csv     one row per failed or review check: recording, check, the S3 file(s), the reason
+  delivery_check_deliverable.csv  the deliverable (PASS) recordings with their length
+  delivery_check_summary.csv      per task, per station and overall: recordings and hours deliverable / review / fail
+  delivery_check_report.md        the summary and the fail reasons on one page Needs ffprobe
 (apt-get install ffmpeg) and, for S3, boto3 with read access to the prefix.
 """
 import argparse
@@ -43,8 +51,20 @@ STATION = re.compile(r"^station\d+$", re.I)
 TASK_DIR = re.compile(r"^task\d+$", re.I)
 VIDEO_ROLES = ("head", "left", "right")
 GRIPPERS = ("right", "left")
-CHECK_IDS = ("D1", "D2", "D3", "D4", "V1", "V2", "V3", "V4", "C1", "C2", "C3", "W1", "W2", "W3", "W4", "W5")
-HARD = {"D1", "D2", "D3", "D4", "V1", "V2", "V3", "V4", "C1", "C2", "C3"}
+CHECK_IDS = ("D1", "D2", "D3", "D4", "D5", "V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "C1", "C2", "C3",
+             "W1", "W2", "W3", "W4", "W5", "W6")
+HARD = {"D1", "D2", "D3", "D4", "D5", "V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "C1", "C2", "C3"}
+CHECK_NAMES = {
+    "D1": "three views present", "D2": "camera metadata", "D3": "sync method and frame index", "D4": "gripper width per frame",
+    "D5": "files and names", "V1": "same frame rate", "V2": "same frame count and duration", "V3": "codec and resolution",
+    "V4": "synchronized start index", "V5": "same start time", "V6": "constant frame rate", "V7": "frame timeline (--deep)",
+    "V8": "frames decode (--decode)", "C1": "at least 3 cycles", "C2": "cycles at least 3 s", "C3": "at least 9 s long",
+    "W1": "both grippers move", "W2": "task is not setup", "W3": "target 5 cycles", "W4": "cycles up to 30 s",
+    "W5": "mosaic", "W6": "file naming"}
+CHECK_FILES = {"D1": "video", "V1": "video", "V2": "video", "V3": "video", "V5": "video", "V6": "video", "V7": "video",
+               "V8": "video", "D2": "meta", "D3": "meta", "D5": "meta", "V4": "meta", "D4": "gripper", "C1": "recording",
+               "C2": "recording", "C3": "head", "W2": "vlm"}
+REC_NAME = re.compile(r"^(\d{4}-\d{2}-\d{2}_)?task\d+_episode_\d{6}$", re.I)
 
 
 # ---------------------------------------------------------------- storage: local folder or s3:// prefix
@@ -52,8 +72,8 @@ class Local:
     def __init__(self, root):
         self.root = Path(root).resolve()
 
-    def list(self):
-        return [str(p) for p in self.root.rglob("*") if p.is_file()]
+    def list(self):  # (key, size)
+        return [(str(p), p.stat().st_size) for p in self.root.rglob("*") if p.is_file()]
 
     def parts(self, key):  # full path components, for the station / task split
         return Path(key).parts
@@ -77,7 +97,7 @@ class S3:
     def list(self):
         keys = []
         for page in self.client.get_paginator("list_objects_v2").paginate(Bucket=self.bucket, Prefix=self.prefix):
-            keys += [o["Key"] for o in page.get("Contents", [])]
+            keys += [(o["Key"], o["Size"]) for o in page.get("Contents", [])]
         return keys
 
     def parts(self, key):
@@ -97,11 +117,13 @@ class S3:
 def recordings(store, suffixes):
     """Group the files into recordings: one per folder that holds any of head / left / right / meta."""
     by_dir = collections.defaultdict(dict)
-    for key in store.list():
+    sizes = {}
+    for key, size in store.list():
         folder, _, fname = key.rpartition("/")
         for role, suf in suffixes.items():
             if fname.endswith(suf):
                 by_dir[folder][role] = (key, fname[: -len(suf)])
+                sizes[key] = size
                 break
     recs = []
     for folder, files in sorted(by_dir.items()):
@@ -118,7 +140,10 @@ def recordings(store, suffixes):
             task = "/".join(parts[(st if st is not None else ti): ti + 1])
             episode = "__".join(parts[ti + 1:]) or rec
         recs.append({"task": task, "episode": episode, "rec": rec, "folder": store.name(folder),
-                     "files": {r: k for r, (k, n) in files.items() if n == rec or r == "vlm"}})
+                     "files": {r: k for r, (k, n) in files.items() if n == rec or r == "vlm"},
+                     "sizes": {r: sizes[k] for r, (k, n) in files.items() if n == rec or r == "vlm"},
+                     "uris": {r: store.name(k) for r, (k, n) in files.items() if n == rec or r == "vlm"},
+                     "stray": sorted(f"{r}:{n}" for r, (k, n) in files.items() if n != rec and r != "vlm")})
     return recs
 
 
@@ -129,7 +154,8 @@ def task_matches(task, wanted):
 # ---------------------------------------------------------------- probes
 def ffprobe(url):
     out = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries",
-                          "stream=codec_name,width,height,r_frame_rate,nb_frames,duration:format=duration",
+                          "stream=codec_name,width,height,pix_fmt,r_frame_rate,avg_frame_rate,nb_frames,duration,"
+                          "start_time:format=duration",
                           "-of", "json", url], capture_output=True, text=True, timeout=120)
     if out.returncode != 0:
         raise RuntimeError(out.stderr.strip().splitlines()[-1] if out.stderr.strip() else "ffprobe failed")
@@ -142,19 +168,43 @@ def ffprobe(url):
     dur = float(dur) if dur not in (None, "N/A") else None
     nb = s.get("nb_frames")
     frames = int(nb) if nb not in (None, "N/A") else (round(dur * fps) if dur and fps else None)
-    return {"codec": s.get("codec_name"), "width": s.get("width"), "height": s.get("height"), "fps": fps,
+    avg = float(Fraction(s["avg_frame_rate"])) if s.get("avg_frame_rate") not in (None, "0/0") else None
+    st = s.get("start_time")
+    return {"codec": s.get("codec_name"), "width": s.get("width"), "height": s.get("height"), "pix_fmt": s.get("pix_fmt"),
+            "fps": fps, "avg_fps": avg, "start": float(st) if st not in (None, "N/A") else None,
             "duration": dur, "frames": frames, "frames_from_header": nb not in (None, "N/A")}
 
 
+def packet_times(url):
+    """Every video packet's presentation time (reads the whole file): for frame count and timeline gaps."""
+    out = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "packet=pts_time",
+                          "-of", "csv=p=0", url], capture_output=True, text=True, timeout=3600)
+    if out.returncode != 0:
+        raise RuntimeError(out.stderr.strip()[-200:] or "ffprobe packets failed")
+    return sorted(float(x) for x in out.stdout.split() if x not in ("", "N/A"))
+
+
+def decode_errors(url):
+    """Full decode (CPU heavy): the decoder's error lines, empty when every frame decodes."""
+    out = subprocess.run(["ffmpeg", "-v", "error", "-nostdin", "-i", url, "-map", "0:v:0", "-f", "null", "-"],
+                         capture_output=True, text=True, timeout=7200)
+    return [l for l in out.stderr.splitlines() if l.strip()] + ([f"exit {out.returncode}"] if out.returncode else [])
+
+
 def read_widths(text):
+    """(frame numbers, widths) of a gripper csv (frame, width_m); unparseable values become None / NaN."""
     rows = list(csv.DictReader(text.splitlines()))
-    vals = []
+    frames, vals = [], []
     for r in rows:
+        try:
+            frames.append(int(r.get("frame")))
+        except (TypeError, ValueError):
+            frames.append(None)
         try:
             vals.append(float(r.get("width_m")))
         except (TypeError, ValueError):
             vals.append(float("nan"))
-    return vals
+    return frames, vals
 
 
 def parse_resolution(v):
@@ -165,8 +215,15 @@ def parse_resolution(v):
 
 
 # ---------------------------------------------------------------- the checklist
+def odd_ones(values):
+    """The roles whose value differs from the value most roles share (all of them when no two agree)."""
+    common, n = collections.Counter(values.values()).most_common(1)[0]
+    return [r for r, v in values.items() if v != common] if n > 1 else list(values)
+
+
 def check(store, rec, cfg, manual):
     res = {k: ("", "") for k in CHECK_IDS}  # id -> (status, value)
+    culprits = {}  # id -> roles whose file is at fault (for the failures report)
     files = rec["files"]
     put = lambda k, status, value="": res.__setitem__(k, (status, str(value)))
 
@@ -179,6 +236,7 @@ def check(store, rec, cfg, manual):
                 probes[r] = ffprobe(store.url(files[r]))
             except Exception as ex:
                 bad.append(f"{r}: {ex}"[:120])
+    culprits["D1"] = missing + [b.split(":")[0] for b in bad]
     put("D1", "FAIL" if missing or bad else "PASS",
         "; ".join([f"missing {', '.join(missing)}"] * bool(missing) + bad) or "head, left, right")
 
@@ -223,6 +281,26 @@ def check(store, rec, cfg, manual):
                 gaps.append(f"{r}: frame index {v} outside 0..{n}")
         put("D3", "FAIL" if gaps else "PASS", "; ".join(gaps) or f"{sync['method']}; index {[idx[r] for r in VIDEO_ROLES]}")
 
+    # D5 files: none empty, meta.files names the delivered files, one recording name per folder (+ W6 naming)
+    gaps = [f"{r}: empty file" for r, n in rec.get("sizes", {}).items() if not n]
+    if meta is not None:
+        mf = meta.get("files") or {}
+        for r in VIDEO_ROLES:
+            actual = files[r].rsplit("/", 1)[-1] if r in files else None
+            if mf.get(r) != actual:
+                gaps.append(f"meta.files.{r} = {mf.get(r)!r}, delivered {actual!r}")
+        for g in GRIPPERS:
+            want = (meta.get("gripper_width") or {}).get(g)
+            actual = files[f"{g}_gripper"].rsplit("/", 1)[-1] if f"{g}_gripper" in files else None
+            if want is not None and want != actual:
+                gaps.append(f"meta.gripper_width.{g} = {want!r}, delivered {actual!r}")
+    if rec.get("stray"):
+        gaps.append("files of another recording name in the folder: " + ", ".join(rec["stray"]))
+    put("D5", "FAIL" if gaps else "PASS", "; ".join(gaps) or f"{len(files)} files, names match meta")
+    ok_name = bool(REC_NAME.match(rec["rec"])) and rec["rec"].endswith(rec["episode"])
+    put("W6", "PASS" if ok_name else "WARN", rec["rec"] + ("" if ok_name else
+        " (expected <date>_<taskNN>_<episode>, or <taskNN>_<episode> without a date folder)"))
+
     # D4 gripper widths (+ W1 both grippers in use)
     lo, hi = cfg["gripper_width_m"]
     n_ref = (probes.get("head") or {}).get("frames")
@@ -233,7 +311,7 @@ def check(store, rec, cfg, manual):
             gaps.append(f"{g}: csv missing")
             continue
         try:
-            w = read_widths(store.read_text(key))
+            fr, w = read_widths(store.read_text(key))
         except Exception as ex:
             gaps.append(f"{g}: unreadable ({ex})"[:80])
             continue
@@ -242,7 +320,9 @@ def check(store, rec, cfg, manual):
             gaps.append(f"{g}: empty")
             continue
         if n_g is not None and abs(len(w) - n_g) > cfg["gripper_rows_tolerance"]:
-            gaps.append(f"{g}: {len(w)} rows, {n_g} frames")
+            gaps.append(f"{g}: {len(w)} rows, {n_g} video frames")
+        if fr != list(range(len(fr))):
+            gaps.append(f"{g}: frame column is not 0, 1, 2 ... without gaps")
         if any(math.isnan(x) for x in w):
             gaps.append(f"{g}: NaN widths")
         fin = [x for x in w if not math.isnan(x)]
@@ -288,10 +368,27 @@ def check(store, rec, cfg, manual):
             msgs.append(f"frame count unknown {frames}")
         elif max(frames.values()) - min(frames.values()) > cfg["max_frame_count_diff"]:
             msgs.append(f"frame counts {frames}")
+            culprits["V2"] = odd_ones(frames)
         if None not in durs.values() and f0:
             if (max(durs.values()) - min(durs.values())) * f0 > cfg["max_duration_diff_frames"] + 1e-6:
                 msgs.append("durations " + ", ".join(f"{r} {d:.3f}s" for r, d in durs.items()))
-        put("V2", "FAIL" if msgs else "PASS", "; ".join(msgs) or f"{frames['head']} frames, {durs['head']:.2f} s")
+        put("V2", "FAIL" if msgs else "PASS", "; ".join(msgs) or
+            f"{frames['head']} frames in each, {durs['head']:.3f} s")
+        starts = {r: p["start"] for r, p in got.items()}
+        if None in starts.values() or not f0:
+            put("V5", "FAIL", f"start time unknown {starts}")
+        else:
+            spread = (max(starts.values()) - min(starts.values())) * f0
+            culprits["V5"] = odd_ones({r: round(v * f0) for r, v in starts.items()})
+            put("V5", "FAIL" if spread > cfg["max_start_diff_frames"] + 1e-6 else "PASS",
+                "start " + ", ".join(f"{r} {v:.3f}s" for r, v in starts.items()) + f" (spread {spread:.2f} frames)")
+        msgs = []
+        for r, p in got.items():
+            if p["avg_fps"] is None or p["fps"] is None or abs(p["avg_fps"] - p["fps"]) > cfg["vfr_tolerance_fps"]:
+                msgs.append(f"{r}: average {p['avg_fps']} vs nominal {p['fps']} fps")
+            elif p["frames"] and p["duration"] and abs(p["frames"] / p["duration"] - p["fps"]) > cfg["vfr_tolerance_fps"]:
+                msgs.append(f"{r}: {p['frames']} frames / {p['duration']:.3f} s = {p['frames'] / p['duration']:.3f} fps")
+        put("V6", "FAIL" if msgs else "PASS", "; ".join(msgs) or "constant frame rate (header)")
         msgs = []
         for r, p in got.items():
             if p["codec"] not in cfg["video_codecs"]:
@@ -302,14 +399,63 @@ def check(store, rec, cfg, manual):
         put("V3", "FAIL" if msgs else "PASS", "; ".join(msgs) or
             f"{got['head']['codec']} {got['head']['width']}x{got['head']['height']}")
     else:
-        for k in ("V1", "V2", "V3"):
-            put(k, "FAIL", "not all three videos readable")
+        unreadable = [r for r in VIDEO_ROLES if r not in got]
+        for k in ("V1", "V2", "V3", "V5", "V6"):
+            put(k, "FAIL", f"{', '.join(unreadable)} missing or unreadable (see D1)")
+            culprits[k] = unreadable
     if all(isinstance(idx.get(r), int) for r in VIDEO_ROLES):
         same = len({idx[r] for r in VIDEO_ROLES}) == 1
         put("V4", "PASS" if same else "FAIL", f"sync frame index {[idx[r] for r in VIDEO_ROLES]}"
             + ("" if same else " (files do not start at the same instant)"))
     else:
         put("V4", "FAIL", "no sync frame index per file")
+
+    # V7 every packet read (--deep): count = header count, same in all three, no timeline gap, same first time
+    if not cfg.get("_deep"):
+        put("V7", "SKIP", "header only (run with --deep to read every frame's timestamp)")
+    elif len(got) < 3:
+        put("V7", "FAIL", "not all three videos readable (see D1)")
+        culprits["V7"] = [r for r in VIDEO_ROLES if r not in got]
+    else:
+        msgs, info = [], {}
+        f0 = got["head"]["fps"] or cfg["expected_fps"]
+        for r in VIDEO_ROLES:
+            try:
+                t = packet_times(store.url(files[r]))
+            except Exception as ex:
+                msgs.append(f"{r}: {ex}"[:120])
+                continue
+            info[r] = t
+            if got[r]["frames"] is not None and len(t) != got[r]["frames"]:
+                msgs.append(f"{r}: {len(t)} packets, header says {got[r]['frames']}")
+            gaps_ = [b - a for a, b in zip(t, t[1:])]
+            if gaps_ and max(gaps_) * f0 > cfg["max_pts_gap_frames"]:
+                msgs.append(f"{r}: timeline gap {max(gaps_) * 1000:.1f} ms (dropped frames)")
+            if gaps_ and min(gaps_) <= 0:
+                msgs.append(f"{r}: repeated timestamps")
+        if len(info) == 3:
+            if len({len(t) for t in info.values()}) != 1:
+                msgs.append("packet counts " + ", ".join(f"{r} {len(t)}" for r, t in info.items()))
+                culprits["V7"] = odd_ones({r: len(t) for r, t in info.items()})
+            firsts = [t[0] for t in info.values() if t]
+            if firsts and (max(firsts) - min(firsts)) * f0 > cfg["max_start_diff_frames"] + 1e-6:
+                culprits["V7"] = sorted(set(culprits.get("V7", [])) | set(
+                    odd_ones({r: round(t[0] * f0) for r, t in info.items() if t})))
+                msgs.append("first timestamps " + ", ".join(f"{r} {t[0]:.3f}s" for r, t in info.items() if t))
+        put("V7", "FAIL" if msgs else "PASS", "; ".join(msgs) or
+            f"{len(info['head'])} packets each, no gaps, same first time")
+    # V8 full decode (--decode): every frame of every view decodes without an error
+    if not cfg.get("_decode"):
+        put("V8", "SKIP", "not decoded (run with --decode)")
+    elif len(got) < 3:
+        put("V8", "FAIL", "not all three videos readable (see D1)")
+        culprits["V8"] = [r for r in VIDEO_ROLES if r not in got]
+    else:
+        errs = {r: decode_errors(store.url(files[r])) for r in VIDEO_ROLES}
+        bad = {r: e for r, e in errs.items() if e}
+        culprits["V8"] = list(bad)
+        put("V8", "FAIL" if bad else "PASS", "; ".join(f"{r}: {len(e)} errors, e.g. {e[0][:80]}" for r, e in bad.items())
+            or "all frames decode")
 
     # C1-C3 cycles, W2-W5
     vlm = {}
@@ -361,14 +507,25 @@ def check(store, rec, cfg, manual):
         put("W2", "REVIEW", f"VLM names a setup activity: {t.get('task_text') or ct.get('task_text')}"[:150])
     else:
         put("W2", "PASS", (ct.get("task_text") or t.get("task_text") or "")[:150])
-    put("W5", "INFO", "mosaic present" if files.get("mosaic") else "no mosaic (optional)")
+    if files.get("mosaic"):
+        try:
+            mz = ffprobe(store.url(files["mosaic"]))
+            nh = (got.get("head") or {}).get("frames")
+            ok = nh is None or mz["frames"] == nh
+            put("W5", "PASS" if ok else "WARN", f"mosaic {mz['codec']} {mz['frames']} frames"
+                + ("" if ok else f", head {nh} (review video does not match)"))
+        except Exception as ex:
+            put("W5", "WARN", f"mosaic unreadable: {ex}"[:120])
+    else:
+        put("W5", "INFO", "no mosaic (optional)")
 
     fails = [f"{k}: {v}" for k, (s, v) in res.items() if s == "FAIL" and k in HARD]
     reviews = [f"{k}: {v}" for k, (s, v) in res.items() if s == "REVIEW"]
     verdict = "FAIL" if fails else ("REVIEW" if reviews else "PASS")
     row = {"task": rec["task"], "episode": rec["episode"], "verdict": verdict,
            "reasons": " | ".join(fails or reviews), "n_cycles": "" if n is None else n, "count_source": src,
-           "duration_s": "" if dur is None else round(dur, 2), "folder": rec["folder"]}
+           "duration_s": "" if dur is None else round(dur, 2), "folder": rec["folder"], "_uris": rec.get("uris", {}),
+           "_culprits": culprits}
     for k in CHECK_IDS:
         row[k], row[f"{k}_value"] = res[k]
     return row
@@ -394,8 +551,12 @@ def main():
     ap.add_argument("--task", action="append", help="station1, station1/2026-11-21, station1/2026-11-21/task01 or task01")
     ap.add_argument("--limit", type=int, help="at most N recordings per task")
     ap.add_argument("--out", type=Path, help="per-recording CSV (default: config out_csv)")
+    ap.add_argument("--deep", action="store_true",
+                    help="V7: read every frame's timestamp of the three videos (reads the whole files; on S3 a download)")
+    ap.add_argument("--decode", action="store_true", help="V8: decode every frame (CPU heavy; use with --task/--limit)")
     a = ap.parse_args()
     cfg = json.loads(a.config.read_text())
+    cfg["_deep"], cfg["_decode"] = a.deep, a.decode
     if not shutil.which("ffprobe"):
         sys.exit("ffprobe not found: apt-get install ffmpeg (or brew install ffmpeg)")
     src = a.source or cfg["source"]
@@ -421,7 +582,7 @@ def main():
                 row = f.result()
             except Exception as err:
                 row = {"task": r["task"], "episode": r["episode"], "verdict": "FAIL",
-                       "reasons": f"check crashed: {err!r}"[:300], "folder": r["folder"]}
+                       "reasons": f"check crashed: {err!r}"[:300], "folder": r["folder"], "_uris": r.get("uris", {})}
             rows.append(row)
             if i % 50 == 0 or i == len(recs):
                 print(f"  {i}/{len(recs)}", flush=True)
@@ -436,27 +597,100 @@ def main():
         w.writeheader()
         w.writerows(rows)
 
-    summ = []
-    for task in sorted({r["task"] for r in rows}):
-        sub = [r for r in rows if r["task"] == task]
-        v = collections.Counter(r["verdict"] for r in sub)
+    stem = out.with_suffix("")
+    files_out = {k: Path(f"{stem}_{k}.csv") for k in ("summary", "failures", "deliverable")}
+    files_out["report"] = Path(f"{stem}_report.md")
+
+    # failures: one row per (recording, failed or review check), with the file(s) concerned and the reason
+    def concerned(row, k, value):
+        uris, kind = row.get("_uris", {}), CHECK_FILES.get(k, "recording")
+        if row.get("_culprits", {}).get(k):
+            roles = row["_culprits"][k]
+        elif kind == "video":
+            roles = [r for r in VIDEO_ROLES if re.search(rf"\b{r}\b", value)] or list(VIDEO_ROLES)
+        elif kind == "gripper":
+            roles = [f"{g}_gripper" for g in GRIPPERS if re.search(rf"\b{g}\b", value)] or [f"{g}_gripper" for g in GRIPPERS]
+        elif kind in ("meta", "head", "vlm"):
+            roles = [kind]
+        else:
+            return row["folder"] + "/"
+        return " ".join(uris.get(r, f"{row['folder']}/<missing {r}>") for r in roles)
+    fail_rows = []
+    for row in rows:
+        if row["verdict"] == "PASS":
+            continue
+        if "D1" not in row:  # the check itself crashed
+            fail_rows.append({"task": row["task"], "episode": row["episode"], "verdict": row["verdict"], "check": "",
+                              "check_name": "check crashed", "status": "FAIL", "files": row["folder"] + "/",
+                              "reason": row["reasons"]})
+            continue
+        for k in CHECK_IDS:
+            st = row.get(k)
+            if (st == "FAIL" and k in HARD) or st == "REVIEW":
+                fail_rows.append({"task": row["task"], "episode": row["episode"], "verdict": row["verdict"], "check": k,
+                                  "check_name": CHECK_NAMES[k], "status": st,
+                                  "files": concerned(row, k, row.get(f"{k}_value", "")), "reason": row.get(f"{k}_value", "")})
+    with open(files_out["failures"], "w", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=["task", "episode", "verdict", "check", "check_name", "status", "files", "reason"])
+        w.writeheader()
+        w.writerows(fail_rows)
+
+    # deliverable: every PASS recording, with its length
+    hours = lambda rs: sum(float(r.get("duration_s") or 0) for r in rs) / 3600
+    deliver = [r for r in rows if r["verdict"] == "PASS"]
+    with open(files_out["deliverable"], "w", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=["task", "episode", "duration_s", "n_cycles", "count_source", "folder"],
+                           extrasaction="ignore")
+        w.writeheader()
+        w.writerows(deliver)
+
+    # summary per task, per station and overall: recordings and hours by verdict
+    def summary_row(level, name, sub):
+        v = {x: [r for r in sub if r["verdict"] == x] for x in ("PASS", "REVIEW", "FAIL")}
         why = collections.Counter(k for r in sub for k in CHECK_IDS if r.get(k) == "FAIL" and k in HARD)
-        summ.append({"task": task, "recordings": len(sub), "PASS": v["PASS"], "FAIL": v["FAIL"], "REVIEW": v["REVIEW"],
-                     "fail_checks": ", ".join(f"{k} x{c}" for k, c in why.most_common())})
-    tot = collections.Counter(r["verdict"] for r in rows)
-    summ.append({"task": "ALL", "recordings": len(rows), "PASS": tot["PASS"], "FAIL": tot["FAIL"],
-                 "REVIEW": tot["REVIEW"], "fail_checks": ", ".join(
-                     f"{k} x{c}" for k, c in collections.Counter(
-                         k for r in rows for k in CHECK_IDS if r.get(k) == "FAIL" and k in HARD).most_common())})
-    sout = HERE / cfg["out_summary_csv"] if not a.out else a.out.with_name(a.out.stem + "_summary.csv")
-    with open(sout, "w", newline="") as fh:
+        return {"level": level, "name": name, "recordings": len(sub), "hours": round(hours(sub), 3),
+                "deliverable": len(v["PASS"]), "deliverable_hours": round(hours(v["PASS"]), 3),
+                "review": len(v["REVIEW"]), "review_hours": round(hours(v["REVIEW"]), 3),
+                "fail": len(v["FAIL"]), "fail_hours": round(hours(v["FAIL"]), 3),
+                "deliverable_pct": round(100 * len(v["PASS"]) / len(sub), 1) if sub else 0,
+                "fail_checks": ", ".join(f"{k} {CHECK_NAMES[k]} x{c}" for k, c in why.most_common())}
+    summ = [summary_row("task", t, [r for r in rows if r["task"] == t]) for t in sorted({r["task"] for r in rows})]
+    stations = sorted({r["task"].split("/")[0] for r in rows})
+    summ += [summary_row("station", st, [r for r in rows if r["task"].split("/")[0] == st]) for st in stations]
+    summ.append(summary_row("all", "ALL", rows))
+    with open(files_out["summary"], "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(summ[0]))
         w.writeheader()
         w.writerows(summ)
-    print(f"{'task':32s} {'n':>5s} {'PASS':>5s} {'FAIL':>5s} {'REVIEW':>6s}  fail checks")
-    for s in summ:
-        print(f"{s['task']:32s} {s['recordings']:5d} {s['PASS']:5d} {s['FAIL']:5d} {s['REVIEW']:6d}  {s['fail_checks']}")
-    print(f"-> {out}\n-> {sout}")
+
+    # report: the same in one readable page
+    tot = summ[-1]
+    md = [f"# UMI delivery check: {src}", "",
+          f"Checked against DataPRD1019 v1.1 (docs/UMI_delivery_checklist.md); "
+          f"{'header + every frame timestamp' if a.deep else 'header only'}{', full decode' if a.decode else ''}.",
+          *([] if a.deep else ["Not checked in this run: dropped frames inside a file (V7, run with --deep)."]),
+          *([] if a.decode else ["Not checked in this run: corrupt frames (V8, run with --decode). "
+                                 "Deliverable means: passes every check that ran."]), "",
+          f"**Deliverable: {tot['deliverable']} of {tot['recordings']} recordings, {tot['deliverable_hours']:.2f} h "
+          f"of {tot['hours']:.2f} h** ({tot['deliverable_pct']}%). Review: {tot['review']} ({tot['review_hours']:.2f} h). "
+          f"Fail: {tot['fail']} ({tot['fail_hours']:.2f} h).", "",
+          "| Level | Name | Recordings | Hours | Deliverable | Deliverable h | Review | Review h | Fail | Fail h | Fail checks |",
+          "|---|---|---|---|---|---|---|---|---|---|---|"]
+    md += [f"| {x['level']} | {x['name']} | {x['recordings']} | {x['hours']:.2f} | {x['deliverable']} | "
+           f"{x['deliverable_hours']:.2f} | {x['review']} | {x['review_hours']:.2f} | {x['fail']} | {x['fail_hours']:.2f} | "
+           f"{x['fail_checks']} |" for x in summ]
+    reasons = collections.Counter((f["check"], f["check_name"], f["status"]) for f in fail_rows)
+    md += ["", "## Why recordings are not deliverable", "", "| Check | What | Status | Recordings |", "|---|---|---|---|"]
+    md += [f"| {k} | {n} | {st} | {c} |" for (k, n, st), c in reasons.most_common()]
+    md += ["", f"Every failed or review check, with the S3 file and the reason: `{files_out['failures'].name}`. "
+           f"Deliverable recordings: `{files_out['deliverable'].name}`. All checks per recording: `{out.name}`.", ""]
+    files_out["report"].write_text("\n".join(md))
+
+    print(f"{'level':8s} {'name':32s} {'n':>5s} {'hours':>7s} {'deliv':>6s} {'deliv_h':>8s} {'review':>6s} {'fail':>5s}  fail checks")
+    for x in summ:
+        print(f"{x['level']:8s} {x['name']:32s} {x['recordings']:5d} {x['hours']:7.2f} {x['deliverable']:6d} "
+              f"{x['deliverable_hours']:8.2f} {x['review']:6d} {x['fail']:5d}  {x['fail_checks'][:80]}")
+    print("-> " + "\n-> ".join(str(x) for x in (out, *files_out.values())))
 
 
 if __name__ == "__main__":
