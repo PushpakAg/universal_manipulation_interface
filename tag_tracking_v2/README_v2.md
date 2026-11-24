@@ -97,5 +97,6 @@ docs/DataPRD1019.pdf                     data PRD
 docs/DataPRD1019_mcap_delivery_checklist.md   MCAP delivery checked against the PRD
 docs/mcap_comparison_s3_orig_v2.html     S3 vs original vs v2 MCAP comparison
 ../scripts_tag_tracking/14_trim_mcap_common_span.py   trim delivery MCAPs to the common time span (PRD U2)
+mcap_mp4.py                              MCAP -> three synchronised MP4s (camera0/1/2); standalone, imports no v2 or umi code
 ```
 
