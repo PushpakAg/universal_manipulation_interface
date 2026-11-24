@@ -50,6 +50,7 @@ vlm_scripts_reports/          project root: every relative path (configs, work/,
 | `scripts/video_token_test.py` | video input (Files API) token and cost test |
 | `scripts/prompt_test.py` | old vs v1.1 prompts on images and video in one batch |
 | `scripts/make_report_csv.py` | builds the run CSVs in `reports/` |
+| `scripts/make_manual_counts.py` | `reports/manual_counts.csv`: one row per episode (all stations), VLM answer next to the manual count; rerun after each batch (manual columns kept) |
 | `scripts/make_task_only.py` | task-only result files (canonical task per folder + manual count) |
 | `scripts/s3_video_inventory.py` | head-video inventory (episodes, durations) of an S3 prefix -> `reports/` |
 | `reports/` | findings (md, csv), run CSVs, S3 inventory, manual count sheet |
@@ -97,6 +98,8 @@ results/<station>/[<date>/]<task>/<episode>/raw_response.json   (--debug) the ba
 results/summary.csv      task path, episode, canonical task, task, count, the three confidences, flags, cost
 results/batches/<id>/job.json                batch name, input file, episodes, state, cost
 ```
+
+After a run: `python scripts/make_manual_counts.py` refreshes the VLM columns of `reports/manual_counts.csv`.
 
 A rerun skips episodes whose `<name>_vlm_result.json` has a parsed response from the current prompt set; results of
 an earlier prompt version are redone and overwritten; `--force` redoes everything.

@@ -6,8 +6,8 @@
 task fields are reused from the run that identified the task best (no new VLM call):
     task01, task02, task03  R1  images 3 fps low   results/station2/2026-11-22/<task>/<episode>/
     task04, task06          R2  images 1 fps medium snapshots/1fps_medium_t04_t06/<task>/<episode>/
-n_repetitions comes from the manual count in reports/manual_counts.csv (column n_repetitions_manual); empty -> null.
-The sheet is created on the first run (task fields filled in, counts empty); run again after counting to fill the files.
+n_repetitions comes from the manual count in reports/manual_counts.csv (column n_repetitions_manual, rows keyed by
+the task path station2/2026-11-22/<task>); empty -> null. The sheet is built by scripts/make_manual_counts.py.
 
 Output: task_only/station2/2026-11-22/<task>/<episode>/<name>_vlm_result.json  (same file name as the S3 results)
 """
@@ -49,7 +49,7 @@ def main():
             r = json.loads(f.read_text())
             episode = f.parent.name
             t = (r.get("response") or {}).get("task") or {}
-            n = counts.get((task, episode))
+            n = counts.get((f"{DAY}/{task}", episode))
             out = {"task": dict(CANONICAL[task]) if task in CANONICAL else {k: t.get(k) for k in TASK_KEYS},
                    "n_repetitions": n}
             d = OUT / task / episode
@@ -60,12 +60,6 @@ def main():
             rows.append({"task": task, "episode": episode, "n_repetitions_manual": "" if n is None else n, "notes": "",
                          "task_text": out["task"]["task_text"], "action": out["task"]["action"],
                          "task_source_run": "canonical" if task in CANONICAL else RUN[task], "video": r.get("video")})
-    if not SHEET.exists():
-        with open(SHEET, "w", newline="") as fh:
-            w = csv.DictWriter(fh, fieldnames=list(rows[0]))
-            w.writeheader()
-            w.writerows(rows)
-        print(f"counting sheet -> {SHEET}")
     print(f"{n_files} task-only files ({n_counted} with a manual count) -> {OUT}")
 
 
