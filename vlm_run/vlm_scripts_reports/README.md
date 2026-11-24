@@ -50,6 +50,7 @@ vlm_scripts_reports/          project root: every relative path (configs, work/,
 | `scripts/video_token_test.py` | video input (Files API) token and cost test |
 | `scripts/prompt_test.py` | old vs v1.1 prompts on images and video in one batch |
 | `scripts/make_report_csv.py` | builds the run CSVs in `reports/` |
+| `scripts/check_delivery.py` | UMI delivery check per recording: PASS / FAIL / REVIEW against DataPRD1019 v1.1 (checklist: `docs/UMI_delivery_checklist.md`, thresholds: `configs/delivery_check.json`); writes `reports/delivery_check.csv` and `_summary.csv`; needs ffprobe |
 | `scripts/make_manual_counts.py` | `reports/manual_counts.csv`: one row per episode (all stations), VLM answer next to the manual count; rerun after each batch (manual columns kept) |
 | `scripts/make_task_only.py` | task-only result files (canonical task per folder + manual count) |
 | `scripts/s3_video_inventory.py` | head-video inventory (episodes, durations) of an S3 prefix -> `reports/` |
@@ -87,6 +88,21 @@ cd vlm_run/vlm_scripts_reports
 ```
 
 On an instance run it detached: `nohup ./run.sh > run.log 2>&1 &`. Batch jobs take minutes to 24 h.
+
+## Delivery check (PRD pass / fail)
+
+```bash
+sudo apt-get install -y ffmpeg                         # ffprobe (once)
+.venv/bin/python scripts/check_delivery.py             # every station / date / task under the config source
+.venv/bin/python scripts/check_delivery.py --task station2/2026-11-22 --limit 2
+.venv/bin/python scripts/check_delivery.py --source /local/delivery/folder
+```
+
+Hard checks (any FAIL fails the recording): three views (D1), camera metadata (D2), sync method and index (D3),
+gripper width per frame (D4), same frame rate (V1), same span (V2), codec and resolution (V3), synchronized (V4),
+at least 3 cycles (C1, manual count first, else the VLM count), cycles at least 3 s (C2), at least 9 s long (C3).
+Videos are read from the mp4 header only (presigned URL), so no video is downloaded. Rules R4-R8 and U3-U6 need a
+person: see `docs/UMI_delivery_checklist.md`.
 
 ## Output (one folder per episode)
 
