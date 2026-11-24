@@ -1,0 +1,88 @@
+{
+ "episode_id": "episode_000015",
+ "task": "station2/2026-11-22/task06",
+ "video": "s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-22/task06/episode_000015/2026-11-22_task06_episode_000015_head.mp4",
+ "views": [
+  "head"
+ ],
+ "model": "gemini-3.8-flash",
+ "fps": 3.0,
+ "n_steps": 37,
+ "mode": "gemini batch (file)",
+ "input": "video",
+ "batch_name": "batches/4fkyeyvg6a3qcujewq8vutr1henyv7uf5fw3",
+ "media_resolution": "high",
+ "thinking_level": "medium",
+ "max_output_tokens": 65536,
+ "max_side": 768,
+ "prompt_versions": {
+  "repetition_episode_template": "umi-repetition-episode-final-video-1.2",
+  "repetition_output_contract": "umi-repetition-output-final-video-1.2.2-count-conf",
+  "repetition_system": "umi-repetition-final-video-1.2.2-count-conf"
+ },
+ "usage": {
+  "promptTokenCount": 15221,
+  "candidatesTokenCount": 199,
+  "totalTokenCount": 18065,
+  "promptTokensDetails": [
+   {
+    "modality": "TEXT",
+    "tokenCount": 5379
+   },
+   {
+    "modality": "VIDEO",
+    "tokenCount": 9842
+   }
+  ],
+  "thoughtsTokenCount": 2645,
+  "serviceTier": "SERVICE_TIER_STANDARD",
+  "cost_usd": 0.01104,
+  "price_per_mtok": [
+   0.375,
+   1.875
+  ]
+ },
+ "response": {
+  "canonical_task": {
+   "task_text": "Pick an LED from the table and place it into a plastic container.",
+   "task_family": "place",
+   "action": "pick and place LED into container",
+   "object_categories": [
+    "LED",
+    "plastic container"
+   ],
+   "confidence": 0.92
+  },
+  "task": {
+   "task_text": "Pick an LED from the table and place it into a plastic container.",
+   "task_family": "sort",
+   "action": "place LED into plastic container",
+   "object_categories": [
+    "LED",
+    "plastic container"
+   ],
+   "confidence": 0.95
+  },
+  "n_repetitions": 6,
+  "n_repetitions_confidence": 0.95
+ },
+ "code_flags": [],
+ "canonical_task_model": {
+  "task_text": "Pick an LED from the table and place it into a plastic container.",
+  "task_family": "sort",
+  "action": "place LED into plastic container",
+  "object_categories": [
+   "LED",
+   "plastic container"
+  ],
+  "confidence": 0.95
+ },
+ "canonical_task_consolidation": {
+  "task": "station2/2026-11-22/task06",
+  "method": "majority of episode proposals",
+  "n_episodes": 41,
+  "n_agree": 30,
+  "n_distinct_proposals": 8,
+  "updated": "2026-11-24 09:01:40"
+ }
+}

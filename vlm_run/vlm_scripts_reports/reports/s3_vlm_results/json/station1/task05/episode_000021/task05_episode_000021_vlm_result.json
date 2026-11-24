@@ -1,0 +1,90 @@
+{
+ "episode_id": "episode_000021",
+ "task": "station1/task05",
+ "video": "s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station1/task05/episode_000021/task05_episode_000021_head.mp4",
+ "views": [
+  "head"
+ ],
+ "model": "gemini-3.8-flash",
+ "fps": 3.0,
+ "n_steps": 73,
+ "mode": "gemini batch (file)",
+ "input": "video",
+ "batch_name": "batches/49vk7e3bpv4h6iv5bcvoh72ra9f4bcl864n6",
+ "media_resolution": "high",
+ "thinking_level": "medium",
+ "max_output_tokens": 65536,
+ "max_side": 768,
+ "prompt_versions": {
+  "repetition_episode_template": "umi-repetition-episode-final-video-1.2",
+  "repetition_output_contract": "umi-repetition-output-final-video-1.2.2-count-conf",
+  "repetition_system": "umi-repetition-final-video-1.2.2-count-conf"
+ },
+ "usage": {
+  "promptTokenCount": 25759,
+  "candidatesTokenCount": 157,
+  "totalTokenCount": 39842,
+  "promptTokensDetails": [
+   {
+    "modality": "TEXT",
+    "tokenCount": 6075
+   },
+   {
+    "modality": "VIDEO",
+    "tokenCount": 19684
+   }
+  ],
+  "thoughtsTokenCount": 13926,
+  "serviceTier": "SERVICE_TIER_STANDARD",
+  "cost_usd": 0.03607,
+  "price_per_mtok": [
+   0.375,
+   1.875
+  ]
+ },
+ "response": {
+  "canonical_task": {
+   "task_text": "Pick a PVC pipe or fitting and place it into the designated tray.",
+   "task_family": "sort",
+   "action": "sort pipe parts into designated tray",
+   "object_categories": [
+    "PVC pipe",
+    "PVC fitting",
+    "plastic tray"
+   ],
+   "confidence": 0.95
+  },
+  "task": {
+   "task_text": "Pick a pipe or pipe fitting from the tray and place it on the table.",
+   "task_family": "place",
+   "action": "pick pipe or fitting, place on table",
+   "object_categories": [
+    "pipe",
+    "pipe fitting",
+    "tray"
+   ],
+   "confidence": 0.95
+  },
+  "n_repetitions": 6,
+  "n_repetitions_confidence": 0.95
+ },
+ "code_flags": [],
+ "canonical_task_model": {
+  "task_text": "Pick a pipe component from the tray and place it on the table.",
+  "task_family": "place",
+  "action": "pick pipe component, place on table",
+  "object_categories": [
+   "pipe component",
+   "tray"
+  ],
+  "confidence": 0.95
+ },
+ "canonical_task_consolidation": {
+  "task": "station1/task05",
+  "method": "majority of episode proposals",
+  "n_episodes": 50,
+  "n_agree": 4,
+  "n_distinct_proposals": 34,
+  "updated": "2026-11-24 09:01:40"
+ }
+}

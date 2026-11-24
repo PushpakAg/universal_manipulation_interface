@@ -1,0 +1,88 @@
+{
+ "episode_id": "episode_000004",
+ "task": "station1/2026-11-22/task01",
+ "video": "s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station1/2026-11-22/task01/episode_000004/2026-11-22_task01_episode_000004_head.mp4",
+ "views": [
+  "head"
+ ],
+ "model": "gemini-3.8-flash",
+ "fps": 3.0,
+ "n_steps": 99,
+ "mode": "gemini batch (file)",
+ "input": "video",
+ "batch_name": "batches/7tlv2b14v7arhhn59j4yadbhuo6cb6yjmo83",
+ "media_resolution": "high",
+ "thinking_level": "medium",
+ "max_output_tokens": 65536,
+ "max_side": 768,
+ "prompt_versions": {
+  "repetition_episode_template": "umi-repetition-episode-final-video-1.2",
+  "repetition_output_contract": "umi-repetition-output-final-video-1.2.2-count-conf",
+  "repetition_system": "umi-repetition-final-video-1.2.2-count-conf"
+ },
+ "usage": {
+  "promptTokenCount": 32913,
+  "candidatesTokenCount": 197,
+  "totalTokenCount": 36149,
+  "promptTokensDetails": [
+   {
+    "modality": "TEXT",
+    "tokenCount": 6579
+   },
+   {
+    "modality": "VIDEO",
+    "tokenCount": 26334
+   }
+  ],
+  "thoughtsTokenCount": 3039,
+  "serviceTier": "SERVICE_TIER_STANDARD",
+  "cost_usd": 0.01841,
+  "price_per_mtok": [
+   0.375,
+   1.875
+  ]
+ },
+ "response": {
+  "canonical_task": {
+   "task_text": "Pick a small box from the table and place it into the drawer.",
+   "task_family": "place",
+   "action": "pick box, place into drawer",
+   "object_categories": [
+    "box",
+    "drawer"
+   ],
+   "confidence": 0.947
+  },
+  "task": {
+   "task_text": "Pick a box from the table and place it into the drawer.",
+   "task_family": "place",
+   "action": "pick box and place into drawer",
+   "object_categories": [
+    "box",
+    "drawer"
+   ],
+   "confidence": 0.95
+  },
+  "n_repetitions": 3,
+  "n_repetitions_confidence": 0.95
+ },
+ "code_flags": [],
+ "canonical_task_model": {
+  "task_text": "Pick a box from the table and place it into the drawer.",
+  "task_family": "place",
+  "action": "pick box and place into drawer",
+  "object_categories": [
+   "box",
+   "drawer"
+  ],
+  "confidence": 0.95
+ },
+ "canonical_task_consolidation": {
+  "task": "station1/2026-11-22/task01",
+  "method": "majority of episode proposals",
+  "n_episodes": 31,
+  "n_agree": 15,
+  "n_distinct_proposals": 6,
+  "updated": "2026-11-24 09:01:40"
+ }
+}

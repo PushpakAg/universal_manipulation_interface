@@ -1,0 +1,90 @@
+{
+ "episode_id": "episode_000004",
+ "task": "station3/task03",
+ "video": "s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station3/task03/episode_000004/task03_episode_000004_head.mp4",
+ "views": [
+  "head"
+ ],
+ "model": "gemini-3.8-flash",
+ "fps": 3.0,
+ "n_steps": 192,
+ "mode": "gemini batch (file)",
+ "input": "video",
+ "batch_name": "batches/rvq2icf32ia9q4o083g15c16laz5l2weu3x7",
+ "media_resolution": "high",
+ "thinking_level": "medium",
+ "max_output_tokens": 65536,
+ "max_side": 768,
+ "prompt_versions": {
+  "repetition_episode_template": "umi-repetition-episode-final-video-1.2",
+  "repetition_output_contract": "umi-repetition-output-final-video-1.2.2-count-conf",
+  "repetition_system": "umi-repetition-final-video-1.2.2-count-conf"
+ },
+ "usage": {
+  "promptTokenCount": 59543,
+  "candidatesTokenCount": 193,
+  "totalTokenCount": 61888,
+  "promptTokensDetails": [
+   {
+    "modality": "TEXT",
+    "tokenCount": 8471
+   },
+   {
+    "modality": "VIDEO",
+    "tokenCount": 51072
+   }
+  ],
+  "thoughtsTokenCount": 2152,
+  "serviceTier": "SERVICE_TIER_STANDARD",
+  "cost_usd": 0.02673,
+  "price_per_mtok": [
+   0.375,
+   1.875
+  ]
+ },
+ "response": {
+  "canonical_task": {
+   "task_text": "Screw a nut onto a bolt and place it on the table.",
+   "task_family": "assemble",
+   "action": "screw nut onto bolt",
+   "object_categories": [
+    "bolt",
+    "nut"
+   ],
+   "confidence": 0.95
+  },
+  "task": {
+   "task_text": "Thread a nut onto a bolt and drop it into the hole.",
+   "task_family": "assemble",
+   "action": "thread nut onto bolt",
+   "object_categories": [
+    "bolt",
+    "nut"
+   ],
+   "confidence": 0.95
+  },
+  "n_repetitions": 2,
+  "n_repetitions_confidence": 0.95
+ },
+ "code_flags": [
+  "PRD R2: fewer than 3 repetitions"
+ ],
+ "canonical_task_model": {
+  "task_text": "Thread a nut onto a bolt and drop it into a hole.",
+  "task_family": "assemble",
+  "action": "thread nut onto bolt",
+  "object_categories": [
+   "bolt",
+   "nut"
+  ],
+  "confidence": 0.95
+ },
+ "canonical_task_consolidation": {
+  "task": "station3/task03",
+  "method": "majority of episode proposals",
+  "n_episodes": 26,
+  "n_agree": 6,
+  "n_distinct_proposals": 16,
+  "updated": "2026-11-24 09:01:40"
+ }
+}

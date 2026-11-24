@@ -1,0 +1,88 @@
+{
+ "episode_id": "episode_000020",
+ "task": "station1/task03",
+ "video": "s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station1/task03/episode_000020/task03_episode_000020_head.mp4",
+ "views": [
+  "head"
+ ],
+ "model": "gemini-3.8-flash",
+ "fps": 3.0,
+ "n_steps": 95,
+ "mode": "gemini batch (file)",
+ "input": "video",
+ "batch_name": "batches/hdmknkd74ltivq4muzb19ijmzijle1dp4h8w",
+ "media_resolution": "high",
+ "thinking_level": "medium",
+ "max_output_tokens": 65536,
+ "max_side": 768,
+ "prompt_versions": {
+  "repetition_episode_template": "umi-repetition-episode-final-video-1.2",
+  "repetition_output_contract": "umi-repetition-output-final-video-1.2.2-count-conf",
+  "repetition_system": "umi-repetition-final-video-1.2.2-count-conf"
+ },
+ "usage": {
+  "promptTokenCount": 32037,
+  "candidatesTokenCount": 151,
+  "totalTokenCount": 33688,
+  "promptTokensDetails": [
+   {
+    "modality": "VIDEO",
+    "tokenCount": 25536
+   },
+   {
+    "modality": "TEXT",
+    "tokenCount": 6501
+   }
+  ],
+  "thoughtsTokenCount": 1500,
+  "serviceTier": "SERVICE_TIER_STANDARD",
+  "cost_usd": 0.01511,
+  "price_per_mtok": [
+   0.375,
+   1.875
+  ]
+ },
+ "response": {
+  "canonical_task": {
+   "task_text": "Pick an electronic component from the table and place it into a plastic tray.",
+   "task_family": "place",
+   "action": "pick component, place into plastic tray",
+   "object_categories": [
+    "electronic component",
+    "plastic tray"
+   ],
+   "confidence": 0.92
+  },
+  "task": {
+   "task_text": "Pick an electronic component from the table and place it into the sorting tray.",
+   "task_family": "sort",
+   "action": "sort electronic component into tray",
+   "object_categories": [
+    "electronic component",
+    "sorting tray"
+   ],
+   "confidence": 0.95
+  },
+  "n_repetitions": 3,
+  "n_repetitions_confidence": 0.95
+ },
+ "code_flags": [],
+ "canonical_task_model": {
+  "task_text": "Pick an electronic component from the table and place it into the sorting tray.",
+  "task_family": "sort",
+  "action": "sort electronic component into tray",
+  "object_categories": [
+   "electronic component",
+   "sorting tray"
+  ],
+  "confidence": 0.95
+ },
+ "canonical_task_consolidation": {
+  "task": "station1/task03",
+  "method": "majority of episode proposals",
+  "n_episodes": 46,
+  "n_agree": 5,
+  "n_distinct_proposals": 33,
+  "updated": "2026-11-24 09:01:40"
+ }
+}

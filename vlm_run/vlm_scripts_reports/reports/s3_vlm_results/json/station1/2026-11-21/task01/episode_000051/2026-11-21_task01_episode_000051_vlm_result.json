@@ -1,0 +1,88 @@
+{
+ "episode_id": "episode_000051",
+ "task": "station1/2026-11-21/task01",
+ "video": "s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station1/2026-11-21/task01/episode_000051/2026-11-21_task01_episode_000051_head.mp4",
+ "views": [
+  "head"
+ ],
+ "model": "gemini-3.8-flash",
+ "fps": 3.0,
+ "n_steps": 95,
+ "mode": "gemini batch (file)",
+ "input": "video",
+ "batch_name": "batches/tjce49zf1mio8bljbqiwmdgppw2vqyqn5rlu",
+ "media_resolution": "high",
+ "thinking_level": "medium",
+ "max_output_tokens": 65536,
+ "max_side": 768,
+ "prompt_versions": {
+  "repetition_episode_template": "umi-repetition-episode-final-video-1.2",
+  "repetition_output_contract": "umi-repetition-output-final-video-1.2.2-count-conf",
+  "repetition_system": "umi-repetition-final-video-1.2.2-count-conf"
+ },
+ "usage": {
+  "promptTokenCount": 32036,
+  "candidatesTokenCount": 156,
+  "totalTokenCount": 35619,
+  "promptTokensDetails": [
+   {
+    "modality": "TEXT",
+    "tokenCount": 6500
+   },
+   {
+    "modality": "VIDEO",
+    "tokenCount": 25536
+   }
+  ],
+  "thoughtsTokenCount": 3427,
+  "serviceTier": "SERVICE_TIER_STANDARD",
+  "cost_usd": 0.01873,
+  "price_per_mtok": [
+   0.375,
+   1.875
+  ]
+ },
+ "response": {
+  "canonical_task": {
+   "task_text": "Pick a wall anchor from the table and place it into a container.",
+   "task_family": "sort",
+   "action": "pick wall anchor, place into container",
+   "object_categories": [
+    "wall anchor",
+    "container"
+   ],
+   "confidence": 0.943
+  },
+  "task": {
+   "task_text": "Pick a wall anchor from the table and place it into the corresponding plastic container.",
+   "task_family": "sort",
+   "action": "pick wall anchor, place into container",
+   "object_categories": [
+    "wall anchor",
+    "plastic container"
+   ],
+   "confidence": 0.95
+  },
+  "n_repetitions": 6,
+  "n_repetitions_confidence": 0.95
+ },
+ "code_flags": [],
+ "canonical_task_model": {
+  "task_text": "Pick a wall anchor from the table and place it into a plastic container.",
+  "task_family": "sort",
+  "action": "pick wall anchor, place into container",
+  "object_categories": [
+   "wall anchor",
+   "plastic container"
+  ],
+  "confidence": 0.95
+ },
+ "canonical_task_consolidation": {
+  "task": "station1/2026-11-21/task01",
+  "method": "majority of episode proposals",
+  "n_episodes": 91,
+  "n_agree": 7,
+  "n_distinct_proposals": 50,
+  "updated": "2026-11-24 09:01:39"
+ }
+}

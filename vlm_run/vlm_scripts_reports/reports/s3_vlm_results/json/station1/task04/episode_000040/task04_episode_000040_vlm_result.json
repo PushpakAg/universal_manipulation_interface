@@ -1,0 +1,91 @@
+{
+ "episode_id": "episode_000040",
+ "task": "station1/task04",
+ "video": "s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station1/task04/episode_000040/task04_episode_000040_head.mp4",
+ "views": [
+  "head"
+ ],
+ "model": "gemini-3.8-flash",
+ "fps": 3.0,
+ "n_steps": 54,
+ "mode": "gemini batch (file)",
+ "input": "video",
+ "batch_name": "batches/hdmknkd74ltivq4muzb19ijmzijle1dp4h8w",
+ "media_resolution": "high",
+ "thinking_level": "medium",
+ "max_output_tokens": 65536,
+ "max_side": 768,
+ "prompt_versions": {
+  "repetition_episode_template": "umi-repetition-episode-final-video-1.2",
+  "repetition_output_contract": "umi-repetition-output-final-video-1.2.2-count-conf",
+  "repetition_system": "umi-repetition-final-video-1.2.2-count-conf"
+ },
+ "usage": {
+  "promptTokenCount": 20339,
+  "candidatesTokenCount": 205,
+  "totalTokenCount": 22817,
+  "promptTokensDetails": [
+   {
+    "modality": "TEXT",
+    "tokenCount": 5709
+   },
+   {
+    "modality": "VIDEO",
+    "tokenCount": 14630
+   }
+  ],
+  "thoughtsTokenCount": 2273,
+  "serviceTier": "SERVICE_TIER_STANDARD",
+  "cost_usd": 0.01227,
+  "price_per_mtok": [
+   0.375,
+   1.875
+  ]
+ },
+ "response": {
+  "canonical_task": {
+   "task_text": "Pick an object from the table and place it into a tray.",
+   "task_family": "place",
+   "action": "pick object, place into tray",
+   "object_categories": [
+    "tool",
+    "tray"
+   ],
+   "confidence": 0.95
+  },
+  "task": {
+   "task_text": "Pick an item from the table and place it into a clear tray.",
+   "task_family": "place",
+   "action": "pick item, place into tray",
+   "object_categories": [
+    "screwdriver",
+    "scissors",
+    "plastic tray"
+   ],
+   "confidence": 0.95
+  },
+  "n_repetitions": 2,
+  "n_repetitions_confidence": 0.95
+ },
+ "code_flags": [
+  "PRD R2: fewer than 3 repetitions"
+ ],
+ "canonical_task_model": {
+  "task_text": "Pick a tool from the table and place it into a tray.",
+  "task_family": "place",
+  "action": "pick tool, place into tray",
+  "object_categories": [
+   "tool",
+   "tray"
+  ],
+  "confidence": 0.95
+ },
+ "canonical_task_consolidation": {
+  "task": "station1/task04",
+  "method": "majority of episode proposals",
+  "n_episodes": 49,
+  "n_agree": 17,
+  "n_distinct_proposals": 18,
+  "updated": "2026-11-24 09:01:40"
+ }
+}

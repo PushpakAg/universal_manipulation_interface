@@ -1,0 +1,90 @@
+{
+ "episode_id": "episode_000011",
+ "task": "station1/2026-11-21/task04",
+ "video": "s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station1/2026-11-21/task04/episode_000011/2026-11-21_task04_episode_000011_head.mp4",
+ "views": [
+  "head"
+ ],
+ "model": "gemini-3.8-flash",
+ "fps": 3.0,
+ "n_steps": 104,
+ "mode": "gemini batch (file)",
+ "input": "video",
+ "batch_name": "batches/fmd8a5fpf0j3r3h0bs6u7k0uz511f8fn1pje",
+ "media_resolution": "high",
+ "thinking_level": "medium",
+ "max_output_tokens": 65536,
+ "max_side": 768,
+ "prompt_versions": {
+  "repetition_episode_template": "umi-repetition-episode-final-video-1.2",
+  "repetition_output_contract": "umi-repetition-output-final-video-1.2.2-count-conf",
+  "repetition_system": "umi-repetition-final-video-1.2.2-count-conf"
+ },
+ "usage": {
+  "promptTokenCount": 34611,
+  "candidatesTokenCount": 139,
+  "totalTokenCount": 42176,
+  "promptTokensDetails": [
+   {
+    "modality": "VIDEO",
+    "tokenCount": 27930
+   },
+   {
+    "modality": "TEXT",
+    "tokenCount": 6681
+   }
+  ],
+  "thoughtsTokenCount": 7426,
+  "serviceTier": "SERVICE_TIER_STANDARD",
+  "cost_usd": 0.02716,
+  "price_per_mtok": [
+   0.375,
+   1.875
+  ]
+ },
+ "response": {
+  "canonical_task": {
+   "task_text": "Pick a screwdriver bit holder from the table and insert it into the case.",
+   "task_family": "insert",
+   "action": "insert bit holder into case",
+   "object_categories": [
+    "screwdriver bit holder",
+    "case"
+   ],
+   "confidence": 0.94
+  },
+  "task": {
+   "task_text": "Insert a bit holder into the tool case.",
+   "task_family": "insert",
+   "action": "insert bit holder into case",
+   "object_categories": [
+    "bit holder",
+    "tool case"
+   ],
+   "confidence": 0.95
+  },
+  "n_repetitions": 2,
+  "n_repetitions_confidence": 0.95
+ },
+ "code_flags": [
+  "PRD R2: fewer than 3 repetitions"
+ ],
+ "canonical_task_model": {
+  "task_text": "Insert a bit holder into the tool case.",
+  "task_family": "insert",
+  "action": "insert bit holder into case",
+  "object_categories": [
+   "bit holder",
+   "tool case"
+  ],
+  "confidence": 0.95
+ },
+ "canonical_task_consolidation": {
+  "task": "station1/2026-11-21/task04",
+  "method": "majority of episode proposals",
+  "n_episodes": 28,
+  "n_agree": 5,
+  "n_distinct_proposals": 18,
+  "updated": "2026-11-24 09:01:40"
+ }
+}

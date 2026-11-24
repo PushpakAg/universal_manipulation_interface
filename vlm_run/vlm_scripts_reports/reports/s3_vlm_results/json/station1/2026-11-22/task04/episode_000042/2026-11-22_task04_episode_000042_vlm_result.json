@@ -1,0 +1,85 @@
+{
+ "episode_id": "episode_000042",
+ "task": "station1/2026-11-22/task04",
+ "video": "s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station1/2026-11-22/task04/episode_000042/2026-11-22_task04_episode_000042_head.mp4",
+ "views": [
+  "head"
+ ],
+ "model": "gemini-3.8-flash",
+ "fps": 3.0,
+ "n_steps": 74,
+ "mode": "gemini batch (file)",
+ "input": "video",
+ "batch_name": "batches/7tlv2b14v7arhhn59j4yadbhuo6cb6yjmo83",
+ "media_resolution": "high",
+ "thinking_level": "medium",
+ "max_output_tokens": 65536,
+ "max_side": 768,
+ "prompt_versions": {
+  "repetition_episode_template": "umi-repetition-episode-final-video-1.2",
+  "repetition_output_contract": "umi-repetition-output-final-video-1.2.2-count-conf",
+  "repetition_system": "umi-repetition-final-video-1.2.2-count-conf"
+ },
+ "usage": {
+  "promptTokenCount": 25779,
+  "candidatesTokenCount": 138,
+  "totalTokenCount": 31895,
+  "promptTokensDetails": [
+   {
+    "modality": "VIDEO",
+    "tokenCount": 19684
+   },
+   {
+    "modality": "TEXT",
+    "tokenCount": 6095
+   }
+  ],
+  "thoughtsTokenCount": 5978,
+  "serviceTier": "SERVICE_TIER_STANDARD",
+  "cost_usd": 0.02113,
+  "price_per_mtok": [
+   0.375,
+   1.875
+  ]
+ },
+ "response": {
+  "canonical_task": {
+   "task_text": "Pick a wooden block and place it on the table.",
+   "task_family": "place",
+   "action": "pick and place a wooden block",
+   "object_categories": [
+    "wooden block"
+   ],
+   "confidence": 0.933
+  },
+  "task": {
+   "task_text": "Pick up a wooden block and place it to construct a structure.",
+   "task_family": "place",
+   "action": "pick and place wooden block",
+   "object_categories": [
+    "wooden block"
+   ],
+   "confidence": 0.95
+  },
+  "n_repetitions": 4,
+  "n_repetitions_confidence": 0.95
+ },
+ "code_flags": [],
+ "canonical_task_model": {
+  "task_text": "Pick up a wooden block and place it to construct a structure.",
+  "task_family": "place",
+  "action": "pick and place wooden block",
+  "object_categories": [
+   "wooden block"
+  ],
+  "confidence": 0.9
+ },
+ "canonical_task_consolidation": {
+  "task": "station1/2026-11-22/task04",
+  "method": "majority of episode proposals",
+  "n_episodes": 56,
+  "n_agree": 9,
+  "n_distinct_proposals": 37,
+  "updated": "2026-11-24 09:01:40"
+ }
+}

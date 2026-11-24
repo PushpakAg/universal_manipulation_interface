@@ -1,0 +1,90 @@
+{
+ "episode_id": "episode_000106",
+ "task": "station1/2026-11-21/task03",
+ "video": "s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station1/2026-11-21/task03/episode_000106/2026-11-21_task03_episode_000106_head.mp4",
+ "views": [
+  "head"
+ ],
+ "model": "gemini-3.8-flash",
+ "fps": 3.0,
+ "n_steps": 20,
+ "mode": "gemini batch (file)",
+ "input": "video",
+ "batch_name": "batches/fmd8a5fpf0j3r3h0bs6u7k0uz511f8fn1pje",
+ "media_resolution": "high",
+ "thinking_level": "medium",
+ "max_output_tokens": 65536,
+ "max_side": 768,
+ "prompt_versions": {
+  "repetition_episode_template": "umi-repetition-episode-final-video-1.2",
+  "repetition_output_contract": "umi-repetition-output-final-video-1.2.2-count-conf",
+  "repetition_system": "umi-repetition-final-video-1.2.2-count-conf"
+ },
+ "usage": {
+  "promptTokenCount": 10380,
+  "candidatesTokenCount": 150,
+  "totalTokenCount": 11498,
+  "promptTokensDetails": [
+   {
+    "modality": "VIDEO",
+    "tokenCount": 5320
+   },
+   {
+    "modality": "TEXT",
+    "tokenCount": 5060
+   }
+  ],
+  "thoughtsTokenCount": 968,
+  "serviceTier": "SERVICE_TIER_STANDARD",
+  "cost_usd": 0.00599,
+  "price_per_mtok": [
+   0.375,
+   1.875
+  ]
+ },
+ "response": {
+  "canonical_task": {
+   "task_text": "Pick a tool from the table and place it into the toolbox.",
+   "task_family": "place",
+   "action": "pick tool, place into toolbox",
+   "object_categories": [
+    "tool",
+    "toolbox"
+   ],
+   "confidence": 0.943
+  },
+  "task": {
+   "task_text": "Pick an adjustable wrench from the table and place it into the tool case.",
+   "task_family": "place",
+   "action": "place adjustable wrench into tool case",
+   "object_categories": [
+    "adjustable wrench",
+    "tool case"
+   ],
+   "confidence": 0.95
+  },
+  "n_repetitions": 1,
+  "n_repetitions_confidence": 0.95
+ },
+ "code_flags": [
+  "PRD R2: fewer than 3 repetitions"
+ ],
+ "canonical_task_model": {
+  "task_text": "Pick a tool from the table and place it into the tool case.",
+  "task_family": "place",
+  "action": "place tool into tool case",
+  "object_categories": [
+   "tool",
+   "tool case"
+  ],
+  "confidence": 0.95
+ },
+ "canonical_task_consolidation": {
+  "task": "station1/2026-11-21/task03",
+  "method": "majority of episode proposals",
+  "n_episodes": 158,
+  "n_agree": 90,
+  "n_distinct_proposals": 31,
+  "updated": "2026-11-24 09:01:40"
+ }
+}

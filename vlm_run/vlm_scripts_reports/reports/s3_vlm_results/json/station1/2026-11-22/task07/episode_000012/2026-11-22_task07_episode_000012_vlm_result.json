@@ -1,0 +1,91 @@
+{
+ "episode_id": "episode_000012",
+ "task": "station1/2026-11-22/task07",
+ "video": "s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station1/2026-11-22/task07/episode_000012/2026-11-22_task07_episode_000012_head.mp4",
+ "views": [
+  "head"
+ ],
+ "model": "gemini-3.8-flash",
+ "fps": 3.0,
+ "n_steps": 23,
+ "mode": "gemini batch (file)",
+ "input": "video",
+ "batch_name": "batches/3y7qwkmx7ze0ddafh7w1yg5hw9cllbq5fwn2",
+ "media_resolution": "high",
+ "thinking_level": "medium",
+ "max_output_tokens": 65536,
+ "max_side": 768,
+ "prompt_versions": {
+  "repetition_episode_template": "umi-repetition-episode-final-video-1.2",
+  "repetition_output_contract": "umi-repetition-output-final-video-1.2.2-count-conf",
+  "repetition_system": "umi-repetition-final-video-1.2.2-count-conf"
+ },
+ "usage": {
+  "promptTokenCount": 11233,
+  "candidatesTokenCount": 164,
+  "totalTokenCount": 15753,
+  "promptTokensDetails": [
+   {
+    "modality": "TEXT",
+    "tokenCount": 5115
+   },
+   {
+    "modality": "VIDEO",
+    "tokenCount": 6118
+   }
+  ],
+  "thoughtsTokenCount": 4356,
+  "serviceTier": "SERVICE_TIER_STANDARD",
+  "cost_usd": 0.01269,
+  "price_per_mtok": [
+   0.375,
+   1.875
+  ]
+ },
+ "response": {
+  "canonical_task": {
+   "task_text": "Pick an electronic component from the table and place it into the organizer tray.",
+   "task_family": "place",
+   "action": "place electronic component into tray",
+   "object_categories": [
+    "electronic component",
+    "organizer tray"
+   ],
+   "confidence": 0.95
+  },
+  "task": {
+   "task_text": "Pick an electronic component from the table and place it into the organizer tray.",
+   "task_family": "place",
+   "action": "pick component, place into organizer tray",
+   "object_categories": [
+    "ribbon cable",
+    "anti-static bag",
+    "organizer tray"
+   ],
+   "confidence": 0.95
+  },
+  "n_repetitions": 2,
+  "n_repetitions_confidence": 0.95
+ },
+ "code_flags": [
+  "PRD R2: fewer than 3 repetitions"
+ ],
+ "canonical_task_model": {
+  "task_text": "Pick an electronic component from the table and place it into the organizer tray.",
+  "task_family": "place",
+  "action": "pick component, place into organizer tray",
+  "object_categories": [
+   "electronic component",
+   "organizer tray"
+  ],
+  "confidence": 0.95
+ },
+ "canonical_task_consolidation": {
+  "task": "station1/2026-11-22/task07",
+  "method": "majority of episode proposals",
+  "n_episodes": 32,
+  "n_agree": 6,
+  "n_distinct_proposals": 21,
+  "updated": "2026-11-24 09:01:40"
+ }
+}
