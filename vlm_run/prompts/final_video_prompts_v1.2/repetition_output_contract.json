@@ -1,0 +1,193 @@
+{
+ "version": "umi-repetition-output-final-video-1.2.2-count-conf",
+ "instruction": "Return ONLY one JSON object matching `schema`, with no text before or after it. Give the canonical_task of the task folder first, then identify this episode's task and count its cycles (repetitions) using the views provided in video_order together (head, left wrist, right wrist, or the head alone). Give only the number of cycles and the three confidences (canonical_task.confidence, task.confidence, n_repetitions_confidence, each 0 to 1): no step segments, no reasoning and no time. Do not add keys that are not in the schema. canonical_task.task_family and task.task_family must be one of vocabulary.task_families. Neither canonical_task nor task may be calibration, inspection, testing or any other setup activity.",
+ "vocabulary": {
+  "task_families": [
+   "grasp",
+   "place",
+   "stack",
+   "sort",
+   "insert",
+   "bin_pick",
+   "tool_use",
+   "pour",
+   "fold",
+   "wipe",
+   "assemble",
+   "disassemble",
+   "open_close",
+   "push_pull",
+   "rotate",
+   "transport",
+   "handover",
+   "restock",
+   "pack",
+   "other"
+  ]
+ },
+ "fields": {
+  "canonical_task.task_text": "one generic sentence: the goal of a single repetition of the task this task folder was recorded for, the same wording for every episode of the folder; never calibration, inspection or setup",
+  "canonical_task.task_family": "one of vocabulary.task_families ('other' only when none fits)",
+  "canonical_task.action": "3 to 7 word imperative phrase, generic (object type and destination type)",
+  "canonical_task.object_categories": "generic object types of the folder's task (e.g. 'LED', 'plastic container'), no colours or counts",
+  "canonical_task.confidence": "0 to 1: how sure you are that every episode of the task folder would get this label",
+  "task.task_text": "one sentence: the goal of a single repetition in this episode (normally canonical_task with this episode's objects)",
+  "task.task_family": "one of vocabulary.task_families ('other' only when none fits)",
+  "task.action": "3 to 7 word imperative phrase",
+  "task.object_categories": "list of object names or categories handled (may differ between repetitions); name only what you can see, as specifically as the video allows",
+  "task.confidence": "0 to 1: how sure you are that this episode shows this task as named",
+  "n_repetitions": "number of complete cycles of the task in this episode (an integer; 0 only when no complete cycle is seen)",
+  "n_repetitions_confidence": "0 to 1: how sure you are that n_repetitions is exactly right (lower when objects are tiny or occluded, boundaries are unclear or cycles are cut by the recording's start or end)"
+ },
+ "validation": {
+  "canonical_task_present": true,
+  "task_family_from_vocabulary": true,
+  "canonical_task_and_task_not_setup_or_calibration": true,
+  "n_repetitions_is_non_negative_integer": true,
+  "confidences_between_0_and_1": true
+ },
+ "code_checks_after_response": [
+  "at least 3 repetitions, else flag the recording (do not edit the count)",
+  "each confidence must be a number from 0 to 1; values below 0.5 are flagged for human review (the answer is never edited)",
+  "word limits (action 3 to 7 words) are checked in code and flagged",
+  "the count is a first pass: it is reviewed and corrected by a human (HITL) afterwards",
+  "optional cross-check: compare n_repetitions with the gripper close/open cycle count measured from robot{0,1}/gripper/state of the same MCAP (umi.tag_tracking.annotation) and report disagreement; never overwrite the model count"
+ ],
+ "schema": {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UMI canonical task, task and cycle count per episode (VLM response)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+   "canonical_task",
+   "task",
+   "n_repetitions",
+   "n_repetitions_confidence"
+  ],
+  "properties": {
+   "canonical_task": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "task_text",
+     "task_family",
+     "action",
+     "object_categories",
+     "confidence"
+    ],
+    "properties": {
+     "task_text": {
+      "type": "string",
+      "minLength": 10
+     },
+     "task_family": {
+      "enum": [
+       "grasp",
+       "place",
+       "stack",
+       "sort",
+       "insert",
+       "bin_pick",
+       "tool_use",
+       "pour",
+       "fold",
+       "wipe",
+       "assemble",
+       "disassemble",
+       "open_close",
+       "push_pull",
+       "rotate",
+       "transport",
+       "handover",
+       "restock",
+       "pack",
+       "other"
+      ]
+     },
+     "action": {
+      "type": "string",
+      "minLength": 5
+     },
+     "object_categories": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "minItems": 1
+     },
+     "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+     }
+    }
+   },
+   "task": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "task_text",
+     "task_family",
+     "action",
+     "object_categories",
+     "confidence"
+    ],
+    "properties": {
+     "task_text": {
+      "type": "string",
+      "minLength": 10
+     },
+     "task_family": {
+      "enum": [
+       "grasp",
+       "place",
+       "stack",
+       "sort",
+       "insert",
+       "bin_pick",
+       "tool_use",
+       "pour",
+       "fold",
+       "wipe",
+       "assemble",
+       "disassemble",
+       "open_close",
+       "push_pull",
+       "rotate",
+       "transport",
+       "handover",
+       "restock",
+       "pack",
+       "other"
+      ]
+     },
+     "action": {
+      "type": "string",
+      "minLength": 5
+     },
+     "object_categories": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "minItems": 1
+     },
+     "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+     }
+    }
+   },
+   "n_repetitions": {
+    "type": "integer",
+    "minimum": 0
+   },
+   "n_repetitions_confidence": {
+    "type": "number",
+    "minimum": 0,
+    "maximum": 1
+   }
+  }
+ }
+}

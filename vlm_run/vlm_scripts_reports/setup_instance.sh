@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # One-time setup on a laptop or EC2 instance: own venv in this folder, requirements, .env from the example.
-# Needs the whole vlm_run/ folder (run_vlm_repetitions.py, configs/, final_prompts/) next to this one.
+# Needs the whole vlm_run/ folder (run_vlm_repetitions.py, configs/, prompts/) next to this one.
 set -euo pipefail
 cd "$(dirname "$0")"
 unset VIRTUAL_ENV

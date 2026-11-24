@@ -6,9 +6,9 @@
 __pycache__/
 *.pyc
 # run data (large; local only)
-instance_vlm_run/work/
-instance_vlm_run/results/
-instance_vlm_run/snapshots/
-instance_vlm_run/video_test/
-instance_vlm_run/task_only/
+vlm_scripts_reports/work/
+vlm_scripts_reports/results/
+vlm_scripts_reports/snapshots/
+vlm_scripts_reports/video_test/
+vlm_scripts_reports/task_only/
 *.log

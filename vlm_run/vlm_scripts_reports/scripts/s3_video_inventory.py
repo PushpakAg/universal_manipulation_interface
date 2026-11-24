@@ -9,8 +9,8 @@ Folder layouts found under umi_data/industrial_data_mp4/:
     <station>/<task>/<episode>/..._head.mp4        (no date folder: date = "")
     <episode>/..._head.mp4                         (no station, date or task: all = "")
 
-    python s3_video_inventory.py                      # default prefix, writes reports/s3_head_video_*.csv
-    python s3_video_inventory.py --prefix s3://bucket/some/prefix/
+    python scripts/s3_video_inventory.py                      # default prefix, writes reports/s3_head_video_*.csv
+    python scripts/s3_video_inventory.py --prefix s3://bucket/some/prefix/
 """
 import argparse
 import csv
@@ -21,8 +21,8 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE))
+HERE = Path(__file__).resolve().parents[1]  # project root vlm_scripts_reports/ (scripts live in scripts/)
+sys.path.insert(0, str(Path(__file__).resolve().parent))  # sibling scripts (run_s3_vlm)
 import run_s3_vlm as D  # noqa: E402
 
 OUT = HERE / "reports"

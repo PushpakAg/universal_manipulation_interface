@@ -32,9 +32,11 @@
   "prompt": {
     "set": "final",
     "sets": {
-      "final": "vlm_run/final_prompts",
-      "mcap": "vlm_run/mcap_prompts",
-      "chatgpt": "vlm_run/chatgpt_prompts"
+      "final": "vlm_run/prompts/final_prompts",
+      "final_v1.1": "vlm_run/prompts/final_prompts_v1.1",
+      "final_v1.2": "vlm_run/prompts/final_prompts_v1.2",
+      "mcap": "vlm_run/prompts/mcap_prompts",
+      "chatgpt": "vlm_run/prompts/chatgpt_prompts"
     },
     "system_prompt": "repetition_system.json",
     "episode_template": "repetition_episode_template.json",
@@ -104,6 +106,7 @@
       30
     ],
     "low_object_confidence": 0.5,
+    "low_confidence": 0.5,
     "action_words": [
       3,
       7

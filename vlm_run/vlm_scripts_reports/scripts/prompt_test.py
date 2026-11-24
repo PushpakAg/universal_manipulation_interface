@@ -17,16 +17,16 @@ import tempfile
 import time
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE))
+HERE = Path(__file__).resolve().parents[1]  # project root vlm_scripts_reports/ (scripts live in scripts/)
+sys.path.insert(0, str(Path(__file__).resolve().parent))  # sibling scripts (run_s3_vlm)
 import run_s3_vlm as D  # noqa: E402
 import video_token_test as VT  # noqa: E402
 
 R = D.R
 REPO = HERE.parent
 OUT = HERE / "video_test" / "prompt_test"
-SETS = {"img_old": REPO / "final_prompts", "img_v11": REPO / "final_prompts_v1.1",
-        "vid_old": REPO / "final_video_prompts", "vid_v11": REPO / "final_video_prompts_v1.1"}
+SETS = {"img_old": REPO / "prompts" / "final_prompts", "img_v11": REPO / "prompts" / "final_prompts_v1.1",
+        "vid_old": REPO / "prompts" / "final_video_prompts", "vid_v11": REPO / "prompts" / "final_video_prompts_v1.1"}
 
 
 def existing_video_file(key, ep_id):

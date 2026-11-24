@@ -1,0 +1,48 @@
+{
+ "version": "umi-repetition-episode-final-video-1.2",
+ "description": "The episode prompt for the repetition pass on VIDEO input: one JSON object per episode, sent first in the user turn, followed by one video per camera in video_order (a head MP4 run sends the head video only). The model samples the video at context.step_interval_s (Gemini videoMetadata.fps = 1 / step_interval_s). Step n is the fixed sampling point at t_s = (n - 1) x step_interval_s from the start of the video; steps lists every step with its t_s. The steps are the fixed grid the model must answer in; it never builds its own step numbering, so code can map every step to a timestamp. The model converts what it sees at a video time to the nearest step and never outputs a time. Steps are sampling points, not every frame: the model should not assume actions between steps that the video does not show. No sensor timeline is included: the model counts repetitions from video only. The model identifies the task from the views provided and counts the cycles (repetitions) of that task in this episode. The context also names the episode's task_folder: the model returns a canonical_task for the folder (generic, the same for every episode of the folder) before the episode's own task.",
+ "fields": {
+  "episode_id": "MCAP metadata recording.episode_index, as episode_NNNNNN",
+  "context": {
+   "rig": "MCAP metadata recording.robot_type (umi_bimanual); 'UMI handheld rig' when unset",
+   "duration_s": "episode length in seconds: recording.episode_length / video_fps (59.94)",
+   "step_interval_s": "seconds between steps (= 1 / video sampling fps)",
+   "n_steps": "number of steps",
+   "task_folder": "name of the task folder the episode belongs to (e.g. task06); all episodes of one folder normally show one related task. null when unknown",
+   "given_task": "task text of the delivery order for this task folder (e.g. task01), when one was given; null when none. A hint, not a fact: the model describes what the video shows"
+  },
+  "steps": [
+   {
+    "step": 1,
+    "t_s": 0.0
+   }
+  ],
+  "video_order": [
+   "head (camera2)",
+   "wrist_left (camera1)",
+   "wrist_right (camera0)"
+  ]
+ },
+ "views": {
+  "head": "head-mounted, forward facing: scene, object and destination locations, overall task progress",
+  "wrist_left": "left gripper camera: left-hand grasp, contact, manipulation and release",
+  "wrist_right": "right gripper camera: right-hand grasp, contact, manipulation and release",
+  "missing_views": "video_order lists only the videos actually sent (head only for a head MP4); the model uses the remaining views and does not invent the missing ones"
+ },
+ "never_included": [
+  "operator_id",
+  "station_id",
+  "environment_id",
+  "consent_reference",
+  "location",
+  "camera serials",
+  "raw sensor values",
+  "gripper width",
+  "pose",
+  "IMU",
+  "world_frame",
+  "annotation_model",
+  "any pre-computed cycle count"
+ ],
+ "example": null
+}

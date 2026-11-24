@@ -11,10 +11,10 @@ For each <task>/<episode>/<name>_head.mp4 under the config's source prefix (read
   steps   n_steps matches step_table.json; every repetition range lies inside 1..n_steps
   flags   number of code flags (reported, not a failure)
 
-    python check_results.py                 # all episodes; table of problems + totals
-    python check_results.py --task task01   # one task
-    python check_results.py --csv out.csv   # one row per episode
-    python check_results.py --local-only    # skip the S3 side
+    python scripts/check_results.py                 # all episodes; table of problems + totals
+    python scripts/check_results.py --task task01   # one task
+    python scripts/check_results.py --csv out.csv   # one row per episode
+    python scripts/check_results.py --local-only    # skip the S3 side
 """
 import argparse
 import csv
@@ -23,8 +23,8 @@ import json
 import sys
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE))
+HERE = Path(__file__).resolve().parents[1]  # project root vlm_scripts_reports/ (scripts live in scripts/)
+sys.path.insert(0, str(Path(__file__).resolve().parent))  # sibling scripts (run_s3_vlm)
 import run_s3_vlm as D  # noqa: E402  (same listing, names and paths as the run)
 
 

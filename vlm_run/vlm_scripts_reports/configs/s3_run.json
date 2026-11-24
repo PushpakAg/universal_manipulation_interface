@@ -1,5 +1,5 @@
 {
-  "_comment": "Settings for run_s3_vlm.py. Relative paths resolve against instance_vlm_run/. Prompts (final_prompts), prices, checks and the model's max_output_tokens come from vlm_run/configs/config.json. Command-line options override these values.",
+  "_comment": "Settings for run_s3_vlm.py. Relative paths resolve against vlm_scripts_reports/ (the project root, not scripts/). Prompts (final_prompts), prices, checks and the model's max_output_tokens come from vlm_run/configs/config.json. Command-line options override these values.",
   "source": "s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-22/",
   "head_suffix": "_head.mp4",
   "_layout_note": "Every object under source ending in head_suffix is one episode: <task>/<episode>/<name>_head.mp4. Head view only.",
@@ -18,6 +18,8 @@
   "long_side_px": null,
   "jpeg_quality": null,
   "given_task": null,
+  "prompt_set": "final_v1.2",
+  "_prompt_set_note": "Key of vlm_run/configs/config.json prompt.sets (--prompts overrides). final_v1.2 (2026-11-24): adds canonical_task (generic task of the task folder, named first in the answer; context.task_folder is sent) and states that no recording is calibration or inspection. final = the 1.0 set used for the earlier runs.",
   "_batch_note": "All episodes go into ONE Gemini Batch API job (half price) as an uploaded JSONL file (Files API, up to 2 GB), so long episodes (e.g. task04 episode_000000: ~460 images at 3 fps, ~38 MB) fit. A second job is created only if the JSONL would exceed max_batch_mb. Batch jobs finish in minutes to 24 h; an interrupted wait is picked up with --resume.",
   "max_batch_mb": 1800,
   "poll_seconds": 60,

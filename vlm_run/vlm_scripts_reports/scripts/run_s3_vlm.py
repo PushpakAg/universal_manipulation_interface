@@ -22,13 +22,13 @@
 
 Episodes that already have a parsed result are skipped (--force redoes them).
 
-    python run_s3_vlm.py --list                   # episodes in S3
-    python run_s3_vlm.py --dry-run                # download + sample + build requests, print size and cost estimate
-    python run_s3_vlm.py                          # the full run: one batch job
-    python run_s3_vlm.py --task task01 --limit 2  # a subset
-    python run_s3_vlm.py --resume                 # wait again for the last submitted job(s) and write results
-    python run_s3_vlm.py --summary-only
-    python run_s3_vlm.py --upload-only            # push existing parsed local results next to their MP4s
+    python scripts/run_s3_vlm.py --list                   # episodes in S3
+    python scripts/run_s3_vlm.py --dry-run                # download + sample + build requests, print size and cost estimate
+    python scripts/run_s3_vlm.py                          # the full run: one batch job
+    python scripts/run_s3_vlm.py --task task01 --limit 2  # a subset
+    python scripts/run_s3_vlm.py --resume                 # wait again for the last submitted job(s) and write results
+    python scripts/run_s3_vlm.py --summary-only
+    python scripts/run_s3_vlm.py --upload-only            # push existing parsed local results next to their MP4s
 """
 import argparse
 import concurrent.futures as cf
@@ -42,7 +42,7 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parents[1]  # project root vlm_scripts_reports/ (scripts live in scripts/)
 V2 = HERE.parent
 sys.path.insert(0, str(V2))
 import run_vlm_repetitions as R  # noqa: E402  (prompts, sampling, request building, checks: one implementation)
@@ -134,6 +134,7 @@ def is_done(a, e):
 def prepare(e, a_dict, bucket, region):
     """Download, sample, build the Gemini request. Returns a small dict; the request itself goes to disk."""
     a = argparse.Namespace(**a_dict)
+    R.PROMPTS = R.PROMPT_SETS[a.prompts]  # worker processes re-import R: set the prompt set here too
     work = Path(a.work) / e["task"] / e["episode"]
     out = work  # step table and frames stay in work_dir until the result is written (a dry run never touches results)
     req_f = work / "request.json"
@@ -151,7 +152,7 @@ def prepare(e, a_dict, bucket, region):
         tmp.replace(head)
     meta = R.read_meta_mp4(head)
     steps = R.sample_mp4(head, a.fps, a.max_side, a.jpeg_quality)
-    messages, _ = R.build_messages(e["episode"], meta, steps, a.fps, a.given_task)
+    messages, _ = R.build_messages(e["episode"], meta, steps, a.fps, a.given_task, task_folder=e["task"])
     req = R.to_gemini_request(messages, a.media_resolution, a.max_output_tokens)
     req_f.write_text(json.dumps(req))
     (work / "request_sig.json").write_text(json.dumps(sig))
@@ -442,6 +443,8 @@ def main():
     ap.add_argument("--episode", action="append", help="only these episode ids (repeatable)")
     ap.add_argument("--limit", type=int, help="at most N episodes per task")
     ap.add_argument("--fps", type=float)
+    ap.add_argument("--prompts", choices=sorted(k for k in R.PROMPT_SETS if k.startswith("final")),
+                    help="prompt set from configs/config.json (default: s3_run.json prompt_set, else the config set)")
     ap.add_argument("--media-resolution", choices=["low", "medium", "high"])
     ap.add_argument("--thinking-level", choices=["minimal", "low", "medium", "high", "default"],
                     help="Gemini thinkingConfig.thinkingLevel (default: config thinking_level; 'default' = send none)")
@@ -474,6 +477,8 @@ def main():
     a.retry = cfg_run.get("retry_failed", True)
     a.retry_thinking_level = cfg_run.get("retry_thinking_level", "low")
     a.given_task = cfg_run.get("given_task")
+    a.prompts = a.prompts or cfg_run.get("prompt_set") or R.CFG["prompt"]["set"]
+    R.PROMPTS = R.PROMPT_SETS[a.prompts]
     a.workers = a.workers or cfg_run.get("workers", 4)
     a.debug = a.debug or cfg_run.get("debug", False)
     a.keep_videos = a.keep_videos or cfg_run.get("keep_videos", False)

@@ -1,4 +1,4 @@
-# instance_vlm_run
+# vlm_scripts_reports
 
 Repetition VLM (final_prompts, same request building and checks as `vlm_run/run_vlm_repetitions.py`) on
 every head MP4 under an S3 prefix, as ONE Gemini Batch API job: 3 fps, media resolution low, half price.
@@ -25,24 +25,42 @@ On 2026-11-24 that prefix held 112 episodes: task01 15, task02 26, task03 21, ta
    `<task>/<episode>/<name>_head.mp4` -> `<task>/<episode>/<name>_vlm_result.json`
    (`--no-upload` keeps it local; `--upload-only` pushes existing local results; failed episodes are not uploaded).
 
+## Layout
+
+```
+vlm_scripts_reports/          project root: every relative path (configs, work/, results/, .env) resolves here
+  scripts/                    all Python scripts (run them from the root: python scripts/<name>.py, or ./run.sh)
+  configs/s3_run.json
+  reports/
+  run.sh  setup_instance.sh  requirements.txt  .env.example
+  work/ results/ snapshots/ video_test/ task_only/   run data (git-ignored)
+```
+
 ## Files
 
 | File | Purpose |
 |---|---|
-| `run_s3_vlm.py` | the driver (list, prepare, batch, collect, summary) |
+| `scripts/run_s3_vlm.py` | the driver (list, prepare, batch, collect, summary) |
+| `scripts/check_results.py` | checks local and S3 results per episode (problems, totals, optional CSV) |
+| `scripts/video_token_test.py` | video input (Files API) token and cost test |
+| `scripts/prompt_test.py` | old vs v1.1 prompts on images and video in one batch |
+| `scripts/make_report_csv.py` | builds the run CSVs in `reports/` |
+| `scripts/make_task_only.py` | task-only result files (canonical task per folder + manual count) |
+| `scripts/s3_video_inventory.py` | head-video inventory (episodes, durations) of an S3 prefix -> `reports/` |
+| `reports/` | findings (md, csv), run CSVs, S3 inventory, manual count sheet |
 | `configs/s3_run.json` | source, model, fps, media resolution, workers, output dirs, batch split size |
 | `.env` / `.env.example` | `AWS_PROFILE`, region, `GEMINI_API_KEY` (git-ignored; shell wins; key falls back to `vlm_run/.env`) |
 | `requirements.txt` | boto3, av, opencv-python-headless, numpy |
 | `setup_instance.sh` | creates `.venv` here and installs the requirements |
-| `run.sh` | runs `run_s3_vlm.py` with that venv |
+| `run.sh` | runs `scripts/run_s3_vlm.py` with that venv |
 
 The whole `vlm_run/` folder must sit next to this one (the driver imports `run_vlm_repetitions.py` and
-uses its `configs/config.json` and `final_prompts/`).
+uses its `configs/config.json` and `prompts/`).
 
 ## Setup
 
 ```bash
-cd vlm_run/instance_vlm_run
+cd vlm_run/vlm_scripts_reports
 ./setup_instance.sh
 # laptop: AWS_PROFILE=prod in .env, and: aws sso login --profile prod
 # EC2: leave AWS_PROFILE empty; the instance role needs s3:ListBucket, s3:GetObject and s3:PutObject on the prefix

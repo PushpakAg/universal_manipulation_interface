@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Video-input test for the repetition VLM (vlm_run/final_video_prompts).
+"""Video-input test for the repetition VLM (vlm_run/prompts/final_video_prompts).
 
 Instead of sampled JPEGs, the head MP4 itself is uploaded to the Gemini Files API and referenced in the request
 (fileData + videoMetadata.fps). Prompt content, output format and generation parameters are the same as the image
@@ -11,7 +11,7 @@ runs (temperature 0, JSON, maxOutputTokens, thinking level); only the input word
 3. cost of a full batch run over every episode in the S3 prefix (durations from S3 MP4 metadata via the cached
    step tables of the earlier runs), per resolution and fps.
 
-    python video_token_test.py --episodes task06/episode_000038 task06/episode_000014 ... --live task06/episode_000038
+    python scripts/video_token_test.py --episodes task06/episode_000038 task06/episode_000014 ... --live task06/episode_000038
 """
 import argparse
 import json
@@ -22,12 +22,12 @@ import tempfile
 import time
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE))
+HERE = Path(__file__).resolve().parents[1]  # project root vlm_scripts_reports/ (scripts live in scripts/)
+sys.path.insert(0, str(Path(__file__).resolve().parent))  # sibling scripts (run_s3_vlm)
 import run_s3_vlm as D  # noqa: E402
 
 R = D.R
-VPROMPTS = HERE.parent / "final_video_prompts"
+VPROMPTS = HERE.parent / "prompts" / "final_video_prompts"
 OUT = HERE / "video_test"
 
 

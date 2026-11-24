@@ -258,7 +258,7 @@ def build_messages_chatgpt(episode_id, steps, videos, fps):
             {"role": "user", "content": content}], contract
 
 
-def build_messages(episode_id, meta, steps, fps, given_task):
+def build_messages(episode_id, meta, steps, fps, given_task, task_folder=None):
     system_p = json.loads((PROMPTS / PROMPT_FILES["system_prompt"]).read_text())
     tmpl = json.loads((PROMPTS / PROMPT_FILES["episode_template"]).read_text())
     contract = json.loads((PROMPTS / PROMPT_FILES["output_contract"]).read_text())
@@ -276,6 +276,8 @@ def build_messages(episode_id, meta, steps, fps, given_task):
         "image_order": [o for o in tmpl["fields"]["image_order"] if o.split(" ")[0] in views],
         "output_contract": contract,
     }
+    if "task_folder" in tmpl["fields"]["context"]:  # v1.2+: the folder the canonical_task is named for
+        prompt["context"]["task_folder"] = task_folder
     content = [{"type": "text", "text": json.dumps(prompt, ensure_ascii=False)}]
     for s in steps:
         for v in views:
@@ -405,29 +407,51 @@ def parse_json(text):
     return json.loads(text[text.find("{"): text.rfind("}") + 1])
 
 
+SETUP_TASK = re.compile(r"calibrat|inspect|\btest|\bscan|no manipulation", re.I)
+
+
 def check(resp, n_steps, table=None, objects=True, grippers=False):
     """Code checks from the output contract (flags only, the model count is never edited).
     table is the step table (step -> t_s); with it, the 3 to 30 s duration check runs too.
     grippers (final_prompts): each repetition names its gripper, and two ranges may overlap only when one is
     'left' and the other 'right' (two objects handled independently at the same time)."""
     flags = []
+    count_only = "repetitions" not in resp  # v1.2 count-only contract: n_repetitions alone, no segments or reasoning
     reps = resp.get("repetitions", [])
-    if resp.get("n_repetitions") != len(reps):
+    n = resp.get("n_repetitions")
+    if count_only:
+        if not isinstance(n, int) or isinstance(n, bool) or n < 0:
+            flags.append(f"n_repetitions missing or not a non-negative integer ({n!r})")
+    elif n != len(reps):
         flags.append("n_repetitions != len(repetitions)")
     if [r.get("index") for r in reps] != list(range(1, len(reps) + 1)):
         flags.append("repetition indices are not 1, 2, 3 ... without gaps")
     reasoning = str(resp.get("counting_reasoning", "")).strip()
-    if not reasoning:
+    if count_only:
+        pass
+    elif not reasoning:
         flags.append("counting_reasoning missing")
     else:
         n_sent = len([s for s in re.split(r"(?<=[.!?])\s+", reasoning) if s.strip()])
         lo, hi = CHECKS["reasoning_sentences"]
         if not lo <= n_sent <= hi:
             flags.append(f"counting_reasoning has {n_sent} sentences (contract: {lo} to {hi})")
-    action = (resp.get("task") or {}).get("action")
     lo, hi = CHECKS["action_words"]
-    if isinstance(action, str) and not lo <= len(action.split()) <= hi:
-        flags.append(f"task.action has {len(action.split())} words (contract: {lo} to {hi})")
+    for key in ("canonical_task", "task"):  # canonical_task: v1.2+ prompt sets only
+        t = resp.get(key) or {}
+        action = t.get("action")
+        if isinstance(action, str) and not lo <= len(action.split()) <= hi:
+            flags.append(f"{key}.action has {len(action.split())} words (contract: {lo} to {hi})")
+        if SETUP_TASK.search(f"{t.get('task_text', '')} {action or ''}"):
+            flags.append(f"{key} names a setup activity (calibration/inspection/test), which no recording is")
+    if count_only:  # v1.2.2+: canonical_task.confidence, task.confidence, n_repetitions_confidence (0..1)
+        for name, v in (("canonical_task.confidence", (resp.get("canonical_task") or {}).get("confidence")),
+                        ("task.confidence", (resp.get("task") or {}).get("confidence")),
+                        ("n_repetitions_confidence", resp.get("n_repetitions_confidence"))):
+            if not isinstance(v, (int, float)) or isinstance(v, bool) or not 0 <= v <= 1:
+                flags.append(f"{name} missing or outside 0..1 ({v!r})")
+            elif v < CHECKS["low_confidence"]:
+                flags.append(f"low {name} ({v})")
     done = []  # (start, end, gripper) of the valid repetitions so far
     for r in reps:
         a, b = r.get("start_step", 0), r.get("end_step", 0)
@@ -457,7 +481,7 @@ def check(resp, n_steps, table=None, objects=True, grippers=False):
             lo, hi = CHECKS["repetition_seconds"]
             if not lo <= dur <= hi:
                 flags.append(f"repetition {r.get('index')}: duration {dur:.1f} s outside {lo} to {hi} s")
-    if len(reps) < CHECKS["min_repetitions"]:
+    if (n if count_only and isinstance(n, int) else len(reps)) < CHECKS["min_repetitions"]:
         flags.append(f"PRD R2: fewer than {CHECKS['min_repetitions']} repetitions")
     return flags
 
@@ -475,7 +499,7 @@ def log_experiment(root, name, cfg, a, ep, video, resp, flags):  # one entry per
     log = json.loads(f.read_text()) if f.exists() else {}
     log.update({
         "experiment": "experiment_4" if a.prompts == "chatgpt" else ("experiment_3" if a.wrists else "experiment_2"),
-        "description": ("Repetition count from the head, left and right MP4s with the vlm_run/chatgpt_prompts set; "
+        "description": ("Repetition count from the head, left and right MP4s with the vlm_run/prompts/chatgpt_prompts set; "
                         "start_step/end_step are the model's own action steps, not frame steps."
                         if a.prompts == "chatgpt" else
                         "Repetition count from the head, left and right MP4s of one episode (same timeline)."
@@ -484,7 +508,7 @@ def log_experiment(root, name, cfg, a, ep, video, resp, flags):  # one entry per
         "prompt_versions": prompt_versions(a.prompts == "chatgpt")})
     eps = {(e["model"], e["episode_id"]): e for e in log.get("episodes", [])}
     eps[(cfg["model"], ep)] = {"model": cfg["model"], "episode_id": ep, "video": str(video), "n_repetitions": resp.get("n_repetitions") if resp else None,
-               "segments": [[r.get("start_step"), r.get("end_step")] for r in resp.get("repetitions", [])] if resp else None,
+               "segments": [[r.get("start_step"), r.get("end_step")] for r in resp["repetitions"]] if resp and "repetitions" in resp else None,
                "code_flags": flags, "result": f"{name}/{ep}/vlm_result.json"}
     log["episodes"] = [eps[k] for k in sorted(eps)]
     f.write_text(json.dumps(log, indent=1, ensure_ascii=False))
@@ -507,8 +531,8 @@ def main():
     ap.add_argument("--max-tokens", type=int, default=None, help="reasoning + answer (default: the model's max_output_tokens)")
     ap.add_argument("--timeout", type=int, default=None)
     ap.add_argument("--prompts", choices=sorted(PROMPT_SETS), default=CFG["prompt"]["set"],
-                    help="final (config default): vlm_run/final_prompts; mcap: the earlier set; chatgpt: "
-                         "vlm_run/chatgpt_prompts as written (needs --wrists; experiment 4; the model's own steps, "
+                    help="final (config default): vlm_run/prompts/final_prompts; mcap: the earlier set; chatgpt: "
+                         "vlm_run/prompts/chatgpt_prompts as written (needs --wrists; experiment 4; the model's own steps, "
                          "no step->time mapping)")
     ap.add_argument("--wrists", action="store_true",
                     help="with a head MP4: also use <ep>_left.mp4 and <ep>_right.mp4 next to it (experiment 3)")
@@ -679,7 +703,7 @@ def finish(a, job, text, finish_reason, usage, elapsed, cg, mp4, extra=None):
     name, cfg, ep, steps, table, out = job["name"], job["cfg"], job["ep"], job["steps"], job["table"], job["out"]
     try:
         resp = parse_json(text)
-        flags = check(resp, None, None, objects=False) if cg else check(resp, len(steps), table, grippers=a.prompts == "final" and CHECKS["require_gripper"])
+        flags = check(resp, None, None, objects=False) if cg else check(resp, len(steps), table, grippers=a.prompts.startswith("final") and CHECKS["require_gripper"])
         if cg:
             flags.append("steps are the model's own action steps (chatgpt prompts), not frame steps: no time mapping")
     except Exception as e:

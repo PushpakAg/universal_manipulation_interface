@@ -15,7 +15,7 @@ import csv
 import json
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parents[1]  # project root vlm_scripts_reports/ (scripts live in scripts/)
 DAY = "station2/2026-11-22"
 SOURCES = {"task01": HERE / "results" / DAY, "task02": HERE / "results" / DAY, "task03": HERE / "results" / DAY,
            "task04": HERE / "snapshots" / "1fps_medium_t04_t06", "task06": HERE / "snapshots" / "1fps_medium_t04_t06"}
