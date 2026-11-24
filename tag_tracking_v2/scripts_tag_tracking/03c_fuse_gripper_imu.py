@@ -1,0 +1,214 @@
+"""
+[v2: tt2.parallel (BLAS threads limited to 1 per worker), pickle written atomically, failed chunks logged
+as warnings with the exception type; the fusion itself is unchanged.]
+
+Gripper (wrist camera) poses by visual-inertial smoothing per episode window,
+see umi.tag_tracking.gripper_fusion: wrist IMU + environment tags seen by the
+wrist camera + the wrist pose measured by the head camera through the cube.
+Bridges frames where the head camera does not see the cube.
+
+Requires: tag_tracking.pkl with world cube poses (03_track_bodies.py,
+03b_fuse_head_imu.py), tag_tracking/bodies.json and gripper_tcp.json
+(T_cube_wrist, setup calibration), wrist demos/*/imu_data.json and
+tag_detection.pkl, audio_sync_offsets.json, and gripper_imu (camera-IMU
+calibration and IMU noise per wrist camera) in the tag tracking config.
+Wrist clocks: the audio sync start times corrected by tag_tracking/wrist_sync.json
+(03s_sync_wrists.py) when present.
+Adds to each head task video's tag_tracking.pkl, per gripper body:
+grippers[name] = {'time' (head video clock), 'T_world_wrist', 'covariance',
+'position_std', 'rotation_std', 'is_valid', 'head_measured', 'n_wrist_tags'}
+over the wrist frames in the tracked windows; 06_export_dataset_plan.py uses it.
+
+python scripts_tag_tracking/03c_fuse_gripper_imu.py -i data_workspace/session -c umi_calib/tag_tracking.yaml
+"""
+# %%
+import sys
+import os
+
+import pathlib
+V2_ROOT = pathlib.Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(V2_ROOT))
+from tt2.bootstrap import setup_paths, user_path
+setup_paths()
+
+# %%
+import json
+import pathlib
+import pickle
+import click
+import logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)-7s %(name)s: %(message)s")
+import numpy as np
+from umi.tag_tracking.config import load_tag_tracking_config
+from umi.tag_tracking.noise_model import TagNoiseModel
+from umi.tag_tracking.imu import load_imu, load_cam_imu_calibration, load_imu_noise, wrist_imu_time_offset
+from umi.tag_tracking.session import get_session_videos, overlapping
+from tt2.parallel import make_executor, submit_fuse
+from tt2.fsutil import atomic_pickle_dump
+from tt2.errors import PipelineError, require
+from tt2.video_chunk import run_pipelined
+from tt2.log import get_logger
+log = get_logger(__name__)
+from umi.tag_tracking.windows import split_window
+from umi.tag_tracking.gripper_fusion import wrist_measurements, init_poses
+from umi.tag_tracking.wrist_sync import (wrist_corrections, correction_seconds, head_readout, cube_image_rows,
+    observation_times)
+
+
+# %%
+@click.command()
+@click.option('-i', '--input', required=True, help='Session directory')
+@click.option('-c', '--config', required=True, help='Tag tracking config yaml with gripper_imu')
+@click.option('--max_head_gap', type=float, default=0.05, help='Head frames around a wrist frame at most this apart (s)')
+@click.option('-j', '--num_workers', type=int, default=None, help='Worker processes, default all cores')
+@click.option('--chunk_sec', type=float, default=12.0, help='Windows longer than this are solved in chunks in parallel')
+@click.option('--context_sec', type=float, default=1.0, help='Extra frames solved on each side of a chunk, not kept')
+def main(input, config, max_head_gap, num_workers, chunk_sec, context_sec):
+    session = pathlib.Path(os.path.expanduser(input)).absolute()
+    config = load_tag_tracking_config(config)
+    assert 'gripper_imu' in config, "tag tracking config needs gripper_imu"
+    assert 'sigma_px' in config, "run 01_measure_corner_noise.py first (wrist corner noise)"
+    accuracy = config['accuracy']
+    is_accurate = lambda p, r: (p <= accuracy['position_std']) & (r <= accuracy['rotation_std_rad'])
+    calibration = json.load(session.joinpath('tag_tracking', 'bodies.json').open('r'))
+    tcp = json.load(session.joinpath('tag_tracking', 'gripper_tcp.json').open('r'))
+    static_name = [k for k, v in calibration['bodies'].items() if v['static']][0]
+    T_env_tags = {int(k): np.array(v) for k, v in calibration['bodies'][static_name]['T_body_tags'].items()}
+    wrist_noise = TagNoiseModel(0.0, {t: config['sigma_px'] for t in T_env_tags})
+    names = [name for _, name in sorted((b['robot_index'], name)
+        for name, b in config['bodies'].items() if 'gripper_camera' in b)]
+    videos = get_session_videos(session)
+    executor = make_executor(num_workers)
+    sync_path = session.joinpath('tag_tracking', 'wrist_sync.json')
+    sync = json.load(sync_path.open('r')) if sync_path.is_file() else None
+    if sync is None:
+        print("no tag_tracking/wrist_sync.json (03s_sync_wrists.py): wrist clocks from the audio sync only")
+
+    def prepare(head):
+        """Load one head video, submit the chunks of all grippers (longest first) to the pool."""
+        track_path = head['dir'].joinpath('tag_tracking.pkl')
+        track = pickle.load(track_path.open('rb'))
+        head_times = track['time']
+        windows = track.get('windows', [(0, len(head_times))])
+        track['grippers'] = dict()
+        corrections = wrist_corrections(sync, head['name'])
+        # when the head observed each cube pose (rolling shutter, tracking line delay)
+        head_camera = config['cameras'][config['head_camera']]
+        readout = head_readout(head)
+        # all chunks of all grippers submitted first (long windows split, longest first), collected after
+        jobs = {name: list() for name in names}
+        submissions = list()
+        for name in names:
+            serial = config['bodies'][name]['gripper_camera']
+            assert serial in config['gripper_imu'], f"no gripper_imu for camera {serial} ({name})"
+            camera = config['cameras'][serial]
+            cam_imu = load_cam_imu_calibration(config['gripper_imu'][serial]['cam_imu_calibration'])
+            imu_noise = load_imu_noise(config['gripper_imu'][serial]['noise_setting'])
+            T_cube_wrist = np.array(tcp[name]['T_cube_wrist'])
+            body = track['bodies'][name]
+            cube_times = observation_times(head_times, cube_image_rows(body['T_cam_body'], head_camera,
+                head_camera.image_size[1]), readout, calibration['line_delay'], head_camera.image_size[1])
+
+            for wrist in overlapping(videos, head, serial):
+                detections = pickle.load(wrist['dir'].joinpath('tag_detection.pkl').open('rb'))
+                wrist_times = np.array([d['time'] for d in detections])
+                # wrist video frames on the head video clock: audio sync start + wrist sync correction
+                on_head = wrist_times + wrist['start_timestamp'] - head['start_timestamp']
+                if wrist['name'] in corrections:
+                    on_head = on_head + correction_seconds(corrections[wrist['name']], on_head)
+                elif sync is not None:
+                    print(f"  {name} {wrist['name']}: no wrist sync correction, audio sync only")
+                imu = load_imu(str(wrist['dir'].joinpath('imu_data.json')))
+                time_offset = wrist_imu_time_offset(config['gripper_imu'][serial], cam_imu,
+                    str(wrist['dir'].joinpath('raw_video.mp4')), float(1 / wrist['fps']))
+                # wrist camera rolling shutter: tags observed at frame time (first row) + row * line delay
+                wrist_line_delay = head_readout(wrist) / camera.image_size[1]
+                print(f"  {name} {wrist['name']}: IMU time offset {time_offset * 1e3:+.2f} ms "
+                    f"({config['gripper_imu'][serial].get('imu_time_offset', 'openicc')}), "
+                    f"rolling shutter {wrist_line_delay * camera.image_size[1] * 1e3:.1f} ms")
+                for a, b in windows:
+                    for lo, hi, keep_lo, keep_hi in split_window(head_times, a, b, chunk_sec, context_sec):
+                        inside = np.flatnonzero((on_head >= head_times[lo]) & (on_head <= head_times[hi - 1]))
+                        if len(inside) < 2:
+                            continue
+                        # kept wrist frames: head time in [keep_lo, keep_hi) (to the window's end for the last chunk)
+                        t = on_head[inside]
+                        keep = (t >= head_times[keep_lo]) & ((t < head_times[keep_hi]) if keep_hi < b else (t <= head_times[b - 1]))
+                        if not keep.any():
+                            continue
+                        frames = [{'time': float(wrist_times[i]), 'corners': {k: v['corners']
+                            for k, v in detections[i]['tag_dict'].items() if k in T_env_tags}} for i in inside]
+                        measurements = wrist_measurements(t, cube_times, body['T_world_body'],
+                            body['world_covariance'], body['is_valid_world'], T_cube_wrist, max_head_gap)
+                        init = init_poses(len(inside), measurements)
+                        if init is None:
+                            print(f"  {name} {wrist['name']} chunk {head_times[lo]:.1f}-{head_times[hi - 1]:.1f}s: "
+                                f"no head measurement, skipped")
+                            continue
+                        submissions.append((len(inside), name, t, measurements, frames, keep, (camera, frames, T_env_tags,
+                            config['tag_sizes'], wrist_noise, imu, cam_imu['T_imu_cam'], time_offset,
+                            imu_noise, init, measurements, wrist_line_delay, 0.0)))
+        for size, name, t, measurements, frames, keep, args in sorted(submissions, key=lambda x: -x[0]):
+            jobs[name].append((t, measurements, frames, keep, submit_fuse(executor, *args)))
+
+        return dict(locals())
+
+    def finish(head, st):
+        """Collect the chunks per gripper, fuse, write tag_tracking.pkl."""
+        track, track_path, jobs, windows = (st[k] for k in ('track', 'track_path', 'jobs', 'windows'))
+        for name in names:
+            serial = config['bodies'][name]['gripper_camera']
+            parts = list()
+            n_failed = 0
+            for times, measurements, frames, keep, future in jobs[name]:
+                try:
+                    fused = future.result()
+                except Exception as e:
+                    n_failed += 1
+                    log.warning(f"  {name} chunk {times[0]:.1f}-{times[-1]:.1f}s: smoothing failed ({type(e).__name__}: {e})")
+                    continue
+                measured = np.zeros(len(times), dtype=bool)
+                measured[list(measurements)] = True
+                parts.append({
+                    'time': times[keep],
+                    'T_world_wrist': fused['T_world_cam'][keep],
+                    'covariance': fused['covariance'][keep],
+                    'position_std': fused['position_std'][keep],
+                    'rotation_std': fused['rotation_std'][keep],
+                    'head_measured': measured[keep],
+                    'n_wrist_tags': np.array([len(f['corners']) for f in frames])[keep]
+                })
+            result = {k: np.concatenate([p[k] for p in parts]) for k in parts[0]} if parts else None
+            if result is None:
+                print(f"{head['name']} {name}: no fused windows")
+                continue
+            order = np.argsort(result['time'])
+            result = {k: v[order] for k, v in result.items()}
+            result['is_valid'] = is_accurate(result['position_std'], result['rotation_std'])
+            track['grippers'][name] = result
+            print(f"{head['name']} {name} (camera {serial}): {len(parts)} chunks of {len(windows)} windows ({n_failed} failed), "
+                f"{len(result['time'])} wrist frames: head measured {result['head_measured'].mean() * 100:.0f}%, "
+                f"wrist sees >= 1 env tag {(result['n_wrist_tags'] >= 1).mean() * 100:.0f}% -> fused valid "
+                f"{result['is_valid'].mean() * 100:.0f}% (median std {np.nanmedian(result['position_std']) * 1000:.1f} mm, "
+                f"{np.degrees(np.nanmedian(result['rotation_std'])):.2f} deg)")
+        atomic_pickle_dump(track, track_path)
+        print(f"Saved to {track_path}")
+    heads = [x for x in videos if x['camera_serial'] == config['head_camera']]
+    require(heads, f"no head camera videos ({config['head_camera']}) in {session}")
+    try:
+        # the next video is submitted before the current one is post-processed: no idle pool in between
+        failures = run_pipelined(heads, prepare, finish, lookahead=1, errors=(PipelineError, OSError, KeyError, ValueError))
+    finally:
+        executor.shutdown(wait=True, cancel_futures=True)
+    for head, e in failures:
+        log.error("%s failed: %s: %s", head['name'], type(e).__name__, e)
+    if failures:
+        raise PipelineError(f"gripper IMU fusion failed for {len(failures)} videos")
+
+# %%
+if __name__ == "__main__":
+    try:
+        main(standalone_mode=False)
+    except (PipelineError, click.ClickException) as e:
+        get_logger(__name__).error("%s", e)
+        sys.exit(1)

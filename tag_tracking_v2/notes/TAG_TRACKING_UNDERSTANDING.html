@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tag Tracking Pipeline Guide</title>
+<style>
+:root{--bg:#fafaf8;--fg:#1d1d1b;--mut:#5f5f5a;--line:#dcdcd4;--card:#fff;--acc:#1f5fbf;--ok:#1b7a3d;--warn:#a15c00;--bad:#b3261e}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#161615;--fg:#ecece8;--mut:#a3a39b;--line:#34342f;--card:#1e1e1c;--acc:#7aa7f0;--ok:#5fcf86;--warn:#e8a64a;--bad:#f2837c}}
+:root[data-theme=dark]{--bg:#161615;--fg:#ecece8;--mut:#a3a39b;--line:#34342f;--card:#1e1e1c;--acc:#7aa7f0;--ok:#5fcf86;--warn:#e8a64a;--bad:#f2837c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:24px 16px 80px}
+h1{font-size:1.9rem;margin:.2em 0}h2{font-size:1.35rem;margin:2.2em 0 .5em;padding-top:.6em;border-top:1px solid var(--line)}
+h3{font-size:1.05rem;margin:1.4em 0 .3em}
+p,li{max-width:75ch}.mut{color:var(--mut)}
+code{font:.88em ui-monospace,Menlo,monospace;background:var(--card);border:1px solid var(--line);border-radius:4px;padding:0 .3em}
+pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px;overflow:auto;font:.85em/1.45 ui-monospace,Menlo,monospace}
+pre code{border:0;padding:0;background:none}
+.tw{overflow-x:auto;margin:.6em 0}
+table{border-collapse:collapse;width:100%;font-size:.92rem;background:var(--card)}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{font-weight:600;background:color-mix(in srgb,var(--line) 40%,var(--card))}
+nav{display:flex;flex-wrap:wrap;gap:6px 14px;margin:14px 0 6px;font-size:.9rem}
+nav a{color:var(--acc);text-decoration:none}nav a:hover{text-decoration:underline}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:.8em 0}
+.flow span{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:4px 9px;font-size:.85rem}
+.flow i{color:var(--mut);font-style:normal}
+.tag{display:inline-block;border-radius:10px;padding:0 8px;font-size:.78rem;border:1px solid currentColor}
+.ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:.8em 0}
+button{font:inherit;font-size:.85rem;background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:3px 10px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h1>Tag tracking pipeline guide</h1><button id="th" type="button">Theme</button></div>
+<p class="mut">How the pipeline works, what it needs, what the Odyssey delivery needs, and what was run on station1 / task01 (2026-11-21 to 2026-11-23). Sources: <code>README_tag_tracking.md</code>, the scripts, and the run itself. The command-by-command record is in <code>PIPELINE_RUN_LOG.md</code>.</p>
+<nav><a href="#what">1 What it does</a><a href="#inputs">2 Inputs</a><a href="#steps">3 Steps</a><a href="#sync">4 Sync</a><a href="#out">5 Outputs</a><a href="#checks">6 Checks</a><a href="#delivery">7 Delivery</a><a href="#run">8 This run</a><a href="#open">9 Open items</a></nav>
+
+<h2 id="what">1. What the pipeline does</h2>
+<p>UMI records a person using handheld grippers. The original gets gripper poses from wrist-camera SLAM. This fork uses <b>tag tracking</b> instead.</p>
+<ul>
+<li>A <b>head GoPro</b> watches an <b>ArUco cube</b> on each gripper (70 mm cube, four 60 mm tags).</li>
+<li><b>Environment tags</b> on the table and walls give the world frame (one is the origin). Two <b>dock tags</b> mark where grippers rest between episodes.</li>
+<li><b>Wrist GoPros</b> give the gripper video, an IMU, and a view of the environment tags.</li>
+<li><b>GTSAM</b> fuses head-tracked cube poses, the head IMU, and each wrist IMU plus wrist-seen tags into one pose per frame.</li>
+<li>A continuous take is cut into <b>episodes</b> between dock periods; docking is trimmed and wrist clocks are synchronized to the head from motion.</li>
+</ul>
+<div class="flow"><span>Original GoPro MP4s (head, left, right)</span><i>→</i><span>run_tag_tracking_pipeline.py</span><i>→</i><span>dataset_plan.pkl</span><i>→</i><span>MCAP per episode</span><i>→</i><span>Odyssey delivery (optional)</span></div>
+
+<h2 id="inputs">2. Inputs</h2>
+<pre><code>&lt;session&gt;/raw_videos/*.MP4                      head and wrist take videos
+&lt;session&gt;/raw_videos/gripper_calibration/*.MP4  one open/close clip per wrist camera
+&lt;session&gt;/raw_videos/head_mapping/*.MP4         head camera walk past all environment tags
+&lt;session&gt;/raw_videos/pairs.csv                  which videos were recorded together</code></pre>
+<p>The files must be original GoPro files: serial, timecode and GPMF IMU data live in the metadata.</p>
+<div class="tw"><table>
+<tr><th>Item</th><th>Why</th></tr>
+<tr><td>Config <code>example/tag_tracking/tag_tracking_station1.yaml</code></td><td>Camera roles by serial (head, right wrist = robot 0, left wrist = robot 1), dock tags, episode boundary rule, IMU settings, <code>setup_calibration</code></td></tr>
+<tr><td>Setup calibration <code>setup_station1/</code></td><td>Tag map, cube geometry, gripper TCP. Valid only while tags, cubes and camera mounts are unchanged</td></tr>
+<tr><td>Camera intrinsics and camera-IMU calibration</td><td>Per GoPro, in <code>example/tag_tracking/</code></td></tr>
+<tr><td>Docker <code>chicheng/openicc:latest</code></td><td>IMU extraction. amd64 only: on Apple silicon use Colima + Rosetta with <code>DOCKER_DEFAULT_PLATFORM=linux/amd64</code></td></tr>
+<tr><td>Python: gtsam 4.2, mcap 1.6, opencv-contrib 4.7, av, zarr, pyarrow</td><td>opencv-contrib 4.7.0.72 is the version with the aruco API this code uses</td></tr>
+</table></div>
+<p class="mut"><code>gripper_calibration/</code> is required by <code>--strict</code>. <code>head_mapping/</code> is only needed without a stored setup calibration. <code>mapping.mp4</code> is unused.</p>
+
+<h2 id="steps">3. Pipeline steps</h2>
+<p><code>run_tag_tracking_pipeline.py -c &lt;config&gt; -nr &lt;session&gt;</code>. Each step logs to <code>&lt;session&gt;/logs/</code>.</p>
+<div class="tw"><table>
+<tr><th>Step</th><th>Script</th><th>Output</th></tr>
+<tr><td>sort_videos</td><td><code>00_process_videos.py --strict</code></td><td><code>demos/*/raw_video.mp4</code></td></tr>
+<tr><td>imu</td><td><code>01_extract_gopro_imu.py</code> (Docker)</td><td><code>imu_data.json</code></td></tr>
+<tr><td>wrist_tags</td><td><code>04_detect_aruco.py --wrist_only</code></td><td>wrist <code>tag_detection.pkl</code></td></tr>
+<tr><td>gripper_range</td><td><code>05_run_calibrations.py --skip_slam_tag</code></td><td><code>gripper_range.json</code></td></tr>
+<tr><td>audio_sync</td><td><code>06a_estimate_audio_sync.py</code></td><td><code>audio_sync_offsets.json</code></td></tr>
+<tr><td>head_tags</td><td><code>00_detect_tag_corners.py</code></td><td>head <code>tag_corners.pkl</code></td></tr>
+<tr><td>segment_episodes</td><td><code>00b_segment_episodes.py</code></td><td><code>episodes.json</code></td></tr>
+<tr><td>use_setup</td><td><code>00c_use_setup.py</code></td><td><code>bodies.json</code>, <code>gripper_tcp.json</code></td></tr>
+<tr><td>track_bodies</td><td><code>03_track_bodies.py</code></td><td>head <code>tag_tracking.pkl</code></td></tr>
+<tr><td>fuse_head_imu</td><td><code>03b_fuse_head_imu.py</code></td><td>head pose refined</td></tr>
+<tr><td>trim_docking</td><td><code>03t_trim_docking.py</code></td><td>task start / end</td></tr>
+<tr><td>sync_wrists</td><td><code>03s_sync_wrists.py</code></td><td><code>wrist_sync.json</code></td></tr>
+<tr><td>fuse_grippers</td><td><code>03c_fuse_gripper_imu.py</code></td><td>final gripper poses</td></tr>
+<tr><td>render</td><td><code>04_render_tracking.py</code></td><td>review video (off with <code>-nr</code>)</td></tr>
+<tr><td>export_plan</td><td><code>06_export_dataset_plan.py</code></td><td><code>dataset_plan.pkl</code></td></tr>
+</table></div>
+<p><code>calibrate_bodies</code> and <code>gripper_tcp</code> run only without a <code>setup_calibration</code>. After the pipeline: <code>06_export_dataset_plan.py --keep_gaps</code>, then <code>07_export_mcap.py -j 4</code>. <code>process_station.py</code> wraps all of it per station, with optional <code>--upload</code> and <code>--cleanup</code> (deletes local videos and MCAP only after a size-verified S3 upload; use only on purpose).</p>
+
+<h2 id="sync">4. Time synchronization</h2>
+<ol>
+<li><b>Audio sync (06a)</b>: coarse head-to-wrist offset.</li>
+<li><b>Motion sync (03s)</b>: each wrist IMU is fitted to its cube's rotation as tracked by the head. Gives a per-episode correction, a drift line and an accuracy in <code>wrist_sync.json</code>.</li>
+<li>The wrist video is placed with that <code>imu_time_offset</code>.</li>
+<li><b>Check</b>: <code>check_frame_sync.py</code> compares each wrist camera's orientation from its own environment tags with the head cube orientation, with no IMU. One frame is 16.7 ms.</li>
+</ol>
+
+<h2 id="out">5. Output formats</h2>
+<p><b>MCAP</b> per episode (<code>robot0</code> right, <code>robot1</code> left; <code>camera0</code> robot0 wrist, <code>camera1</code> robot1 wrist, <code>camera2</code> head):</p>
+<div class="tw"><table>
+<tr><th>Topic</th><th>Content</th></tr>
+<tr><td><code>robot{i}/eef/state</code>, <code>eef/pose</code></td><td>TCP pose, world frame</td></tr>
+<tr><td><code>robot{i}/gripper/state</code></td><td>Gripper width (m)</td></tr>
+<tr><td><code>robot{i}/imu</code>, <code>/head/imu</code></td><td>Camera IMUs</td></tr>
+<tr><td><code>/cameras/camera{j}/video</code></td><td>H.265 from the GoPro files, not re-encoded</td></tr>
+<tr><td><code>/head/pose</code></td><td>Head camera pose in the world</td></tr>
+</table></div>
+<p class="mut">Each camera video starts at its own keyframe, so the three can start up to 1 s apart. With <code>--keep_gaps</code> the plan is not usable for the replay buffer. A task ends when the first gripper returns to the dock.</p>
+
+<h2 id="checks">6. Checks available</h2>
+<div class="tw"><table>
+<tr><th>Script</th><th>Tells you</th></tr>
+<tr><td><code>check_frame_sync.py</code></td><td>Wrist video sync error against the head, per episode</td></tr>
+<tr><td><code>check_frame_table.py</code></td><td>Table structure, gripper pose vs head cube, width range, coverage</td></tr>
+<tr><td><code>check_tcp_frame.py</code> (<code>--random N</code>, <code>-e list</code>)</td><td>Image per episode with the TCP drawn on head and wrist frames</td></tr>
+<tr><td><code>11_check_quality.py</code></td><td>Per-episode pass / warn / fail into <code>quality.json</code></td></tr>
+</table></div>
+
+<h2 id="delivery">7. What the Odyssey delivery needs</h2>
+<p>Spec v0.6, container <code>mcap</code>. <code>13_export_delivery.py -i &lt;session&gt; -c &lt;config&gt; -d &lt;delivery.yaml&gt; -o &lt;delivery_dir&gt; -j 16</code> (needs pyarrow).</p>
+<h3>Inputs</h3>
+<ol>
+<li>A processed session with <code>dataset_plan.pkl</code> (the <code>--keep_gaps</code> plan).</li>
+<li>The session's tag tracking config.</li>
+<li>A filled copy of <code>example/tag_tracking/delivery.yaml</code>. Anything left null is exported as null.</li>
+<li>Optionally annotations (<code>08_annotate_episodes.py</code>, <code>09_normalize_labels.py</code>). They call the Anthropic API and need the <code>anthropic</code> package and <code>ANTHROPIC_API_KEY</code>. Without them: no <code>annotations.json</code>, outcome <code>unknown</code>, success null.</li>
+</ol>
+<h3>What only the recording team can supply</h3>
+<div class="tw"><table>
+<tr><th>Level</th><th>Fields</th></tr>
+<tr><td><code>delivery:</code></td><td>vendor_name, dataset_name, delivery_id, robot_model, gripper_type, source_uri_prefix, license_reference, anonymization_state (<code>faces_blurred</code> | <code>not_required</code> | <code>pending</code> | <code>other</code>), consent_reference</td></tr>
+<tr><td>per session</td><td>task_text, task_family, object_tags, collection_mode (<code>scripted</code> | <code>freeform</code> | <code>adversarial</code> | <code>in_the_wild</code>), scene_tags, environment_id, operator_id, station_id, consent_reference</td></tr>
+</table></div>
+<h3>Output per episode</h3>
+<div class="tw"><table>
+<tr><th>File</th><th>Content</th></tr>
+<tr><td><code>episode.mcap</code></td><td>As above, message times in UTC</td></tr>
+<tr><td><code>episode.json</code></td><td>Ids, UTC start / end, frame rate, <code>clock_sync_accuracy_ns</code>, world frame, gripper range, task</td></tr>
+<tr><td><code>sensors.json</code></td><td>Per camera, IMU, TCP, gripper: topic, schema, units, clock offset, intrinsics, extrinsics</td></tr>
+<tr><td><code>frames.parquet</code></td><td>One row per head frame: UTC time, TCP poses, <code>pose_valid</code>, widths, head pose</td></tr>
+<tr><td><code>annotations.json</code></td><td>Event timeline, only where annotated</td></tr>
+<tr><td><code>manifest.parquet</code> (delivery root)</td><td>One row per episode with sizes and sha256, written last</td></tr>
+</table></div>
+<p class="mut"><code>episode_id</code> = head serial + UTC start of the head video + head frame of the episode start, stable across re-exports. Lost tracking stays as null pose with <code>pose_valid</code> false; nothing is filled in.</p>
+
+<h2 id="run">8. What was done on station1 / task01</h2>
+<p>Source: <code>s3://prod-mono-pipeline-v2-data/upload_ingestion/GoPro/UMI_Collection/station1/industrial_data/task01/raw_videos/</code>, read with the <code>prod</code> profile into the git-ignored <code>data/</code> folder. 7 takes × 3 cameras, 2 gripper calibration clips, 1 head mapping clip.</p>
+<div class="tw"><table>
+<tr><th>Stage</th><th>Status</th><th>Result</th></tr>
+<tr><td>Pipeline (153 min)</td><td><span class="tag ok">done</span></td><td>14 steps ok. 24 episodes in the first plan; <b>28 episodes</b> with <code>--keep_gaps</code> (1261 s of 1828 s used)</td></tr>
+<tr><td>MCAP export</td><td><span class="tag ok">done</span></td><td>28 files, 7.8 GB</td></tr>
+<tr><td>Frame sync check</td><td><span class="tag ok">pass</span></td><td>27 of 28 measured. Right wrist median +3.7 ms, left +3.4 ms, wrist to wrist 0.0 ms. Only episode 16 right wrist is over half a frame (+10.2 ms). Episode 20 unmeasured (no wrist environment-tag poses)</td></tr>
+<tr><td>Frame table check</td><td><span class="tag ok">pass</span></td><td>0 structure errors; position median ≤ 5.2 mm; rotation median ≤ 1.58°; 0 widths out of range</td></tr>
+<tr><td>TCP frame check</td><td><span class="tag ok">done</span></td><td>28 images; episodes 16, 20, 25 viewed. Odd heights explained (20 = docked pose, 25 = table contact)</td></tr>
+<tr><td>Quality report</td><td><span class="tag bad">crashed</span></td><td>See open items</td></tr>
+<tr><td>Annotations</td><td><span class="tag warn">dry run only</span></td><td>29 frame sheets and request texts, no API call</td></tr>
+<tr><td>Delivery package</td><td><span class="tag warn">not built</span></td><td>Needs filled <code>delivery.yaml</code>; validation only, so not requested</td></tr>
+</table></div>
+
+<h2 id="open">9. Open items and gotchas</h2>
+<div class="card"><b class="bad">Quality report crash.</b> <code>umi/tag_tracking/quality.py:266</code> compares against <code>accuracy_ms</code>, which is <code>null</code> in <code>wrist_sync.json</code> for 4 of 7 head videos. Needs a decision on what status unknown accuracy gets. Image statistics are cached. Warnings seen before the crash: all videos 59.94 Hz ("not an integer rate"); the right wrist of the 13.49.41 recording has 14 skipped frames.</div>
+<ul>
+<li><b>Sync:</b> episode 20 unmeasured; episode 16 right wrist +10.2 ms.</li>
+<li><b>29 vs 28 episodes:</b> annotation dry run covers 29 episodes with a task interval, the plan has 28. Not explained.</li>
+<li><b>Validation status:</b> <code>13_export_delivery.py</code> says <code>not_run</code>; <code>11_check_quality.py</code> says delivery takes it from <code>quality.json</code>. Not verified which holds.</li>
+<li><b>Annotations</b> need an API key and send frames to the Anthropic API. Review the dry-run frame sheets first.</li>
+<li><b>tool_handling</b> stopped at <code>imu</code>: its right-wrist calibration clip came from camera <code>C3501325427851</code>, which is in no config.</li>
+<li><b>Test bug:</b> <code>tests/test_setup_calibration.py</code> uses a missing <code>executor</code> fixture.</li>
+<li><b>macOS arm64:</b> <code>av==10</code> has no wheel (used 12.x); <code>numcodecs</code> pin fails to build; only <code>opencv-contrib-python==4.7.0.72</code> has the aruco API; AWS SSO tokens expire mid-download and <code>aws s3 sync</code> resumes.</li>
+</ul>
+<h3>Where things are</h3>
+<div class="tw"><table>
+<tr><td>Run record</td><td><code>PIPELINE_RUN_LOG.md</code>, <code>PROCESSING_LOG.md</code> (git-ignored)</td></tr>
+<tr><td>Processed data and logs</td><td><code>data/station1/industrial_data/task01/</code> and <code>.../logs/</code></td></tr>
+<tr><td>Check images</td><td><code>.../tag_tracking/tcp_check_ep*.png</code></td></tr>
+<tr><td>Dry-run annotation sheets</td><td><code>.../tag_tracking/annotations/</code></td></tr>
+</table></div>
+</div>
+<script>
+(function(){var b=document.getElementById('th'),r=document.documentElement;
+try{var s=localStorage.getItem('th');if(s)r.setAttribute('data-theme',s)}catch(e){}
+b.onclick=function(){var d=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+var n=d==='dark'?'light':'dark';r.setAttribute('data-theme',n);try{localStorage.setItem('th',n)}catch(e){}}})();
+</script>
+</body>
+</html>
