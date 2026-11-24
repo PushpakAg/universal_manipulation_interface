@@ -404,24 +404,96 @@ def collect(a, cfg, key, job_dir, client=None):
     job.update(state=state, n_ok=ok, cost_usd=round(cost, 4), finished=time.strftime("%Y-%m-%d %H:%M:%S"))
     (job_dir / "job.json").write_text(json.dumps(job, indent=1))
     print(f"  {job['batch_name']}: {ok}/{len(job['episodes'])} parsed, ${cost:.4f}")
-    if a.upload_s3 and client is not None:
-        upload_all(client, a, written)
+    # no upload here: results go to S3 only after consolidate_canonical() has given each task folder one canonical_task
     return bad
+
+
+def _norm(text):
+    return re.sub(r"[^a-z0-9]+", " ", str(text or "").lower()).strip()
+
+
+def consolidate_canonical(a, tasks):
+    """One canonical_task per task folder (station/[date/]taskNN): every episode proposes one (response.canonical_task);
+    the most frequent task_text (case and punctuation ignored; ties: higher summed confidence) wins, its fields are
+    taken from the most confident episode that proposed it, and it is written into response.canonical_task of every
+    parsed current-prompt result of the folder. The episode's own proposal stays in canonical_task_model, its
+    response.task (the episode's task, which may differ from the canonical one) is untouched. Re-running it is safe
+    (votes always use canonical_task_model). Returns the result files of these tasks."""
+    files_by_task = {}
+    for f in result_files(a):
+        t = result_task(a, f)
+        if t in tasks:
+            files_by_task.setdefault(t, []).append(f)
+    all_files = []
+    for task, files in sorted(files_by_task.items()):
+        all_files += files
+        rs, votes = {}, {}
+        for f in files:
+            r = json.loads(f.read_text())
+            resp = r.get("response")
+            if resp is None or r.get("prompt_versions") != R.prompt_versions(False):
+                continue
+            own = r.get("canonical_task_model") or resp.get("canonical_task")
+            if not own or not own.get("task_text"):
+                continue
+            rs[f] = (r, own)
+            v = votes.setdefault(_norm(own["task_text"]), {"n": 0, "conf": 0.0, "best": None})
+            c = float(own.get("confidence") or 0)
+            v["n"] += 1
+            v["conf"] += c
+            if v["best"] is None or c > float(v["best"].get("confidence") or 0):
+                v["best"] = own
+        if not votes:
+            continue
+        win_key, win = max(votes.items(), key=lambda kv: (kv[1]["n"], kv[1]["conf"]))
+        chosen = dict(win["best"], confidence=round(win["conf"] / win["n"], 3))
+        info = {"task": task, "method": "majority of episode proposals", "n_episodes": len(rs), "n_agree": win["n"],
+                "n_distinct_proposals": len(votes), "updated": time.strftime("%Y-%m-%d %H:%M:%S")}
+        for f, (r, own) in rs.items():
+            r["canonical_task_model"] = own
+            r["response"]["canonical_task"] = chosen
+            r["canonical_task_consolidation"] = info
+            f.write_text(json.dumps(r, indent=1, ensure_ascii=False))
+        print(f"  canonical {task}: {win['n']}/{len(rs)} episodes agree ({len(votes)} distinct): {chosen['task_text']}")
+    return all_files
+
+
+def finish_run(a, client, tasks):
+    """After all batches and retries: one canonical_task per task folder, then upload (unless --no-upload), summary."""
+    print(f"consolidating canonical_task for {len(tasks)} task folder(s)", flush=True)
+    files = consolidate_canonical(a, set(tasks))
+    if a.upload_s3 and client is not None and files:
+        upload_all(client, a, files)
+    summarize(a.results, a.s3_result_suffix)
 
 
 def submit_jobs(a, cfg, key, records, thinking_level, tag=""):
     """records: prepared episodes (task, episode, key, s3_uri, size, request, request_mb). Writes one JSONL per
-    group (split only above max_batch_mb), uploads it, submits a batch job. Returns the job folders.
-    thinking_level and max_output_tokens are set here, not in the cached request, so changing them needs no
-    re-sampling."""
-    groups, cur, cur_mb = [], [], 0.0
-    for r in records:
-        if cur and cur_mb + r["request_mb"] > a.max_batch_mb:
+    group, uploads it, submits a batch job. Returns the job folders.
+    Groups follow the task folders: a job holds the whole task folders of ONE station (one or several tasks, packed
+    up to max_batch_mb); stations never share a job, and a task is split over jobs only when it alone exceeds
+    max_batch_mb. thinking_level and max_output_tokens are set here, not in the cached request, so changing them
+    needs no re-sampling."""
+    by_task = {}
+    for r in sorted(records, key=lambda r: (r["task"], r["episode"])):
+        by_task.setdefault(r["task"], []).append(r)
+    groups, cur, cur_mb, cur_station = [], [], 0.0, None
+    for task, recs in by_task.items():
+        station, task_mb = task.split("/", 1)[0], sum(r["request_mb"] for r in recs)
+        if cur and (station != cur_station or cur_mb + task_mb > a.max_batch_mb):
             groups.append(cur)
             cur, cur_mb = [], 0.0
-        cur.append(r)
-        cur_mb += r["request_mb"]
+        cur_station = station
+        for r in recs:  # only a task larger than max_batch_mb on its own is split here
+            if cur and cur_mb + r["request_mb"] > a.max_batch_mb:
+                groups.append(cur)
+                cur, cur_mb = [], 0.0
+            cur.append(r)
+            cur_mb += r["request_mb"]
     groups.append(cur)
+    for gi, g in enumerate(groups, 1):
+        tasks = sorted({r["task"] for r in g})
+        print(f"[job {gi}/{len(groups)}{tag}] {len(g)} episodes, {sum(r['request_mb'] for r in g):.0f} MB: {', '.join(tasks)}")
     job_dirs = []
     stamp = time.strftime("%Y%m%d-%H%M%S") + tag
     for gi, g in enumerate(groups, 1):
@@ -498,6 +570,8 @@ def main():
     ap.add_argument("--upload-only", action="store_true",
                     help="only copy the existing parsed local results next to their MP4s in S3")
     ap.add_argument("--no-upload", action="store_true", help="keep results local (no S3 write)")
+    ap.add_argument("--consolidate-only", action="store_true",
+                    help="only give each task folder one canonical_task from its local results (then upload unless --no-upload)")
     a = ap.parse_args()
 
     cfg_run = json.loads(a.config.read_text())
@@ -541,6 +615,12 @@ def main():
             files = [f for f in files if f.parts[-2] in a.episode]
         upload_all(s3_client(cfg_run.get("region")), a, files)
         return
+    if a.consolidate_only:
+        tasks = {result_task(a, f) for f in result_files(a)}
+        if a.task:
+            tasks = {t for t in tasks if task_matches(t, a.task)}
+        finish_run(a, s3_client(cfg_run.get("region")) if a.upload_s3 else None, tasks)
+        return
     key = R.load_env_key(cfg["api_key_env"])
     if not key and not (a.list or a.dry_run):
         sys.exit(f"{cfg['api_key_env']} not set (.env here, the shell, or vlm_run/.env)")
@@ -553,7 +633,7 @@ def main():
         bad = [e for d in open_jobs for e in collect(a, cfg, key, d, client)]
         if not any(d.name.endswith("_retry_01") or "_retry_" in d.name for d in open_jobs):
             bad = retry_failed(a, cfg, key, client, bad)
-        summarize(a.results, a.s3_result_suffix)
+        finish_run(a, client, {e["task"] for d in open_jobs for e in json.loads((d / "job.json").read_text())["episodes"]})
         sys.exit(f"{len(bad)} episode(s) without a parsed result" if bad else 0)
 
     bucket, prefix = split_s3(a.source or cfg_run["source"])
@@ -581,7 +661,7 @@ def main():
     todo = [e for e in eps if a.force or not is_done(a, e)]
     print(f"{len(eps) - len(todo)} already done, {len(todo)} to run")
     if not todo:
-        summarize(a.results, a.s3_result_suffix)
+        finish_run(a, client, tasks)
         return
 
     # prepare in parallel processes (decode is CPU bound)
@@ -616,7 +696,7 @@ def main():
     bad = [e for jd in job_dirs for e in collect(a, cfg, key, jd, client)]
     bad = retry_failed(a, cfg, key, client, bad)
     bad = len(bad) + failed
-    summarize(a.results, a.s3_result_suffix)
+    finish_run(a, client, tasks)
     if bad:
         sys.exit(f"{bad} episode(s) without a parsed result")
 
