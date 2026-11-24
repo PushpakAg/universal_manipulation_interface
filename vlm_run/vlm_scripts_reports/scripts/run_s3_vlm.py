@@ -204,6 +204,164 @@ def prepare(e, a_dict, bucket, region):
             "video_fps": meta.get("video_fps"), "cached": False}
 
 
+# ---------------------------------------------------------------- video input (MP4 via the Gemini Files API)
+def video_duration(path):
+    """Seconds, from the container (no decoding)."""
+    import av
+    with av.open(str(path)) as c:
+        s = c.streams.video[0]
+        if s.duration and s.time_base:
+            return float(s.duration * s.time_base)
+        return float(c.duration / 1e6)
+
+
+def build_video_request(a, e, duration, file_uri):
+    """Same prompt structure as the frame requests (system turn, episode prompt with output contract), but the head MP4
+    is referenced as one fileData part sampled by Gemini at a.fps (videoMetadata.fps). Steps are the fixed grid
+    t = (n - 1) / fps, so every answer step maps to a time exactly as with frames."""
+    system_p = json.loads((R.PROMPTS / R.PROMPT_FILES["system_prompt"]).read_text())
+    tmpl = json.loads((R.PROMPTS / R.PROMPT_FILES["episode_template"]).read_text())
+    contract = json.loads((R.PROMPTS / R.PROMPT_FILES["output_contract"]).read_text())
+    n = max(1, int(duration * a.fps + 1e-6))
+    steps = [{"step": i + 1, "t_s": round(i / a.fps, 3)} for i in range(n)]
+    prompt = {"version": tmpl["version"], "episode_id": e["episode"],
+              "context": {"rig": "UMI handheld rig", "duration_s": round(duration, 2), "step_interval_s": round(1 / a.fps, 3),
+                          "n_steps": n, "given_task": a.given_task},
+              "steps": steps, "video_order": ["head (camera2)"], "output_contract": contract}
+    if "task_folder" in tmpl["fields"]["context"]:
+        prompt["context"]["task_folder"] = e.get("task_folder") or e["task"].rsplit("/", 1)[-1]
+    req = {"systemInstruction": {"parts": [{"text": json.dumps(system_p, ensure_ascii=False)}]},
+           "contents": [{"role": "user", "parts": [
+               {"text": json.dumps(prompt, ensure_ascii=False)},
+               {"fileData": {"fileUri": file_uri, "mimeType": "video/mp4"}, "videoMetadata": {"fps": a.fps}}]}],
+           "generationConfig": {"temperature": 0.0, "responseMimeType": "application/json",
+                                "mediaResolution": f"MEDIA_RESOLUTION_{a.media_resolution.upper()}",
+                                "maxOutputTokens": a.max_output_tokens}}
+    return req, steps
+
+
+def upload_video(key, path, display_name):
+    """Upload one MP4 to the Files API and wait until it is ACTIVE (processed). Returns the file resource."""
+    n = path.stat().st_size
+    _, hdr = http("POST", f"{GEMINI_ROOT}/upload/v1beta/files", key, body={"file": {"display_name": display_name}},
+                  headers={"X-Goog-Upload-Protocol": "resumable", "X-Goog-Upload-Command": "start",
+                           "X-Goog-Upload-Header-Content-Length": str(n),
+                           "X-Goog-Upload-Header-Content-Type": "video/mp4"}, raw=True)
+    url = {k.lower(): v for k, v in hdr.items()}["x-goog-upload-url"]
+    with open(path, "rb") as fh:
+        f = http("POST", url, key, data=fh, timeout=3600,
+                 headers={"Content-Length": str(n), "X-Goog-Upload-Offset": "0",
+                          "X-Goog-Upload-Command": "upload, finalize"})["file"]
+    t0 = time.time()
+    while f.get("state") == "PROCESSING" and time.time() - t0 < 1800:
+        time.sleep(5)
+        f = http("GET", f"{GEMINI}/{f['name']}", key)
+    if f.get("state") != "ACTIVE":
+        raise RuntimeError(f"{display_name}: file state {f.get('state')}")
+    return f
+
+
+def delete_files(key, names):
+    n = 0
+    for name in names:
+        try:
+            http("DELETE", f"{GEMINI}/{name}", key)
+            n += 1
+        except Exception as ex:
+            print(f"  could not delete {name}: {ex}")
+    print(f"  deleted {n}/{len(names)} uploaded video(s) from the Files API", flush=True)
+
+
+def prepare_video(e, a, bucket, region, key):
+    """Download the head MP4, read its duration, upload it to the Files API, delete the local copy, write the request
+    (with the file's URI) and the step table to work_dir. Runs in a thread (I/O bound, no decoding)."""
+    work = Path(a.work) / e["task"] / e["episode"]
+    work.mkdir(parents=True, exist_ok=True)
+    head = work / f"{e['episode']}_head.mp4"
+    if not (head.exists() and head.stat().st_size == e["size"]):
+        tmp = head.with_name(head.name + ".part")
+        s3_client(region).download_file(bucket, e["key"], str(tmp))
+        tmp.replace(head)
+    duration = video_duration(head)
+    f = upload_video(key, head, f"{e['task']}/{e['episode']}".replace("/", "_"))
+    if not a.keep_videos:
+        head.unlink(missing_ok=True)
+    req, steps = build_video_request(a, e, duration, f["uri"])
+    req_f = work / "request.json"
+    req_f.write_text(json.dumps(req))
+    (work / "step_table.json").write_text(json.dumps(steps, indent=1))
+    return {**e, "request": str(req_f), "request_mb": req_f.stat().st_size / 1e6, "n_steps": len(steps),
+            "duration_s": round(duration, 2), "file_name": f["name"], "cached": False}
+
+
+def video_groups(a, eps):
+    """Job groups for video input: whole task folders of one station, packed up to video_job_gb of MP4 (a task is
+    split only when it alone is larger)."""
+    by_task = {}
+    for e in sorted(eps, key=lambda e: (e["task"], e["episode"])):
+        by_task.setdefault(e["task"], []).append(e)
+    cap = a.video_job_gb * 1e9
+    groups, cur, cur_b, cur_station = [], [], 0, None
+    for task, es in by_task.items():
+        station, task_b = task.split("/", 1)[0], sum(e["size"] for e in es)
+        if cur and (station != cur_station or cur_b + task_b > cap):
+            groups.append(cur)
+            cur, cur_b = [], 0
+        cur_station = station
+        for e in es:
+            if cur and cur_b + e["size"] > cap:
+                groups.append(cur)
+                cur, cur_b = [], 0
+            cur.append(e)
+            cur_b += e["size"]
+    if cur:
+        groups.append(cur)
+    return groups
+
+
+def finish_video_job(a, cfg, key, client, jd):
+    """Collect one video job, retry its unparsed episodes (same uploaded files), then delete its files."""
+    bad = collect(a, cfg, key, jd, client)
+    bad = retry_failed(a, cfg, key, client, bad)
+    job = json.loads((jd / "job.json").read_text())
+    delete_files(key, [e["file_name"] for e in job["episodes"] if e.get("file_name")])
+    return bad
+
+
+def run_video(a, cfg, key, client, bucket, todo):
+    """Rolling per-group pipeline: upload a group's MP4s, submit its batch; at most video_jobs_in_flight jobs (and
+    their uploaded files) exist at once, so the Files API storage stays bounded and the local disk holds only the
+    MP4s being uploaded. Returns the number of episodes without a parsed result."""
+    groups = video_groups(a, todo)
+    for gi, g in enumerate(groups, 1):
+        print(f"[group {gi}/{len(groups)}] {len(g)} episodes, {sum(e['size'] for e in g) / 1e9:.1f} GB: "
+              f"{', '.join(sorted({e['task'] for e in g}))}", flush=True)
+    a_ns = argparse.Namespace(**{k: (str(v) if isinstance(v, Path) else v) for k, v in vars(a).items()})
+    inflight, bad = [], 0
+    for gi, g in enumerate(groups, 1):
+        while len(inflight) >= a.video_jobs_in_flight:
+            bad += len(finish_video_job(a, cfg, key, client, inflight.pop(0)))
+        ready, failed = [], 0
+        with cf.ThreadPoolExecutor(max_workers=a.upload_workers) as ex:
+            futs = {ex.submit(prepare_video, e, a_ns, bucket, a.region, key): e for e in g}
+            for i, f in enumerate(cf.as_completed(futs), 1):
+                e = futs[f]
+                try:
+                    r = f.result()
+                    ready.append(r)
+                    print(f"  [group {gi}: {i}/{len(g)}] {e['task']}/{e['episode']}: {r['duration_s']:.1f} s, "
+                          f"{r['n_steps']} steps -> {r['file_name']}", flush=True)
+                except Exception as err:
+                    failed += 1
+                    print(f"  [group {gi}: {i}/{len(g)}] {e['task']}/{e['episode']}: upload FAILED: {err!r}", flush=True)
+        bad += failed
+        if ready:
+            inflight += submit_jobs(a, cfg, key, ready, a.thinking_level, tag=f"_g{gi:02d}")
+    while inflight:
+        bad += len(finish_video_job(a, cfg, key, client, inflight.pop(0)))
+    return bad
+
+
 # ---------------------------------------------------------------- Gemini Files API + file batch
 def http(method, url, key, body=None, headers=None, data=None, timeout=600, raw=False):
     h = {"x-goog-api-key": key, **(headers or {})}
@@ -305,6 +463,7 @@ def write_result(a, cfg, e, line, batch_name):
         resp, flags = None, [f"unparseable response: {ex!r}"]
     result = {"episode_id": e["episode"], "task": e["task"], "video": e["s3_uri"], "views": ["head"],
               "model": cfg["model"], "fps": a.fps, "n_steps": len(table), "mode": "gemini batch (file)",
+              "input": getattr(a, "input", "frames"),
               "batch_name": batch_name, "media_resolution": a.media_resolution,
               "thinking_level": getattr(a, "job_thinking_level", None) or "model default",
               "max_output_tokens": getattr(a, "job_max_output_tokens", None) or a.max_output_tokens, "max_side": a.max_side,
@@ -519,7 +678,9 @@ def submit_jobs(a, cfg, key, records, thinking_level, tag=""):
             "batch_name": batch_name, "input_file": file_name, "submitted": stamp, "model": cfg["model"],
             "fps": a.fps, "media_resolution": a.media_resolution, "thinking_level": thinking_level,
             "max_output_tokens": a.max_output_tokens,
-            "episodes": [{k: r[k] for k in ("task", "episode", "key", "s3_uri", "size")} for r in g]}, indent=1))
+            "input": getattr(a, "input", "frames"),
+            "episodes": [{k: r[k] for k in ("task", "episode", "key", "s3_uri", "size", "file_name") if k in r} for r in g]},
+            indent=1))
         src.unlink()  # the uploaded copy is what counts; requests stay cached in work_dir
         job_dirs.append(jd)
     return job_dirs
@@ -554,6 +715,10 @@ def main():
     ap.add_argument("--episode", action="append", help="only these episode ids (repeatable)")
     ap.add_argument("--limit", type=int, help="at most N episodes per task")
     ap.add_argument("--fps", type=float)
+    ap.add_argument("--input", choices=["video", "frames"],
+                    help="video: the head MP4 itself via the Files API (default, config 'input'); frames: sampled JPEGs")
+    ap.add_argument("--video-job-gb", type=float, help="video input: MP4 GB per batch job (config video_job_gb)")
+    ap.add_argument("--upload-workers", type=int, help="video input: MP4s downloaded and uploaded in parallel")
     ap.add_argument("--prompts", choices=sorted(k for k in R.PROMPT_SETS if k.startswith("final")),
                     help="prompt set from configs/config.json (default: s3_run.json prompt_set, else the config set)")
     ap.add_argument("--media-resolution", choices=["low", "medium", "high"])
@@ -590,7 +755,15 @@ def main():
     a.retry = cfg_run.get("retry_failed", True)
     a.retry_thinking_level = cfg_run.get("retry_thinking_level", "low")
     a.given_task = cfg_run.get("given_task")
-    a.prompts = a.prompts or cfg_run.get("prompt_set") or R.CFG["prompt"]["set"]
+    a.input = a.input or cfg_run.get("input", "frames")
+    a.prompts = a.prompts or (cfg_run.get("prompt_set") if a.input == "video" else cfg_run.get("frames_prompt_set")) \
+        or R.CFG["prompt"]["set"]
+    if (a.input == "video") != ("video" in a.prompts):
+        sys.exit(f"--input {a.input} needs a {'video' if a.input == 'video' else 'frame'} prompt set, not {a.prompts}")
+    a.video_job_gb = a.video_job_gb or cfg_run.get("video_job_gb", 8)
+    a.video_jobs_in_flight = cfg_run.get("video_jobs_in_flight", 2)
+    a.upload_workers = a.upload_workers or cfg_run.get("upload_workers", 8)
+    a.region = cfg_run.get("region")
     R.PROMPTS = R.PROMPT_SETS[a.prompts]
     a.workers = a.workers or cfg_run.get("workers", 4)
     a.debug = a.debug or cfg_run.get("debug", False)
@@ -633,6 +806,10 @@ def main():
         bad = [e for d in open_jobs for e in collect(a, cfg, key, d, client)]
         if not any(d.name.endswith("_retry_01") or "_retry_" in d.name for d in open_jobs):
             bad = retry_failed(a, cfg, key, client, bad)
+        names = [e["file_name"] for d in open_jobs for e in json.loads((d / "job.json").read_text())["episodes"]
+                 if e.get("file_name")]
+        if names:
+            delete_files(key, names)
         finish_run(a, client, {e["task"] for d in open_jobs for e in json.loads((d / "job.json").read_text())["episodes"]})
         sys.exit(f"{len(bad)} episode(s) without a parsed result" if bad else 0)
 
@@ -653,7 +830,8 @@ def main():
     tasks = sorted({e["task"] for e in eps})
     print(f"s3://{bucket}/{prefix}: {len(tasks)} task(s), {len(eps)} episode(s), {sum(e['size'] for e in eps) / 1e9:.1f} GB; "
           f"{cfg['model']} batch, {a.fps:g} fps, media resolution {a.media_resolution}, "
-          f"thinking {a.thinking_level or 'model default'}, long side {a.max_side} px")
+          f"thinking {a.thinking_level or 'model default'}, input {a.input}, prompts {a.prompts}"
+          + ("" if a.input == "video" else f", long side {a.max_side} px"))
     if a.list:
         for e in eps:
             print(f"  {e['task']}/{e['episode']}  {e['size'] / 1e6:.1f} MB  {e['key']}")
@@ -662,6 +840,27 @@ def main():
     print(f"{len(eps) - len(todo)} already done, {len(todo)} to run")
     if not todo:
         finish_run(a, client, tasks)
+        return
+
+    if a.input == "video":
+        if a.dry_run:
+            dur = {}
+            inv = HERE / "reports" / "s3_head_video_by_episode.csv"
+            if inv.exists():
+                dur = {r["s3_uri"]: float(r["duration_s"] or 0) for r in csv.DictReader(open(inv))}
+            secs = sum(dur.get(e["s3_uri"], 60.0) for e in todo)
+            per_frame = {"low": 68, "medium": 68, "high": 258}[a.media_resolution]  # measured, video_token_counts.csv
+            est_in = int(secs * a.fps * (per_frame + 15) + 4500 * len(todo))
+            for gi, g in enumerate(video_groups(a, todo), 1):
+                print(f"[group {gi}] {len(g)} episodes, {sum(e['size'] for e in g) / 1e9:.1f} GB: "
+                      f"{', '.join(sorted({e['task'] for e in g}))}")
+            print(f"{len(todo)} episode(s), {secs / 3600:.1f} h of video; estimated input {est_in:,} tokens = "
+                  f"${R.cost_usd(cfg, est_in, 0, True):.2f} batch input (+ output, typically a few k tokens per episode)")
+            return
+        bad = run_video(a, cfg, key, client, bucket, todo)
+        finish_run(a, client, tasks)
+        if bad:
+            sys.exit(f"{bad} episode(s) without a parsed result")
         return
 
     # prepare in parallel processes (decode is CPU bound)

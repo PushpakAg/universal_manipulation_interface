@@ -1,0 +1,14 @@
+{
+  "id": "v2",
+  "label": "v2 deep check",
+  "date": "2026-11-24",
+  "command": "scripts/check_delivery.py --deep",
+  "notes": [
+    "Adds D6 (duplicate recording, hard) and W7-W11 (calibration vs station, sync method, gripper jumps, gripper frozen, low bitrate).",
+    "D6: the 15 recordings at the bucket root are copies of station2/2026-11-22/task01 and now FAIL; 1,171 unique recordings remain.",
+    "W7: station1/task03-05 (145 recordings) have left and right calibrations exchanged vs the rest of station1.",
+    "Cycle counts unchanged from v1 (VLM results for station2 only, no hand counts yet)."
+  ],
+  "source": "s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/",
+  "runtime": "about 20 min on 4 vCPUs"
+}

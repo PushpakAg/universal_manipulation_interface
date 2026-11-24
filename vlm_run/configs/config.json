@@ -35,6 +35,9 @@
       "final": "vlm_run/prompts/final_prompts",
       "final_v1.1": "vlm_run/prompts/final_prompts_v1.1",
       "final_v1.2": "vlm_run/prompts/final_prompts_v1.2",
+   "final_video": "vlm_run/prompts/final_video_prompts",
+   "final_video_v1.1": "vlm_run/prompts/final_video_prompts_v1.1",
+   "final_video_v1.2": "vlm_run/prompts/final_video_prompts_v1.2",
       "mcap": "vlm_run/prompts/mcap_prompts",
       "chatgpt": "vlm_run/prompts/chatgpt_prompts"
     },

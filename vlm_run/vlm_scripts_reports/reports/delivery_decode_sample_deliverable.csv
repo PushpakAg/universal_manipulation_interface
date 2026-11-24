@@ -1,0 +1,10 @@
+task,episode,duration_s,n_cycles,count_source,folder
+station2/2026-11-22/task01,episode_000000,32.52,5,vlm,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-22/task01/episode_000000
+station2/2026-11-22/task01,episode_000002,26.31,3,vlm,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-22/task01/episode_000002
+station2/2026-11-22/task02,episode_000000,23.06,3,vlm,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-22/task02/episode_000000
+station2/2026-11-22/task02,episode_000001,24.97,3,vlm,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-22/task02/episode_000001
+station2/2026-11-22/task02,episode_000002,20.74,3,vlm,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-22/task02/episode_000002
+station2/2026-11-22/task03,episode_000000,25.58,3,vlm,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-22/task03/episode_000000
+station2/2026-11-22/task03,episode_000001,27.11,3,vlm,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-22/task03/episode_000001
+station2/2026-11-22/task03,episode_000002,20.47,3,vlm,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-22/task03/episode_000002
+station2/2026-11-22/task04,episode_000000,153.05,18,vlm,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-22/task04/episode_000000

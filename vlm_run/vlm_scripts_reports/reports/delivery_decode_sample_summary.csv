@@ -1,0 +1,8 @@
+level,name,recordings,hours,deliverable,deliverable_hours,review,review_hours,fail,fail_hours,deliverable_pct,fail_checks
+task,station2/2026-11-22/task01,3,0.025,2,0.016,1,0.009,0,0.0,66.7,
+task,station2/2026-11-22/task02,3,0.019,3,0.019,0,0.0,0,0.0,100.0,
+task,station2/2026-11-22/task03,3,0.02,3,0.02,0,0.0,0,0.0,100.0,
+task,station2/2026-11-22/task04,3,0.07,1,0.043,2,0.028,0,0.0,33.3,
+task,station2/2026-11-22/task06,3,0.024,0,0.0,3,0.024,0,0.0,0.0,
+station,station2,15,0.159,9,0.098,6,0.061,0,0.0,60.0,
+all,ALL,15,0.159,9,0.098,6,0.061,0,0.0,60.0,

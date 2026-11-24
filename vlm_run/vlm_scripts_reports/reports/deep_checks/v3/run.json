@@ -1,0 +1,9 @@
+{
+  "id": "v3",
+  "label": "v3 deep check",
+  "date": "2026-11-24",
+  "command": "scripts/check_delivery.py --deep",
+  "notes": [
+    "Deep check run in tmux session deepcheck, 2026-11-24 08:20; VLM run in progress (~110/1170 at start)."
+  ]
+}

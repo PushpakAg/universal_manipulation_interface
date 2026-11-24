@@ -10,12 +10,14 @@ configs/delivery_check.json. One recording = one episode folder of the delivery 
 HARD checks (any FAIL fails the recording):
   D1 three views present          D2 camera metadata complete     D3 sync method + frame index per file
   D4 gripper width per frame      V1 same frame rate              V2 same span (frame count, duration)
-  V3 codec + resolution as meta   V4 synchronized (same sync index)  D5 files: none empty, names match meta
+  V3 codec + resolution as meta   V4 synchronized (same sync index)  D5 files: none empty, names match meta  D6 not a duplicate of another recording (same gripper data)
   V5 same start time              V6 constant frame rate             V7 every frame's timestamp (--deep)
   V8 every frame decodes (--decode)
   C1 >= 3 cycles (manual count, else VLM count)                   C2 cycles >= 3 s   C3 duration >= 9 s
 WARN / INFO: W1 both grippers move (U5, passive allowed), W2 task is not a setup activity, W3 target 5 cycles,
-  W4 duration / count > 30 s, W5 mosaic frame count = head, W6 file naming <date>_<taskNN>_<episode>.
+  W4 duration / count > 30 s, W5 mosaic frame count = head, W6 file naming <date>_<taskNN>_<episode>,
+  W7 calibrations match the rest of the station (left / right swapped?), W8 sync refined by wrist motion,
+  W9 gripper width without frame-to-frame jumps, W10 gripper width not frozen for long, W11 video bitrate not low.
 Videos are probed with ffprobe from the mp4 header only (S3: a presigned URL, no download of the video).
 
     python scripts/check_delivery.py                                  # config source: every station / date / task
@@ -37,8 +39,10 @@ import argparse
 import collections
 import concurrent.futures as cf
 import csv
+import hashlib
 import json
 import math
+import os
 import re
 import shutil
 import subprocess
@@ -51,19 +55,20 @@ STATION = re.compile(r"^station\d+$", re.I)
 TASK_DIR = re.compile(r"^task\d+$", re.I)
 VIDEO_ROLES = ("head", "left", "right")
 GRIPPERS = ("right", "left")
-CHECK_IDS = ("D1", "D2", "D3", "D4", "D5", "V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "C1", "C2", "C3",
-             "W1", "W2", "W3", "W4", "W5", "W6")
-HARD = {"D1", "D2", "D3", "D4", "D5", "V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "C1", "C2", "C3"}
+CHECK_IDS = ("D1", "D2", "D3", "D4", "D5", "D6", "V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "C1", "C2", "C3",
+             "W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8", "W9", "W10", "W11")
+HARD = {"D1", "D2", "D3", "D4", "D5", "D6", "V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "C1", "C2", "C3"}
 CHECK_NAMES = {
     "D1": "three views present", "D2": "camera metadata", "D3": "sync method and frame index", "D4": "gripper width per frame",
-    "D5": "files and names", "V1": "same frame rate", "V2": "same frame count and duration", "V3": "codec and resolution",
+    "D5": "files and names", "D6": "not a duplicate", "V1": "same frame rate", "V2": "same frame count and duration", "V3": "codec and resolution",
     "V4": "synchronized start index", "V5": "same start time", "V6": "constant frame rate", "V7": "frame timeline (--deep)",
     "V8": "frames decode (--decode)", "C1": "at least 3 cycles", "C2": "cycles at least 3 s", "C3": "at least 9 s long",
     "W1": "both grippers move", "W2": "task is not setup", "W3": "target 5 cycles", "W4": "cycles up to 30 s",
-    "W5": "mosaic", "W6": "file naming"}
+    "W5": "mosaic", "W6": "file naming", "W7": "calibration matches station", "W8": "sync refined by wrist motion",
+    "W9": "gripper width without jumps", "W10": "gripper width not frozen", "W11": "video bitrate"}
 CHECK_FILES = {"D1": "video", "V1": "video", "V2": "video", "V3": "video", "V5": "video", "V6": "video", "V7": "video",
                "V8": "video", "D2": "meta", "D3": "meta", "D5": "meta", "V4": "meta", "D4": "gripper", "C1": "recording",
-               "C2": "recording", "C3": "head", "W2": "vlm"}
+               "C2": "recording", "C3": "head", "W2": "vlm", "D6": "recording"}
 REC_NAME = re.compile(r"^(\d{4}-\d{2}-\d{2}_)?task\d+_episode_\d{6}$", re.I)
 
 
@@ -154,7 +159,7 @@ def task_matches(task, wanted):
 # ---------------------------------------------------------------- probes
 def ffprobe(url):
     out = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries",
-                          "stream=codec_name,width,height,pix_fmt,r_frame_rate,avg_frame_rate,nb_frames,duration,"
+                          "stream=codec_name,width,height,pix_fmt,r_frame_rate,avg_frame_rate,nb_frames,duration,bit_rate,"
                           "start_time:format=duration",
                           "-of", "json", url], capture_output=True, text=True, timeout=120)
     if out.returncode != 0:
@@ -172,7 +177,8 @@ def ffprobe(url):
     st = s.get("start_time")
     return {"codec": s.get("codec_name"), "width": s.get("width"), "height": s.get("height"), "pix_fmt": s.get("pix_fmt"),
             "fps": fps, "avg_fps": avg, "start": float(st) if st not in (None, "N/A") else None,
-            "duration": dur, "frames": frames, "frames_from_header": nb not in (None, "N/A")}
+            "duration": dur, "frames": frames, "frames_from_header": nb not in (None, "N/A"),
+            "kbps": int(s["bit_rate"]) // 1000 if str(s.get("bit_rate", "")).isdigit() else None}
 
 
 def packet_times(url):
@@ -304,14 +310,15 @@ def check(store, rec, cfg, manual):
     # D4 gripper widths (+ W1 both grippers in use)
     lo, hi = cfg["gripper_width_m"]
     n_ref = (probes.get("head") or {}).get("frames")
-    gaps, ranges = [], {}
+    gaps, ranges, widths, texts = [], {}, {}, {}
     for g in GRIPPERS:
         key = files.get(f"{g}_gripper")
         if not key:
             gaps.append(f"{g}: csv missing")
             continue
         try:
-            fr, w = read_widths(store.read_text(key))
+            texts[g] = store.read_text(key)
+            fr, w = read_widths(texts[g])
         except Exception as ex:
             gaps.append(f"{g}: unreadable ({ex})"[:80])
             continue
@@ -330,6 +337,7 @@ def check(store, rec, cfg, manual):
             gaps.append(f"{g}: width {min(fin):.3f}..{max(fin):.3f} m outside {lo}..{hi}")
         if fin:
             ranges[g] = (min(fin), max(fin))
+            widths[g] = fin
     put("D4", "FAIL" if gaps else "PASS", "; ".join(gaps) or
         "; ".join(f"{g} {a:.3f}-{b:.3f} m" for g, (a, b) in ranges.items()))
     if len(ranges) == 2:
@@ -338,6 +346,38 @@ def check(store, rec, cfg, manual):
             (f"{', '.join(idle)} gripper barely moves (passive role allowed)" if idle else "both grippers open and close"))
     else:
         put("W1", "INFO", "gripper widths missing")
+
+    # W9 jumps / W10 frozen stretches in the gripper widths (marker-tracking glitches or held values)
+    jump_m, jump_n, flat_s = cfg["gripper_jump_m"], cfg["gripper_jump_count"], cfg["gripper_flat_s"]
+    jmsg, fmsg, jbad, fbad = [], [], [], []
+    for g, w in widths.items():
+        steps = [abs(b - a) for a, b in zip(w, w[1:])]
+        nj = sum(x > jump_m for x in steps)
+        jmsg.append(f"{g} {nj} jumps > {jump_m * 1000:.0f} mm (max {max(steps, default=0) * 1000:.1f} mm)")
+        if nj >= jump_n:
+            jbad.append(g)
+        run = best = 1
+        for a, b in zip(w, w[1:]):
+            run = run + 1 if a == b else 1
+            best = max(best, run)
+        fps_g = (probes.get(g) or {}).get("fps") or cfg["expected_fps"]
+        fmsg.append(f"{g} longest unchanged {best / fps_g:.1f} s")
+        if best / fps_g > flat_s:
+            fbad.append(g)
+    if widths:
+        put("W9", "WARN" if jbad else "PASS", "; ".join(jmsg))
+        put("W10", "WARN" if fbad else "PASS", "; ".join(fmsg) + (
+            f" (over {flat_s} s: tracking lost and value held, or a passive gripper)" if fbad else ""))
+        culprits["W9"], culprits["W10"] = [f"{g}_gripper" for g in jbad], [f"{g}_gripper" for g in fbad]
+    else:
+        put("W9", "INFO", "gripper widths missing")
+        put("W10", "INFO", "gripper widths missing")
+
+    # W8 sync method: the export's full sync (audio + wrist motion refinement), not audio alone
+    want = cfg["sync_method_expected"]
+    if meta is not None and isinstance(sync.get("method"), str):
+        put("W8", "PASS" if want.lower() in sync["method"].lower() else "WARN", sync["method"]
+            + ("" if want.lower() in sync["method"].lower() else f" (no {want}: sync less certain)"))
 
     # V1 frame rate, V2 span, V3 codec / resolution, V4 sync index
     got = {r: p for r, p in probes.items()}
@@ -398,6 +438,11 @@ def check(store, rec, cfg, manual):
                 msgs.append(f"{r}: {p['width']}x{p['height']} vs meta {want[0]}x{want[1]}")
         put("V3", "FAIL" if msgs else "PASS", "; ".join(msgs) or
             f"{got['head']['codec']} {got['head']['width']}x{got['head']['height']}")
+        kb = {r: p.get("kbps") for r, p in got.items()}
+        low = [r for r, v in kb.items() if v is not None and v < cfg["min_video_kbps"]]
+        culprits["W11"] = low
+        put("W11", "WARN" if low else "PASS", ", ".join(f"{r} {v / 1000:.1f}" if v else f"{r} ?" for r, v in kb.items())
+            + " Mbit/s" + (f" ({', '.join(low)} below {cfg['min_video_kbps'] / 1000:.0f}: lens blocked or dark?)" if low else ""))
     else:
         unreadable = [r for r in VIDEO_ROLES if r not in got]
         for k in ("V1", "V2", "V3", "V5", "V6"):
@@ -519,16 +564,67 @@ def check(store, rec, cfg, manual):
     else:
         put("W5", "INFO", "no mosaic (optional)")
 
-    fails = [f"{k}: {v}" for k, (s, v) in res.items() if s == "FAIL" and k in HARD]
-    reviews = [f"{k}: {v}" for k, (s, v) in res.items() if s == "REVIEW"]
-    verdict = "FAIL" if fails else ("REVIEW" if reviews else "PASS")
-    row = {"task": rec["task"], "episode": rec["episode"], "verdict": verdict,
-           "reasons": " | ".join(fails or reviews), "n_cycles": "" if n is None else n, "count_source": src,
+    row = {"task": rec["task"], "episode": rec["episode"], "n_cycles": "" if n is None else n, "count_source": src,
            "duration_s": "" if dur is None else round(dur, 2), "folder": rec["folder"], "_uris": rec.get("uris", {}),
-           "_culprits": culprits}
+           "_culprits": culprits,
+           # for the checks across recordings (D6, W7)
+           "_grip_key": hashlib.sha1("\0".join(texts.get(g, "") for g in GRIPPERS).encode()).hexdigest()
+           if len(texts) == 2 else None,
+           "_calib": {r: tuple(str((cams.get(r) or {}).get(k)) for k in ("fx", "fy", "cx", "cy")) for r in VIDEO_ROLES}}
     for k in CHECK_IDS:
         row[k], row[f"{k}_value"] = res[k]
+    return set_verdict(row)
+
+
+def set_verdict(row):
+    fails = [f"{k}: {row[f'{k}_value']}" for k in CHECK_IDS if row.get(k) == "FAIL" and k in HARD]
+    reviews = [f"{k}: {row[f'{k}_value']}" for k in CHECK_IDS if row.get(k) == "REVIEW"]
+    row["verdict"] = "FAIL" if fails else ("REVIEW" if reviews else "PASS")
+    row["reasons"] = " | ".join(fails or reviews)
     return row
+
+
+def station_of(row):
+    return row["task"].split("/")[0]
+
+
+def cross_checks(rows):
+    """Checks that compare recordings: D6 duplicate recordings, W7 calibration against the rest of the station."""
+    rows = [r for r in rows if "D1" in r]  # skip crashed checks
+    # D6: identical left + right gripper csv = the same recording delivered twice. The copy in a station folder
+    # (first by path) is the original; every other copy fails.
+    groups = collections.defaultdict(list)
+    for r in rows:
+        if r.get("_grip_key"):
+            groups[r["_grip_key"]].append(r)
+    for r in rows:
+        r["D6"], r["D6_value"] = "PASS", "no other recording with the same gripper data"
+    for g in groups.values():
+        if len(g) < 2:
+            continue
+        g.sort(key=lambda r: (not STATION.match(station_of(r)), r["task"], r["episode"]))
+        orig = g[0]
+        orig["D6_value"] = "original; copies at " + ", ".join(f"{r['task']}/{r['episode']}" for r in g[1:])
+        for r in g[1:]:
+            r["D6"], r["D6_value"] = "FAIL", f"copy of {orig['task']}/{orig['episode']} (same gripper data): do not deliver twice"
+    # W7: each wrist / head calibration against the one most recordings of the station use
+    by_station = collections.defaultdict(list)
+    for r in rows:
+        by_station[station_of(r)].append(r)
+    for sub in by_station.values():
+        common = {v: collections.Counter(r["_calib"][v] for r in sub).most_common(1)[0][0] for v in VIDEO_ROLES}
+        for r in sub:
+            c = r["_calib"]
+            if c["left"] == common["right"] and c["right"] == common["left"] and common["left"] != common["right"]:
+                r["W7"], r["W7_value"] = "WARN", (f"left / right calibrations swapped vs the rest of the station "
+                                                  f"(left fx {c['left'][0]}, right fx {c['right'][0]}): cameras or labels swapped?")
+            elif any(c[v] != common[v] for v in VIDEO_ROLES):
+                odd = [v for v in VIDEO_ROLES if c[v] != common[v]]
+                r["W7"], r["W7_value"] = "INFO", f"{', '.join(odd)} calibration differs from the rest of the station"
+            else:
+                r["W7"], r["W7_value"] = "PASS", "same calibration as the rest of the station"
+    for r in rows:
+        set_verdict(r)
 
 
 def load_manual(path):
@@ -544,7 +640,22 @@ def load_manual(path):
     return out
 
 
+def load_env(path):
+    """KEY=value lines of .env into os.environ (AWS_PROFILE, region), without overriding what the shell already set."""
+    if not path.exists():
+        return
+    for line in path.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        k, _, v = line.partition("=")
+        k, v = k.strip().upper(), v.strip().strip("'\"")
+        if k and v and not os.environ.get(k):
+            os.environ[k] = v
+
+
 def main():
+    load_env(HERE / ".env")
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--config", type=Path, default=HERE / "configs" / "delivery_check.json")
     ap.add_argument("--source", help="s3://bucket/prefix/ or a local folder (default: config source)")
@@ -587,6 +698,7 @@ def main():
             if i % 50 == 0 or i == len(recs):
                 print(f"  {i}/{len(recs)}", flush=True)
     rows.sort(key=lambda r: (r["task"], r["episode"]))
+    cross_checks(rows)
 
     out = a.out or HERE / cfg["out_csv"]
     out.parent.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,310 @@
+<title>UMI Delivery Deep Checks</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600&display=swap">
+<style>
+/* Layout: one column of instrument panels; run switcher on top, summary before detail. */
+:root {
+  --bg: #f4f6f7; --panel: #ffffff; --fg: #18222b; --muted: #5c6b77; --line: #dbe1e5; --soft: #eaeef0;
+  --accent: #1f5f8b; --accent-soft: #e2edf5;
+  --pass: #2f7d4f; --pass-soft: #e1f0e6; --review: #a86a00; --review-soft: #f8ecd4; --fail: #b8322a; --fail-soft: #f8e0dd;
+  --info: #66737d; --info-soft: #e9edef;
+  --f-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-cond: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #11171c; --panel: #182129; --fg: #e3e9ed; --muted: #95a4af; --line: #2a3640; --soft: #212c35;
+  --accent: #6fb0dd; --accent-soft: #1d3446;
+  --pass: #63c08a; --pass-soft: #19372a; --review: #e3a73e; --review-soft: #3b2f17; --fail: #f07a6f; --fail-soft: #43221f;
+  --info: #9aa8b2; --info-soft: #26313a; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #11171c; --panel: #182129; --fg: #e3e9ed; --muted: #95a4af; --line: #2a3640; --soft: #212c35;
+  --accent: #6fb0dd; --accent-soft: #1d3446;
+  --pass: #63c08a; --pass-soft: #19372a; --review: #e3a73e; --review-soft: #3b2f17; --fail: #f07a6f; --fail-soft: #43221f;
+  --info: #9aa8b2; --info-soft: #26313a; color-scheme: dark }
+
+body { background: var(--bg); color: var(--fg); font-family: var(--f-sans); font-size: 14px; line-height: 1.5; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 28px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 22px; }
+h1, h2, h3 { font-family: var(--f-cond); font-weight: 600; margin: 0; text-wrap: balance; letter-spacing: .01em; }
+h1 { font-size: 1.75rem; line-height: 1.15; }
+h2 { font-size: 1.15rem; }
+h3 { font-size: .95rem; }
+.eyebrow { font-family: var(--f-mono); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.mono, td.num, .num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+header.top { display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: flex-end; justify-content: space-between; }
+header.top .ttl { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.switch { display: flex; flex-direction: column; gap: 6px; }
+.runs { display: flex; flex-wrap: wrap; gap: 6px; }
+.runs button { border: 1px solid var(--line); background: var(--panel); border-radius: 6px; padding: 6px 12px; cursor: pointer;
+  display: flex; flex-direction: column; align-items: flex-start; line-height: 1.25; }
+.runs button .d { font-family: var(--f-mono); font-size: .7rem; color: var(--muted); }
+.runs button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
+.runs button:hover { border-color: var(--accent); }
+.runs .next { border-style: dashed; color: var(--muted); cursor: default; }
+.runs .next:hover { border-color: var(--line); }
+
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px 24px; }
+.meta div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.meta .v { font-family: var(--f-mono); font-size: .82rem; overflow-wrap: anywhere; }
+.notes { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; max-width: 80ch; }
+
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; position: relative; overflow: hidden; }
+.kpi::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--k, var(--accent)); }
+.kpi .big { font-family: var(--f-cond); font-size: 2rem; font-weight: 600; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.kpi .sub { font-family: var(--f-mono); font-size: .78rem; color: var(--muted); }
+.delta { font-family: var(--f-mono); font-size: .72rem; padding: 1px 6px; border-radius: 4px; background: var(--soft); color: var(--muted); align-self: flex-start; }
+.delta.up { color: var(--pass); background: var(--pass-soft); }
+.delta.down { color: var(--fail); background: var(--fail-soft); }
+
+.stack { display: flex; height: 14px; border-radius: 3px; overflow: hidden; background: var(--soft); }
+.stack span { display: block; height: 100%; }
+.s-pass { background: var(--pass); } .s-review { background: var(--review); } .s-fail { background: var(--fail); } .s-info { background: var(--info); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .8rem; color: var(--muted); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+
+.verdict-callout { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; align-items: baseline; max-width: 90ch; }
+.verdict-callout b { font-family: var(--f-cond); }
+
+.checks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.group { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.group > .hd { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.chk { display: grid; grid-template-columns: 34px 1fr auto; gap: 2px 10px; align-items: center; padding: 6px 0; border-bottom: 1px dashed var(--line); }
+.chk:last-child { border-bottom: 0; }
+.chk .id { font-family: var(--f-mono); font-weight: 500; font-size: .8rem; color: var(--muted); }
+.chk .nm { min-width: 0; }
+.chk .st { justify-self: end; }
+.chk .bar { grid-column: 2 / 4; }
+.chk .bar .stack { height: 6px; }
+.chk .top { grid-column: 2 / 4; font-size: .78rem; color: var(--muted); display: flex; flex-direction: column; gap: 1px; }
+.chk .top span { overflow-wrap: anywhere; }
+.pill { font-family: var(--f-mono); font-size: .7rem; padding: 1px 7px; border-radius: 999px; white-space: nowrap; border: 1px solid transparent; }
+.p-pass { color: var(--pass); background: var(--pass-soft); }
+.p-review { color: var(--review); background: var(--review-soft); }
+.p-fail { color: var(--fail); background: var(--fail-soft); }
+.p-info { color: var(--info); background: var(--info-soft); }
+.p-vlm { color: var(--accent); border-color: var(--accent); background: transparent; }
+
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; }
+table { border-collapse: collapse; width: 100%; font-size: .84rem; }
+th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--f-mono); font-weight: 500; font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--soft); position: sticky; top: 0; white-space: nowrap; }
+td.num, th.num { text-align: right; white-space: nowrap; }
+tr.station td { font-weight: 600; background: var(--soft); }
+tr.all td { font-weight: 600; border-top: 2px solid var(--fg); }
+td .stack { height: 8px; min-width: 90px; }
+td.reason { max-width: 46ch; overflow-wrap: anywhere; }
+td.task { white-space: nowrap; }
+.scroll { max-height: 520px; overflow: auto; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.filters button { border: 1px solid var(--line); background: var(--panel); border-radius: 999px; padding: 3px 11px; cursor: pointer; font-size: .8rem; }
+.filters button[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.filters input { font: inherit; font-size: .82rem; border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; background: var(--panel); color: var(--fg); min-width: 0; flex: 1 1 200px; max-width: 320px; }
+.howto { font-family: var(--f-mono); font-size: .78rem; background: var(--soft); border-radius: 6px; padding: 10px 12px; overflow-x: auto; white-space: pre; margin: 0; }
+
+@media (max-width: 900px) { .checks { grid-template-columns: 1fr; } .kpis { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 420px) { .kpis { grid-template-columns: 1fr; } h1 { font-size: 1.45rem; } }
+@media (prefers-reduced-motion: no-preference) { .stack span { transition: width .3s ease; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="ttl">
+      <span class="eyebrow">UMI delivery · DataPRD1019 v1.1 §6 · check_delivery.py</span>
+      <h1 id="title">Delivery deep check</h1>
+    </div>
+    <div class="switch">
+      <span class="eyebrow">Run</span>
+      <div class="runs" id="runs" role="group" aria-label="Deep check runs"></div>
+    </div>
+  </header>
+
+  <section class="panel" aria-labelledby="h-run">
+    <h2 id="h-run" hidden>Run details</h2>
+    <div class="meta" id="meta"></div>
+    <ul class="notes" id="notes"></ul>
+  </section>
+
+  <section class="kpis" id="kpis" aria-label="Totals"></section>
+
+  <section class="panel" aria-labelledby="h-verdict">
+    <h2 id="h-verdict">Verdicts</h2>
+    <div class="stack" id="vstack" style="height:18px"></div>
+    <div class="legend" id="vlegend"></div>
+    <div class="verdict-callout" id="callout"></div>
+  </section>
+
+  <section class="checks" id="checks" aria-label="Checks"></section>
+
+  <section class="panel" aria-labelledby="h-tasks">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px">
+      <h2 id="h-tasks">By station and task</h2>
+      <span class="muted" style="font-size:.8rem">hours are recording hours; deliverable = PASS</span>
+    </div>
+    <div class="tbl"><table id="ttable"></table></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-find">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px">
+      <h2 id="h-find">Recordings to look at</h2>
+      <span class="muted" style="font-size:.8rem" id="fcount"></span>
+    </div>
+    <div class="filters" id="filters"></div>
+    <div class="tbl scroll"><table id="ftable"></table></div>
+    <p class="muted" style="margin:0;font-size:.8rem">Recordings that are REVIEW only because no cycle count exists yet are not listed; see C1 above for their number.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="h-next">
+    <h2 id="h-next">Adding the next deep check</h2>
+    <pre class="howto">.venv/bin/python scripts/check_delivery.py --deep 2>&amp;1 | tee check.log
+.venv/bin/python scripts/build_deep_checks_html.py --snapshot v2 --note "what changed since v1"</pre>
+    <p class="muted" style="margin:0;font-size:.8rem">The snapshot is saved under reports/deep_checks/v2/ and appears as a new run above, with changes shown against the run before it.</p>
+  </section>
+</div>
+
+<script>
+const RUNS = /*__RUNS__*/[];
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const n = x => Number(x || 0);
+const fmtH = h => n(h).toFixed(2) + " h";
+const pct = (a, b) => b ? (100 * a / b).toFixed(1) + "%" : "–";
+const KIND = {fail: ["Hard fail", "p-fail"], dup: ["Duplicate", "p-fail"], count: ["Count by hand", "p-review"],
+              setup: ["Setup clip?", "p-review"], calib: ["L/R calibration", "p-review"], sync: ["Audio-only sync", "p-info"],
+              gripper: ["Gripper signal", "p-info"], bitrate: ["Low bitrate", "p-info"], idle: ["Both grippers idle", "p-info"],
+              warn: ["Warning", "p-info"]};
+let cur = RUNS.length - 1, kindFilter = "all", query = "";
+
+function stack(parts, total) {
+  return parts.filter(p => p[0] > 0).map(([v, cls, label]) =>
+    `<span class="${cls}" style="width:${(100 * v / total).toFixed(3)}%" title="${esc(label)}: ${v}"></span>`).join("");
+}
+function delta(curV, prevV, goodUp, unit = "") {
+  if (prevV === undefined) return "";
+  const d = curV - prevV;
+  if (Math.abs(d) < 1e-9) return `<span class="delta">no change vs previous</span>`;
+  const better = goodUp ? d > 0 : d < 0;
+  const s = (d > 0 ? "+" : "") + (Number.isInteger(d) ? d : d.toFixed(2)) + unit;
+  return `<span class="delta ${better ? "up" : "down"}">${s} vs previous</span>`;
+}
+
+function renderRuns() {
+  $("#runs").innerHTML = RUNS.map((r, i) =>
+    `<button type="button" aria-pressed="${i === cur}" data-i="${i}"><span>${esc(r.meta.label)}</span><span class="d">${esc(r.meta.date || "")} · ${n(r.total.recordings)} rec</span></button>`
+  ).join("") + `<button type="button" class="next" disabled title="Run the next deep check and rebuild this page"><span>v${RUNS.length + 1}</span><span class="d">next run</span></button>`;
+  $("#runs").querySelectorAll("button[data-i]").forEach(b => b.onclick = () => { location.hash = RUNS[+b.dataset.i].meta.id; });
+}
+
+function render() {
+  const r = RUNS[cur], p = RUNS[cur - 1], t = r.total, pt = p && p.total;
+  renderRuns();
+  $("#title").textContent = r.meta.label;
+  document.title = "UMI Delivery Deep Checks · " + r.meta.id;
+
+  const m = r.meta;
+  $("#meta").innerHTML = [["Date", m.date], ["Command", m.command], ["Source", m.source], ["Run time", m.runtime],
+    ["Cycle counts", Object.entries(r.count_sources).map(([k, v]) => `${k} ${v}`).join(" · ")]]
+    .filter(x => x[1]).map(([k, v]) => `<div><span class="eyebrow">${k}</span><span class="v">${esc(v)}</span></div>`).join("");
+  $("#notes").innerHTML = (m.notes || []).map(x => `<li>${esc(x)}</li>`).join("");
+  $("#notes").hidden = !(m.notes || []).length;
+
+  const R = n(t.recordings);
+  const k = [
+    ["Recordings", R, fmtH(t.hours), "var(--accent)", delta(R, pt && n(pt.recordings), true)],
+    ["Deliverable (PASS)", n(t.deliverable), `${fmtH(t.deliverable_hours)} · ${pct(n(t.deliverable), R)}`, "var(--pass)", delta(n(t.deliverable_hours), pt && n(pt.deliverable_hours), true, " h")],
+    ["Review", n(t.review), fmtH(t.review_hours), "var(--review)", delta(n(t.review), pt && n(pt.review), false)],
+    ["Fail", n(t.fail), fmtH(t.fail_hours), "var(--fail)", delta(n(t.fail), pt && n(pt.fail), false)],
+  ];
+  $("#kpis").innerHTML = k.map(([lab, big, sub, col, d]) =>
+    `<div class="kpi" style="--k:${col}"><span class="eyebrow">${lab}</span><span class="big">${big.toLocaleString()}</span><span class="sub">${sub}</span>${d}</div>`).join("");
+
+  $("#vstack").innerHTML = stack([[n(t.deliverable), "s-pass", "PASS"], [n(t.review), "s-review", "REVIEW"], [n(t.fail), "s-fail", "FAIL"]], R);
+  $("#vlegend").innerHTML = `<span><i class="s-pass"></i>PASS ${t.deliverable}</span><span><i class="s-review"></i>REVIEW ${t.review}</span><span><i class="s-fail"></i>FAIL ${t.fail}</span>`;
+
+  const byId = Object.fromEntries(r.checks.map(c => [c.id, c]));
+  const dv = r.checks.filter(c => "DV".includes(c.id[0]));
+  const dvRan = dv.filter(c => !c.absent && !(c.counts.SKIP === R));
+  const dvBad = dvRan.filter(c => (c.counts.PASS || 0) < R);
+  const c3 = byId.C3, c3f = c3 ? (c3.counts.FAIL || 0) : 0;
+  const c1 = byId.C1, nocount = R - r.counted;
+  $("#callout").innerHTML =
+    `<b>Files, sync, frames</b><span>${dvBad.length ? `${dvBad.length} of ${dvRan.length} checks have non-passing recordings: ${dvBad.map(c => c.id).join(", ")}.` : `All ${dvRan.length} checks that ran (${dvRan.map(c => c.id).join(", ")}) passed on every recording.`}${dv.length > dvRan.length ? ` Not run: ${dv.filter(c => !dvRan.includes(c)).map(c => c.id).join(", ")}.` : ""}</span>` +
+    `<b>Length (C3)</b><span>${c3f ? `${c3f} recordings are shorter than 9 s. This is the only hard failure that does not depend on cycle counts.` : "Every recording is at least 9 s long."}</span>` +
+    `<b>Cycle counts</b><span>${nocount ? `${nocount} recordings have no cycle count yet (manual or VLM), so they stay REVIEW on C1/C2 until counted.` : "Every recording has a cycle count."}</span>`;
+
+  const span = cs => cs.length ? `${cs[0].id}–${cs[cs.length - 1].id}` : "";
+  const pick = p => r.checks.filter(c => p.includes(c.id[0]));
+  const groups = [
+    ["Files, sync and frames", `${span(pick("D"))}, ${span(pick("V"))} · hard`, pick("DV")],
+    ["Cycles and length", `${span(pick("C"))} · hard`, pick("C")],
+    ["Warnings", `${span(pick("W"))} · do not block delivery`, pick("W")],
+  ];
+  const ST = {PASS: "s-pass", REVIEW: "s-review", FAIL: "s-fail"};
+  const PL = {PASS: "p-pass", REVIEW: "p-review", FAIL: "p-fail"};
+  $("#checks").innerHTML = groups.map(([h, sub, cs]) => `<div class="panel group"><div class="hd"><h3>${h}</h3><span class="eyebrow">${sub}</span></div>` +
+    cs.map(c => {
+      if (c.absent) return `<div class="chk"><span class="id">${c.id}</span><span class="nm">${esc(c.name)}</span><span class="st pill p-info">not in this run</span></div>`;
+      const entries = Object.entries(c.counts).sort((a, b) => b[1] - a[1]);
+      const worst = ["FAIL", "REVIEW", "WARN"].find(s => c.counts[s]);
+      const label = worst ? `${c.counts[worst]} ${worst}` : (c.counts.PASS === R ? "all pass" : entries.map(([s, v]) => `${v} ${s}`).join(" · "));
+      const cls = worst ? (PL[worst] || "p-info") : (c.counts.PASS === R ? "p-pass" : "p-info");
+      const bar = stack(entries.map(([s, v]) => [v, ST[s] || "s-info", s]), R);
+      const top = c.top.length ? `<div class="top">${c.top.map(([v, k2]) => `<span><span class="mono">${k2}×</span> ${esc(v)}</span>`).join("")}</div>` : "";
+      const vlm = c.vlm ? ` <span class="pill p-vlm" title="depends on cycle counts / VLM result">counts</span>` : "";
+      return `<div class="chk"><span class="id">${c.id}</span><span class="nm">${esc(c.name)}${vlm}</span><span class="st pill ${cls}">${label}</span><div class="bar"><div class="stack">${bar}</div></div>${top}</div>`;
+    }).join("") + `</div>`).join("");
+
+  const rows = r.summary.filter(s => s.level !== "all");
+  const st = rows.filter(s => s.level === "station"), tk = rows.filter(s => s.level === "task");
+  const order = [];
+  st.forEach(s => { order.push(s); tk.filter(x => x.name === s.name || x.name.startsWith(s.name + "/")).forEach(x => order.push(x)); });
+  order.push(r.summary.find(s => s.level === "all"));
+  $("#ttable").innerHTML = `<thead><tr><th>Task</th><th class="num">Rec</th><th class="num">Hours</th><th class="num">Pass</th><th class="num">Deliv h</th><th class="num">Review</th><th class="num">Fail</th><th>Verdicts</th><th>Failing checks</th></tr></thead><tbody>` +
+    order.map(s => `<tr class="${s.level === "station" ? "station" : s.level === "all" ? "all" : ""}"><td class="task">${s.level === "task" ? "&nbsp;&nbsp;" : ""}${esc(s.level === "all" ? "All recordings" : s.name)}</td>` +
+      `<td class="num">${s.recordings}</td><td class="num">${n(s.hours).toFixed(2)}</td><td class="num">${s.deliverable}</td><td class="num">${n(s.deliverable_hours).toFixed(2)}</td><td class="num">${s.review}</td><td class="num">${s.fail}</td>` +
+      `<td><div class="stack">${stack([[n(s.deliverable), "s-pass", "PASS"], [n(s.review), "s-review", "REVIEW"], [n(s.fail), "s-fail", "FAIL"]], n(s.recordings))}</div></td><td class="muted">${esc(s.fail_checks)}</td></tr>`).join("") + `</tbody>`;
+
+  renderFindings();
+}
+
+function renderFindings() {
+  const r = RUNS[cur];
+  const counts = {}; r.issues.forEach(i => counts[i.kind] = (counts[i.kind] || 0) + 1);
+  $("#filters").innerHTML = [["all", "All", r.issues.length], ...Object.entries(KIND).filter(([k]) => counts[k]).map(([k, [lab]]) => [k, lab, counts[k]])]
+    .map(([k, lab, c]) => `<button type="button" data-k="${k}" aria-pressed="${kindFilter === k}">${lab} <span class="mono">${c}</span></button>`).join("") +
+    `<input id="fq" type="search" placeholder="Filter by task, episode or reason" value="${esc(query)}" aria-label="Filter recordings">`;
+  $("#filters").querySelectorAll("button").forEach(b => b.onclick = () => { kindFilter = b.dataset.k; renderFindings(); });
+  const q = $("#fq"); q.oninput = () => { query = q.value; drawRows(); };
+  drawRows();
+}
+function drawRows() {
+  const r = RUNS[cur], q = query.trim().toLowerCase();
+  const list = r.issues.filter(i => (kindFilter === "all" || i.kind === kindFilter) &&
+    (!q || `${i.task} ${i.episode} ${i.reason} ${i.check}`.toLowerCase().includes(q)));
+  $("#fcount").textContent = `${list.length} of ${r.issues.length} findings`;
+  $("#ftable").innerHTML = `<thead><tr><th>Task</th><th>Episode</th><th>Verdict</th><th>Check</th><th>Finding</th><th class="num">Length</th></tr></thead><tbody>` +
+    (list.length ? list.map(i => {
+      const [lab, cls] = KIND[i.kind] || ["", "p-info"];
+      const vc = {PASS: "p-pass", REVIEW: "p-review", FAIL: "p-fail"}[i.verdict] || "p-info";
+      return `<tr><td class="task">${esc(i.task)}</td><td class="mono">${esc(i.episode)}</td><td><span class="pill ${vc}">${i.verdict}</span></td>` +
+        `<td><span class="mono">${i.check}</span> <span class="pill ${cls}">${lab}</span></td><td class="reason">${esc(i.reason)}</td><td class="num">${i.duration == null ? "–" : i.duration.toFixed(1) + " s"}</td></tr>`;
+    }).join("") : `<tr><td colspan="6" class="muted">No findings match this filter.</td></tr>`) + `</tbody>`;
+}
+
+function fromHash() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  const i = RUNS.findIndex(r => r.meta.id === id);
+  cur = i >= 0 ? i : RUNS.length - 1;
+  render();
+}
+window.addEventListener("hashchange", fromHash);
+fromHash();
+</script>

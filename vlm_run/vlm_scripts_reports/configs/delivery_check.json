@@ -65,5 +65,11 @@
   "vfr_tolerance_fps": 0.01,
   "max_pts_gap_frames": 1.5,
   "_strict_note": "Equal length is exact: the three videos and both gripper csvs have the SAME frame count (0 difference); durations and start times within half a frame. 14_export_rhoda.py cuts every file to the episode's steps, so a difference means a broken export. A timeline gap above 1.5 frame periods (--deep) is a dropped frame.",
-  "_out_note": "out_csv names the per-recording CSV; _summary.csv, _failures.csv, _deliverable.csv and _report.md are written next to it with the same stem."
+  "_out_note": "out_csv names the per-recording CSV; _summary.csv, _failures.csv, _deliverable.csv and _report.md are written next to it with the same stem.",
+  "sync_method_expected": "wrist motion refinement",
+  "gripper_jump_m": 0.01,
+  "gripper_jump_count": 5,
+  "gripper_flat_s": 5,
+  "min_video_kbps": 6000,
+  "_extra_checks_note": "D6 duplicate: identical left + right gripper csv in two recordings (the copy outside a station folder, or the later path, fails). W7: calibration (fx fy cx cy) per view vs the one most recordings of the station use; left/right exchanged is a WARN. W8: sync.method without sync_method_expected. W9: >= gripper_jump_count frame-to-frame width jumps > gripper_jump_m (marker tracking glitches). W10: width unchanged longer than gripper_flat_s (tracking lost, value held; or passive gripper). W11: any view below min_video_kbps (blocked or dark lens?)."
 }

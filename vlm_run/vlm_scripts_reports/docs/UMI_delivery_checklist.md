@@ -34,6 +34,7 @@ The egocentric "at least five of eight rules" matrix (PRD section 3) is not used
 | D3 | Delivery | Sync method and the frame index of the sync event in each file | `_meta.json` `sync.method`, `sync.frame_index` | method is a non-empty string; one integer frame index per file (head, left, right), each within the file's frame count |
 | D4 | Delivery, U6 | Gripper width per frame (gripper opening measurable) | `_right_gripper.csv`, `_left_gripper.csv` | both present; **exactly one row per video frame**; `frame` column 0, 1, 2 … without gaps; every `width_m` a number in 0 … 0.15 m (0 = fully closed), no NaN |
 | D5 | Delivery | Files complete and consistent | file sizes, `_meta.json` `files` / `gripper_width` | no empty file; the names in meta are the delivered files; no files of another recording name in the folder |
+| D6 | Delivery | Each recording delivered once | left + right gripper csv content, compared across the whole delivery | no other recording has identical gripper data. The copy inside a station folder (first by path) is the original; every other copy FAILs. |
 | V1 | U2 | Same frame rate on all three views | ffprobe `r_frame_rate` | equal on head, left, right, and equal to `frame_rate_hz` in meta (± 0.01 fps); 59.94 fps expected for GoPro HERO12 |
 | V2 | U2 | Same time span (full length, trimmed to what all three share) | ffprobe frame count and duration | **frame counts exactly equal**; durations within half a frame (8.3 ms). The PRD allows 1 frame; the export cuts every file to the same steps, so any difference is a broken file. |
 | V3 | U2, Delivery | Video readable, resolution as declared | ffprobe codec, width × height | H.265 or H.264; width × height equals meta `resolution` for that camera |
@@ -70,6 +71,11 @@ the full delivery and `--decode` on a sample (or the full set on a large instanc
 | W4 | R3 | Cycles not much longer than 30 s | duration / count > 30 s: WARN |
 | W5 | Delivery | Mosaic | optional; when present its frame count equals the head video (WARN otherwise) |
 | W6 | Delivery | File naming | `<date>_<taskNN>_<episode>` (or `<taskNN>_<episode>` without a date folder) and ends with the episode folder name |
+| W7 | U3, Delivery | Same calibration as the rest of the station | `_meta.json` fx, fy, cx, cy per view vs the one most recordings of the station use. Left and right exchanged: WARN (cameras or labels swapped?); another calibration: INFO. Meta has no camera serial, so a swap needs a look at the footage. |
+| W8 | U2 | Sync refined by wrist motion | `sync.method` contains `sync_method_expected` ("wrist motion refinement"); audio cross-correlation alone: WARN |
+| W9 | U6 | Gripper width without jumps | `gripper_jump_count` (5) or more frame-to-frame changes above `gripper_jump_m` (10 mm, 0.6 m/s): WARN (marker-tracking glitches) |
+| W10 | U6 | Gripper width not frozen | width unchanged for more than `gripper_flat_s` (5 s): WARN (tracking lost and the last value held, or a passive gripper) |
+| W11 | U4, U6 | Video bitrate | any view below `min_video_kbps` (6 Mbit/s, median ~20): WARN (lens blocked, dark or static view?) |
 
 ## MANUAL rules (not machine-checkable: sample the videos)
 
@@ -88,3 +94,11 @@ the full delivery and `--decode` on a sample (or the full set on a large instanc
 | U6 | U6 | Image quality: no strong backlight, textured workspace, blur only in fast transfers | bright window (Bad U-3) |
 
 Up to ~5 s of setup at the very start is tolerated (R4); the delivered files are already trimmed to the shared span.
+
+## Not checkable from the delivered files
+
+- **Content sync.** The delivered videos are re-encoded without audio, timecode or GoPro telemetry, so equal frame
+  counts and `sync.frame_index` show the export is consistent, not that frame i is the same instant in all three.
+  Spot-check visually (a gripper closing in the head view vs the wrist view).
+- **Which physical camera is left / right.** Meta has no camera serial; W7 only compares calibrations.
+- **Frozen or black frames** inside a video (timestamps are fine, the picture is not): needs a decode pass.

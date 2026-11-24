@@ -1,0 +1,13 @@
+{
+  "id": "v1",
+  "label": "v1 deep check",
+  "date": "2026-11-24",
+  "command": "scripts/check_delivery.py --deep",
+  "source": "s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/",
+  "runtime": "about 20 min on 4 vCPUs",
+  "notes": [
+    "First full deep check: every frame timestamp of all three views read for every recording.",
+    "Frame decode (V8) not run; a 3-recording decode sample was run separately.",
+    "VLM cycle counts existed only for station2 (112 recordings); the VLM run for the rest was in progress, and manual_counts.csv had no hand counts yet. That is why most recordings are REVIEW."
+  ]
+}
