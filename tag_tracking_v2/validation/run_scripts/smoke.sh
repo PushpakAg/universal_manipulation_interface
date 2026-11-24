@@ -1,0 +1,5 @@
+set -x
+cd /Users/kgen/Projects/universal_manipulation_interface
+( time .venv/bin/python tag_tracking_v2/scripts_tag_tracking/00_detect_tag_corners.py -i /private/tmp/claude-501/-Users-kgen-Projects-universal-manipulation-interface/15301822-eeca-4b5f-b287-e9a631b716d1/scratchpad/sess_det -c /Users/kgen/Projects/universal_manipulation_interface/example/tag_tracking/tag_tracking_station1.yaml ) 2>&1 | tail -8
+( time .venv/bin/python scripts_tag_tracking/03_track_bodies.py -i /private/tmp/claude-501/-Users-kgen-Projects-universal-manipulation-interface/15301822-eeca-4b5f-b287-e9a631b716d1/scratchpad/sess_old -c /Users/kgen/Projects/universal_manipulation_interface/example/tag_tracking/tag_tracking_station1.yaml ) 2>&1 | tail -8
+( time .venv/bin/python tag_tracking_v2/scripts_tag_tracking/03_track_bodies.py -i /private/tmp/claude-501/-Users-kgen-Projects-universal-manipulation-interface/15301822-eeca-4b5f-b287-e9a631b716d1/scratchpad/sess_new -c /Users/kgen/Projects/universal_manipulation_interface/example/tag_tracking/tag_tracking_station1.yaml ) 2>&1 | tail -8

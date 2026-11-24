@@ -1,0 +1,6 @@
+wrist chunks=4 229 s
+wrist chunks=1 200 s
+head chunks=4 131 s
+head chunks=2 121 s
+head chunks=1 113 s
+finished

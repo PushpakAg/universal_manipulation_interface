@@ -1,0 +1,46 @@
+{
+  "video": "/Users/kgen/Projects/universal_manipulation_interface/data/station1/industrial_data/task01/demos/demo_C3501326502664_2026.11.20_13.18.11.927417/raw_video.mp4",
+  "frames": 100,
+  "rows": [
+    {
+      "scale": 1.0,
+      "ms_per_frame": 30.143332481384277,
+      "recall": 1.0,
+      "extra": 0,
+      "err_mean_px": 0.0,
+      "err_p95_px": 0.0,
+      "err_max_px": 0.0,
+      "detections": 825
+    },
+    {
+      "scale": 0.75,
+      "ms_per_frame": 63.72637987136841,
+      "recall": 0.9793939393939394,
+      "extra": 71,
+      "err_mean_px": 0.16827142953193072,
+      "err_p95_px": 0.10007214060788566,
+      "err_max_px": 27.179274147982646,
+      "detections": 879
+    },
+    {
+      "scale": 0.5,
+      "ms_per_frame": 10.237939357757568,
+      "recall": 0.9672727272727273,
+      "extra": 143,
+      "err_mean_px": 0.25148208371967934,
+      "err_p95_px": 0.14011855073853505,
+      "err_max_px": 33.95356813770075,
+      "detections": 941
+    },
+    {
+      "scale": 0.35,
+      "ms_per_frame": 38.3145809173584,
+      "recall": 0.8981818181818182,
+      "extra": 206,
+      "err_mean_px": 0.3935236469860424,
+      "err_p95_px": 1.4070120445355738,
+      "err_max_px": 43.84898074080377,
+      "detections": 947
+    }
+  ]
+}
