@@ -1,0 +1,8 @@
+run_log,log_updated_utc,source,input,prompts,episodes_in_bucket,already_done,planned,parsed,cost_usd,finished,failed_total,failed_mp4_not_found_in_s3,failed_aws_sso_token_expired,failed_gemini_rejected_video
+run_s1_t01_ep0.log,2026-11-24 06:47,,,,0,0,1,1,0.0271,True,0,0,0,0
+run_full.log,2026-11-24 07:53,,,,0,1,1170,0,0.0,False,0,0,0,0
+run_video_test.log,2026-11-24 08:04,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/,video,final_video_v1.2,1,0,1,1,0.029,True,0,0,0,0
+run_video_full.log,2026-11-24 09:02,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/,video,final_video_v1.2,1171,0,1171,968,14.9697,True,203,203,0,0
+run_video_remaining.log,2026-11-25 12:20,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/,video,final_video_v1.2,1329,968,361,361,7.7198,True,0,0,0,0
+run_video_new192.log,2026-11-25 16:25,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/,video,final_video_v1.2,1521,1329,192,59,1.0698,True,133,0,133,0
+run_video_new303.log,2026-11-25 19:45,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/,video,final_video_v1.2,1699,1388,311,310,10.8036,True,1,0,0,1

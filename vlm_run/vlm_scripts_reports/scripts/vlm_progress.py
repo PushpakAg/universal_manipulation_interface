@@ -111,7 +111,9 @@ def render(s, log, alive):
            "",
            f"uploaded  {bar(up, n, fail=fail)} {up + fail:>5}/{n} {pct(up + fail, n)}" + (f"  ({fail} failed)" if fail else ""),
            f"parsed    {bar(parsed, n)} {parsed:>5}/{n} {pct(parsed, n)}",
-           f"S3 upload {bar(s['s3_up'] or s['s3_result_lines'], parsed or 1)} {s['s3_up'] or s['s3_result_lines']:>5}/{parsed}",
+           # the finish step uploads every result of the listed task folders, including those done before this run
+           f"S3 upload {bar(s['s3_up'] or s['s3_result_lines'], max(parsed + s['done_before'], s['s3_up'], 1))} "
+           f"{s['s3_up'] or s['s3_result_lines']:>5}/{max(parsed + s['done_before'], s['s3_up'])}",
            f"cost      ${s['cost']:.2f}" + (f"   (+{s['done_before']} done before this run)" if s["done_before"] else ""),
            ""]
     for gi, g in sorted(groups.items()):
