@@ -20,7 +20,7 @@ Outputs:
     <out>_summary.csv   hours (from mosaic length) per station, station/date,
                         station/date/task and VLM task_family
 """
-import argparse, csv, json, re, subprocess, sys, time
+import argparse, csv, json, os, re, subprocess, sys, time
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import urlparse
@@ -38,6 +38,16 @@ VLM_COLS = (
     + [f"{f}_differs" for f in DIFF_FIELDS]
     + ["any_difference", "differences", "n_repetitions", "vlm_model", "vlm_code_flags"]
 )
+
+
+def _typed(r):
+    """Restore bool/float types on a row read back from the episodes CSV."""
+    r = dict(r)
+    for k, v in r.items():
+        if v in ("True", "False") and (k.startswith("has_") or k.endswith(("_differs", "_videos", "_difference"))):
+            r[k] = v == "True"
+    r["episode_seconds"] = float(r["episode_seconds"]) if r.get("episode_seconds") else ""
+    return r
 
 
 def _norm(s):
@@ -122,6 +132,9 @@ def main():
     ap.add_argument("--profile", default=None, help="AWS profile, e.g. prod")
     ap.add_argument("--workers", type=int, default=32)
     ap.add_argument("--out", default="episode_report", help="output file prefix")
+    ap.add_argument("--append", action="store_true",
+                    help="merge into an existing <out>_episodes.csv (rows for the scanned sub-folders are "
+                         "replaced, others kept) and rebuild <out>_summary.csv over all rows")
     a = ap.parse_args()
 
     u = urlparse(a.s3_parent)
@@ -185,6 +198,14 @@ def main():
         rows.append(row)
 
     ep_csv = f"{a.out}_episodes.csv"
+    if a.append and os.path.exists(ep_csv):
+        # keep existing rows except those under the folders just scanned (they are replaced)
+        scanned = tuple(f"s3://{bucket}/{root}{s.strip('/')}/" for s in a.subfolders)
+        with open(ep_csv, newline="") as f:
+            old = [_typed(r) for r in csv.DictReader(f) if not r["s3_episode_path"].startswith(scanned)]
+        print(f"appending to {ep_csv}: kept {len(old)} existing rows, adding {len(rows)}", file=sys.stderr)
+        rows = old + rows
+        rows.sort(key=lambda r: r["s3_episode_path"])
     with open(ep_csv, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
         w.writeheader(); w.writerows(rows)
