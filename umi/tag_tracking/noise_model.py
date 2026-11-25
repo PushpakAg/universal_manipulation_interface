@@ -28,7 +28,11 @@ def single_tag_view(camera: FisheyeCamera, corners: np.ndarray, tag_size: float)
     Not finite if the fit fails, e.g. corners at the fisheye image edge
     where the lens model is invalid; see is_usable_view.
     """
-    T_cam_tag, sse = tag_pose_candidates(camera, corners, tag_size)[0]
+    candidates = tag_pose_candidates(camera, corners, tag_size)
+    if not candidates:
+        # solvePnP found no pose (degenerate corners): not usable, see is_usable_view
+        return float('nan'), float('nan')
+    T_cam_tag, sse = candidates[0]
     ray = T_cam_tag[:3, 3] / np.linalg.norm(T_cam_tag[:3, 3])
     return sse, float(abs(ray @ T_cam_tag[:3, 2]))
 
