@@ -42,7 +42,7 @@ import pickle
 import click
 import numpy as np
 from umi.tag_tracking.config import load_tag_tracking_config
-from umi.tag_tracking.session import get_session_videos, overlapping
+from umi.tag_tracking.session import get_session_videos, overlapping, gripper_heads
 from umi.tag_tracking.imu import load_imu, load_cam_imu_calibration, wrist_imu_time_offset
 from umi.tag_tracking.wrist_sync import (DEFAULTS, cube_image_rows, sync_episodes, drift_line, fit_readout,
     observation_times, head_readout)
@@ -72,7 +72,7 @@ def main(input, config, output, readout_ms, interval_frames, search_ms):
     line_delay = json.load(session.joinpath('tag_tracking', 'bodies.json').open('r'))['line_delay']
 
     out = {'parameters': params, 'videos': dict(), 'readout': dict(), 'pairs': dict()}
-    for head in [x for x in videos if x['camera_serial'] == config['head_camera']]:
+    for head in gripper_heads(videos, config['head_camera'], [b['gripper_camera'] for b in config['bodies'].values() if 'gripper_camera' in b]):
         track = pickle.load(head['dir'].joinpath('tag_tracking.pkl').open('rb'))
         times = track['time']
         head_episodes = episodes[head['name']]['episodes']

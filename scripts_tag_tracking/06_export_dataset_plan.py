@@ -65,7 +65,7 @@ import numpy as np
 from umi.common.pose_util import mat_to_pose
 from umi.common.interpolation_util import PoseInterpolator, get_interp1d
 from umi.tag_tracking.config import load_tag_tracking_config
-from umi.tag_tracking.session import get_session_videos, overlapping
+from umi.tag_tracking.session import get_session_videos, overlapping, gripper_heads
 from umi.tag_tracking.wrist_sync import wrist_corrections, correction_seconds
 from umi.tag_tracking.imu import load_cam_imu_calibration, wrist_imu_time_offset
 from umi.tag_tracking.delivery import load_gripper_range, finger_widths
@@ -166,7 +166,7 @@ def main(input, config, output, wrist_sync, reference, min_episode_length, no_he
     total_time = 0.0
     used_time = 0.0
     bridge_stats = [{'steps': 0, 'bridged': 0, 'longest': 0.0, 'missing': 0} for _ in gripper_bodies]
-    for head in [x for x in videos if x['camera_serial'] == config['head_camera']]:
+    for head in gripper_heads(videos, config['head_camera'], [b['gripper_camera'] for b in config['bodies'].values() if 'gripper_camera' in b]):
         track = pickle.load(head['dir'].joinpath('tag_tracking.pkl').open('rb'))
         head_times = head['start_timestamp'] + track['time']
         corrections = wrist_corrections(sync, head['name'])

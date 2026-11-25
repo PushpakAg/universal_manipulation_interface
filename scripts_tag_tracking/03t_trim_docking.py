@@ -41,7 +41,7 @@ import pickle
 import click
 import numpy as np
 from umi.tag_tracking.config import load_tag_tracking_config
-from umi.tag_tracking.session import get_session_videos, overlapping
+from umi.tag_tracking.session import get_session_videos, overlapping, gripper_heads
 from umi.tag_tracking.episodes import task_interval, between_bangs
 
 
@@ -78,7 +78,7 @@ def main(input, config, bang_ritual):
     data = json.load(episodes_path.open('r'))
 
     videos = get_session_videos(session)
-    for head in [x for x in videos if x['camera_serial'] == config['head_camera']]:
+    for head in gripper_heads(videos, config['head_camera'], [b['gripper_camera'] for b in config['bodies'].values() if 'gripper_camera' in b]):
         track = pickle.load(head['dir'].joinpath('tag_tracking.pkl').open('rb'))
         # head video time spans recorded by each gripper's wrist camera(s)
         wrist_spans = [[(w['start_timestamp'] - head['start_timestamp'], w['end_timestamp'] - head['start_timestamp'])

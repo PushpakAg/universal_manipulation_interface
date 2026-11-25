@@ -75,3 +75,18 @@ def overlapping(videos: List[dict], reference: dict, camera_serial: str) -> List
     return [x for x in videos if x['camera_serial'] == camera_serial
         and x['start_timestamp'] < reference['end_timestamp']
         and x['end_timestamp'] > reference['start_timestamp']]
+
+
+def gripper_heads(videos: List[dict], head_serial: str, gripper_serials: List[str]) -> List[dict]:
+    """
+    The head camera videos with a wrist video of every gripper overlapping them in time, the ones
+    episodes are segmented, tracked and exported from; prints a warning for each other head video
+    (e.g. a short head-only clip).
+    """
+    out = list()
+    for head in [x for x in videos if x['camera_serial'] == head_serial]:
+        if all(overlapping(videos, head, s) for s in gripper_serials):
+            out.append(head)
+        else:
+            print(f"WARNING skipped {head['name']}: no wrist video of every gripper overlaps it", flush=True)
+    return out

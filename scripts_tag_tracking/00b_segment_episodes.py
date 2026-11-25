@@ -48,7 +48,7 @@ import pathlib
 import click
 import numpy as np
 from umi.tag_tracking.config import load_tag_tracking_config
-from umi.tag_tracking.session import get_session_videos, overlapping
+from umi.tag_tracking.session import get_session_videos, overlapping, gripper_heads
 from umi.tag_tracking.episodes import segment_take
 
 
@@ -131,7 +131,7 @@ def main(input, config):
     videos = get_session_videos(session)
 
     results = dict()
-    for head in [x for x in videos if x['camera_serial'] == config['head_camera']]:
+    for head in gripper_heads(videos, config['head_camera'], inputs['serials']):
         gripper_wrists = [overlapping(videos, head, serial) for serial in inputs['serials']]
         result = segment_take(head, gripper_wrists, inputs['cube_tags'], inputs['dock_tags'],
             config['tag_sizes'], config['cameras'][config['head_camera']], params)
