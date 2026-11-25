@@ -4,6 +4,7 @@
  "vocabulary": {
   "task_families": [
    "grasp",
+   "pick",
    "place",
    "stack",
    "sort",

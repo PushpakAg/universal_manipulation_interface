@@ -1,0 +1,34 @@
+level,group,episodes,episodes_all_4_videos,episodes_with_vlm,episodes_task_differs_from_canonical,hours,minutes,canonical_task_text
+station,station1,809,809,799,740,4.6784,280.7,
+station,station2,155,155,112,106,1.5006,90.04,
+station/date,station1/2026-11-21,435,435,435,389,1.9982,119.89,
+station/date,station1/2026-11-22,229,229,219,206,1.7626,105.76,
+station/date,station1/undated,145,145,145,145,0.9176,55.05,
+station/date,station2/2026-11-22,155,155,112,106,1.5006,90.04,
+station/date/task,station1/2026-11-21/task01,91,91,91,90,0.7054,42.32,Pick a wall anchor from the table and place it into a container.
+station/date/task,station1/2026-11-21/task02,142,142,142,110,0.5412,32.47,Insert an ethernet cable into a router port.
+station/date/task,station1/2026-11-21/task03,158,158,158,158,0.3769,22.61,Pick a tool from the table and place it into the toolbox.
+station/date/task,station1/2026-11-21/task04,28,28,28,26,0.2533,15.2,Pick a screwdriver bit holder from the table and insert it into the case.
+station/date/task,station1/2026-11-21/task05,16,16,16,5,0.1214,7.29,Screw a light bulb into a socket.
+station/date/task,station1/2026-11-22/task01,31,31,31,28,0.2262,13.57,Pick a small box from the table and place it into the drawer.
+station/date/task,station1/2026-11-22/task02,41,41,41,37,0.2381,14.28,Pick a small box from the table and place it into the drawer.
+station/date/task,station1/2026-11-22/task03,10,10,10,5,0.0641,3.85,Pick a small box from the table and place it into the drawer.
+station/date/task,station1/2026-11-22/task04,56,56,56,55,0.5758,34.55,Pick a wooden block and place it on the table.
+station/date/task,station1/2026-11-22/task05,49,49,49,49,0.2775,16.65,Pick an electronic component from the table and place it into the organizer tray.
+station/date/task,station1/2026-11-22/task06,10,10,0,0,0.2403,14.42,
+station/date/task,station1/2026-11-22/task07,32,32,32,32,0.1406,8.43,Pick an electronic component from the table and place it into the organizer tray.
+station/date/task,station1/undated/task03,46,46,46,46,0.3059,18.36,Pick an electronic component from the table and place it into a plastic tray.
+station/date/task,station1/undated/task04,49,49,49,49,0.2843,17.06,Pick an object from the table and place it into a tray.
+station/date/task,station1/undated/task05,50,50,50,50,0.3273,19.64,Pick a PVC pipe or fitting and place it into the designated tray.
+station/date/task,station2/2026-11-22/task01,15,15,15,14,0.1,6.0,Pick a wire bundle from the table and place it into a plastic tray.
+station/date/task,station2/2026-11-22/task02,26,26,26,25,0.1777,10.66,Pick a coiled wire from the table and place it into a plastic tray.
+station/date/task,station2/2026-11-22/task03,21,21,21,20,0.1471,8.82,Pick a coiled wire from the table and place it into a plastic tray compartment.
+station/date/task,station2/2026-11-22/task04,9,9,9,7,0.1793,10.76,Insert a hex key into a hex key holder.
+station/date/task,station2/2026-11-22/task05,43,43,0,0,0.5775,34.65,
+station/date/task,station2/2026-11-22/task06,41,41,41,40,0.3191,19.14,Pick an LED from the table and place it into a plastic container.
+canonical_task_family,(no vlm result),53,53,0,0,0.8178,49.07,
+canonical_task_family,assemble,16,16,16,5,0.1214,7.29,
+canonical_task_family,insert,179,179,179,143,0.9738,58.43,
+canonical_task_family,place,511,511,511,495,2.8557,171.34,
+canonical_task_family,sort,205,205,205,203,1.4102,84.61,
+all,all,964,964,911,846,6.179,370.74,
