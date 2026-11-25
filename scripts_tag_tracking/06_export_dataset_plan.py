@@ -103,7 +103,7 @@ def interpolate_valid_poses(times, poses, is_valid, query_times, max_gap_sec=Non
         inside = (idx > 0) & (idx < len(valid_times))
         query_valid[inside] = (valid_times[idx[inside]] - valid_times[idx[inside] - 1]) <= max_gap_sec
     out = np.full((len(query_times), 6), np.nan)
-    if is_valid.sum() >= 2:
+    if is_valid.sum() >= 2 and query_valid.any():    # scipy's Slerp fails on no query times
         interp = PoseInterpolator(times[is_valid], mat_to_pose(poses[is_valid]))
         out[query_valid] = interp(query_times[query_valid])
     return out, query_valid
