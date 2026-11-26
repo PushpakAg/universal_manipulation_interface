@@ -12,8 +12,10 @@ but not written back (stopped run) is written back from there on the next run, n
 
 LIST: a text / CSV file with one path per line, an episode folder or any file in it (s3:// or local,
 e.g. the episodes' mosaic URLs); other lines (a header) are ignored. Several files of one episode count once.
+LIST may also be one episode folder (or a file in it), to try one episode first.
 
 python scripts_tag_tracking/swap_left_right.py left_right_switch.csv -w ~/swap_work -j 4 [--dry_run]
+python scripts_tag_tracking/swap_left_right.py s3://<bucket>/<prefix>/station1/2026-11-21/task01/episode_000005 -w ~/swap_work
 """
 # %%
 import sys
@@ -43,8 +45,12 @@ SWAPPED_LOCK = threading.Lock()
 
 def episode_folders(list_path: str) -> list:
     """
-    Episode folders (no trailing /) from the list, in its order, each once.
+    Episode folders (no trailing /) from the list, in its order, each once; list_path may also be one
+    episode folder or a file in it (not a list file).
     """
+    m = EPISODE.match(list_path.strip().rstrip('/'))
+    if m and not os.path.isfile(os.path.expanduser(list_path)) or (m and list_path.startswith('s3://')):
+        return [m.group(1)]
     out = list()
     for line in pathlib.Path(os.path.expanduser(list_path)).read_text().splitlines():
         line = line.strip().strip('"').split(',')[0].strip()

@@ -39,6 +39,9 @@ def test_list():
             "s3://b/mp4/station1/2026-11-21/task01/episode_000014/\n")
         assert swap.episode_folders(str(p)) == ['s3://b/mp4/station1/2026-11-21/task01/episode_000005',
             's3://b/mp4/station1/2026-11-21/task01/episode_000014'], swap.episode_folders(str(p))
+        assert swap.episode_folders('s3://b/mp4/station1/2026-11-21/task01/episode_000005/') == \
+            ['s3://b/mp4/station1/2026-11-21/task01/episode_000005']
+        assert swap.episode_folders('s3://b/mp4/s/d/t/episode_000005/x_mosaic.mp4') == ['s3://b/mp4/s/d/t/episode_000005']
 
 
 def test_swap():
