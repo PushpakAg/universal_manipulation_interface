@@ -43,6 +43,7 @@ The egocentric "at least five of eight rules" matrix (PRD section 3) is not used
 | V6 | U2 | Constant frame rate | ffprobe average vs nominal rate, frames / duration | each within 0.01 fps of the nominal rate (no variable frame rate) |
 | V7 | U2 | No dropped or repeated frames (`--deep`) | every packet timestamp of the three videos | packet count = header count, equal in all three; no gap > 1.5 frame periods; timestamps strictly increasing; same first timestamp |
 | V8 | U6 | Every frame decodes (`--decode`) | full decode with ffmpeg | no decoder error in any view |
+| V9 | U3 | Left / right views not swapped (`--views`, on with `--deep`) | ArUco gripper tags in the keyframes (UMI: gripper g has tags 6g..6g+5, fingers 6g / 6g+1): each wrist camera's gripper from its own finger tags at the bottom of its view; in the head view the left file's gripper must be left of the right file's (the wrist views, where each sees the other gripper on its outer side, vote when the head has too few keyframes with both); each gripper csv must follow its own video's finger tags | labels agree in >= 80% of the keyframes; <= 20%: FAIL, swapped (exchange left and right files); between: REVIEW; no finger tags: INFO |
 | C1 | R2 | At least 3 complete cycles of the same action | manual count (`reports/manual_counts.csv`, `n_repetitions_manual`), else the VLM count (`<rec>_vlm_result.json`) | count ≥ 3 (target 5 or more). Manual count < 3: FAIL. VLM count < 3: FAIL only when `n_repetitions_confidence` ≥ 0.8, else REVIEW (zero answers are often model misses). No count: REVIEW. |
 | C2 | R3 | Each cycle 3–30 s (UMI) | recording duration / count | duration ≥ 3 s × count (otherwise at least one cycle is shorter than 3 s). duration / count > 30 s is WARN (long cycles or idle time: review). |
 | C3 | R2, R3 | Recording long enough for 3 cycles | head duration | ≥ 9 s (3 cycles × 3 s) |
@@ -71,7 +72,7 @@ the full delivery and `--decode` on a sample (or the full set on a large instanc
 | W4 | R3 | Cycles not much longer than 30 s | duration / count > 30 s: WARN |
 | W5 | Delivery | Mosaic | optional; when present its frame count equals the head video (WARN otherwise) |
 | W6 | Delivery | File naming | `<date>_<taskNN>_<episode>` (or `<taskNN>_<episode>` without a date folder) and ends with the episode folder name |
-| W7 | U3, Delivery | Same calibration as the rest of the station | `_meta.json` fx, fy, cx, cy per view vs the one most recordings of the station use. Left and right exchanged: WARN (cameras or labels swapped?); another calibration: INFO. Meta has no camera serial, so a swap needs a look at the footage. |
+| W7 | U3, Delivery | Same calibration as the rest of the station | `_meta.json` fx, fy, cx, cy per view vs the one most recordings of the station use. Left and right exchanged: WARN (cameras changed hands, or labels swapped); another calibration: INFO. Whether the views themselves are swapped is V9. |
 | W8 | U2 | Sync refined by wrist motion | `sync.method` contains `sync_method_expected` ("wrist motion refinement"); audio cross-correlation alone: WARN |
 | W9 | U6 | Gripper width without jumps | `gripper_jump_count` (5) or more frame-to-frame changes above `gripper_jump_m` (10 mm, 0.6 m/s): WARN (marker-tracking glitches) |
 | W10 | U6 | Gripper width not frozen | width unchanged for more than `gripper_flat_s` (5 s): WARN (tracking lost and the last value held, or a passive gripper) |
@@ -100,5 +101,5 @@ Up to ~5 s of setup at the very start is tolerated (R4); the delivered files are
 - **Content sync.** The delivered videos are re-encoded without audio, timecode or GoPro telemetry, so equal frame
   counts and `sync.frame_index` show the export is consistent, not that frame i is the same instant in all three.
   Spot-check visually (a gripper closing in the head view vs the wrist view).
-- **Which physical camera is left / right.** Meta has no camera serial; W7 only compares calibrations.
+- **Which physical camera is left / right.** Meta has no camera serial; V9 settles it from the gripper tags in the footage (head view + wrist views); W7 only compares calibrations.
 - **Frozen or black frames** inside a video (timestamps are fine, the picture is not): needs a decode pass.

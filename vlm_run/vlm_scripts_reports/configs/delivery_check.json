@@ -71,5 +71,13 @@
   "gripper_jump_count": 5,
   "gripper_flat_s": 5,
   "min_video_kbps": 6000,
-  "_extra_checks_note": "D6 duplicate: identical left + right gripper csv in two recordings (the copy outside a station folder, or the later path, fails). W7: calibration (fx fy cx cy) per view vs the one most recordings of the station use; left/right exchanged is a WARN. W8: sync.method without sync_method_expected. W9: >= gripper_jump_count frame-to-frame width jumps > gripper_jump_m (marker tracking glitches). W10: width unchanged longer than gripper_flat_s (tracking lost, value held; or passive gripper). W11: any view below min_video_kbps (blocked or dark lens?)."
+  "_extra_checks_note": "D6 duplicate: identical left + right gripper csv in two recordings (the copy outside a station folder, or the later path, fails). W7: calibration (fx fy cx cy) per view vs the one most recordings of the station use; left/right exchanged is a WARN. W8: sync.method without sync_method_expected. W9: >= gripper_jump_count frame-to-frame width jumps > gripper_jump_m (marker tracking glitches). W10: width unchanged longer than gripper_flat_s (tracking lost, value held; or passive gripper). W11: any view below min_video_kbps (blocked or dark lens?).",
+  "views_width": 1352,
+  "views_max_tag_id": 12,
+  "views_min_votes": 5,
+  "views_agree": 0.8,
+  "views_csv_margin": 0.2,
+  "_views_note": "V9 (--views, on with --deep): keyframes of the three views at views_width px; gripper tags = DICT_4X4_50 ids below views_max_tag_id, gripper g = id // 6 (UMI: fingers 6g / 6g+1, cube 6g+2..6g+5). Each wrist camera's gripper = its own finger tags in the lower 40% of its view. Needs views_min_votes keyframes with both grippers' tags in the head view (else the wrist views vote); PASS at >= views_agree for the labels, FAIL (swapped) at <= 1 - views_agree, REVIEW between. The gripper csvs fail when they follow the other video's finger tags better by views_csv_margin (correlation). Own gripper needs both its finger tags together (one each side of the centre) in views_min_own keyframes, else INFO; the csv test needs views_csv_min_points keyframes with both finger tags in each view.",
+  "views_min_own": 3,
+  "views_csv_min_points": 8
 }

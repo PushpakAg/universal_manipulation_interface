@@ -70,6 +70,14 @@ header.top .ttl { display: flex; flex-direction: column; gap: 6px; min-width: 0;
 .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .8rem; color: var(--muted); }
 .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
 
+.kpi-hd { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; margin-bottom: -10px; }
+.kpi-hd h2 { font-size: 1rem; }
+.vrow { display: grid; grid-template-columns: 150px 1fr; gap: 6px 14px; align-items: center; }
+.vrow .lab { display: flex; flex-direction: column; line-height: 1.25; }
+.vrow .lab small { color: var(--muted); font-size: .74rem; }
+.vrow .legend { grid-column: 2; }
+th.grp { text-align: center; border-left: 1px solid var(--line); }
+td.sep, th.sep { border-left: 1px solid var(--line); }
 .verdict-callout { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; align-items: baseline; max-width: 90ch; }
 .verdict-callout b { font-family: var(--f-cond); }
 
@@ -110,6 +118,7 @@ td.task { white-space: nowrap; }
 .filters input { font: inherit; font-size: .82rem; border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; background: var(--panel); color: var(--fg); min-width: 0; flex: 1 1 200px; max-width: 320px; }
 .howto { font-family: var(--f-mono); font-size: .78rem; background: var(--soft); border-radius: 6px; padding: 10px 12px; overflow-x: auto; white-space: pre; margin: 0; }
 
+@media (max-width: 560px) { .vrow { grid-template-columns: 1fr; } .vrow .legend { grid-column: 1; } }
 @media (max-width: 900px) { .checks { grid-template-columns: 1fr; } .kpis { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 420px) { .kpis { grid-template-columns: 1fr; } h1 { font-size: 1.45rem; } }
 @media (prefers-reduced-motion: no-preference) { .stack span { transition: width .3s ease; } }
@@ -133,12 +142,14 @@ td.task { white-space: nowrap; }
     <ul class="notes" id="notes"></ul>
   </section>
 
-  <section class="kpis" id="kpis" aria-label="Totals"></section>
+  <div class="kpi-hd"><h2>Data checks</h2><span class="eyebrow">files · sync · frames · length · decide deliverable</span></div>
+  <section class="kpis" id="kpis" aria-label="Data check totals"></section>
+  <div class="kpi-hd"><h2>Repetition checks · VLM count</h2><span class="eyebrow">C1 C2 W2–W4 · guidance until counted by hand · kept apart</span></div>
+  <section class="kpis" id="kpis-vlm" aria-label="Repetition check totals"></section>
 
   <section class="panel" aria-labelledby="h-verdict">
     <h2 id="h-verdict">Verdicts</h2>
-    <div class="stack" id="vstack" style="height:18px"></div>
-    <div class="legend" id="vlegend"></div>
+    <div id="vrows" style="display:flex;flex-direction:column;gap:14px"></div>
     <div class="verdict-callout" id="callout"></div>
   </section>
 
@@ -147,7 +158,7 @@ td.task { white-space: nowrap; }
   <section class="panel" aria-labelledby="h-tasks">
     <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px">
       <h2 id="h-tasks">By station and task</h2>
-      <span class="muted" style="font-size:.8rem">hours are recording hours; deliverable = PASS</span>
+      <span class="muted" style="font-size:.8rem">hours are recording hours; deliverable = PASS on the data checks; repetition columns are the VLM count, apart</span>
     </div>
     <div class="tbl"><table id="ttable"></table></div>
   </section>
@@ -159,14 +170,14 @@ td.task { white-space: nowrap; }
     </div>
     <div class="filters" id="filters"></div>
     <div class="tbl scroll"><table id="ftable"></table></div>
-    <p class="muted" style="margin:0;font-size:.8rem">Recordings that are REVIEW only because no cycle count exists yet are not listed; see C1 above for their number.</p>
+    <p class="muted" style="margin:0;font-size:.8rem">Verdict is the recording's verdict in the finding's own group (data or repetitions). Recordings that are REVIEW only because no cycle count exists yet are not listed; see C1 above for their number.</p>
   </section>
 
   <section class="panel" aria-labelledby="h-next">
     <h2 id="h-next">Adding the next deep check</h2>
     <pre class="howto">.venv/bin/python scripts/check_delivery.py --deep 2>&amp;1 | tee check.log
-.venv/bin/python scripts/build_deep_checks_html.py --snapshot v2 --note "what changed since v1"</pre>
-    <p class="muted" style="margin:0;font-size:.8rem">The snapshot is saved under reports/deep_checks/v2/ and appears as a new run above, with changes shown against the run before it.</p>
+.venv/bin/python scripts/build_deep_checks_html.py --snapshot vN --note "what changed"</pre>
+    <p class="muted" style="margin:0;font-size:.8rem">The snapshot is saved under reports/deep_checks/vN/ and appears as a new run above, with changes shown against the run before it.</p>
   </section>
 </div>
 
@@ -177,11 +188,12 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
 const n = x => Number(x || 0);
 const fmtH = h => n(h).toFixed(2) + " h";
 const pct = (a, b) => b ? (100 * a / b).toFixed(1) + "%" : "–";
-const KIND = {fail: ["Hard fail", "p-fail"], dup: ["Duplicate", "p-fail"], count: ["Count by hand", "p-review"],
+const KIND = {fail: ["Hard fail", "p-fail"], dup: ["Duplicate", "p-fail"], swap: ["L/R views swapped", "p-fail"], count: ["Count by hand", "p-review"],
               setup: ["Setup clip?", "p-review"], calib: ["L/R calibration", "p-review"], sync: ["Audio-only sync", "p-info"],
               gripper: ["Gripper signal", "p-info"], bitrate: ["Low bitrate", "p-info"], idle: ["Both grippers idle", "p-info"],
-              warn: ["Warning", "p-info"]};
-let cur = RUNS.length - 1, kindFilter = "all", query = "";
+              warn: ["Warning", "p-info"], vlmfail: ["Repetition fail", "p-fail"]};
+const GROUPS = {all: "All", data: "Data checks", vlm: "Repetitions (VLM)"};
+let cur = RUNS.length - 1, kindFilter = "all", groupFilter = "all", query = "";
 
 function stack(parts, total) {
   return parts.filter(p => p[0] > 0).map(([v, cls, label]) =>
@@ -223,11 +235,22 @@ function render() {
     ["Review", n(t.review), fmtH(t.review_hours), "var(--review)", delta(n(t.review), pt && n(pt.review), false)],
     ["Fail", n(t.fail), fmtH(t.fail_hours), "var(--fail)", delta(n(t.fail), pt && n(pt.fail), false)],
   ];
-  $("#kpis").innerHTML = k.map(([lab, big, sub, col, d]) =>
-    `<div class="kpi" style="--k:${col}"><span class="eyebrow">${lab}</span><span class="big">${big.toLocaleString()}</span><span class="sub">${sub}</span>${d}</div>`).join("");
+  const kv = [
+    ["Repetitions pass", n(t.vlm_pass), `${fmtH(t.vlm_pass_hours)} · ${pct(n(t.vlm_pass), R)}`, "var(--pass)", delta(n(t.vlm_pass), pt && n(pt.vlm_pass), true)],
+    ["Repetitions review", n(t.vlm_review), fmtH(t.vlm_review_hours), "var(--review)", delta(n(t.vlm_review), pt && n(pt.vlm_review), false)],
+    ["Repetitions fail", n(t.vlm_fail), fmtH(t.vlm_fail_hours), "var(--fail)", delta(n(t.vlm_fail), pt && n(pt.vlm_fail), false)],
+    ["Both pass", n(t.both_pass), `${fmtH(t.both_pass_hours)} · data + repetitions`, "var(--accent)", delta(n(t.both_pass_hours), pt && n(pt.both_pass_hours), true, " h")],
+  ];
+  const kpi = ([lab, big, sub, col, d]) =>
+    `<div class="kpi" style="--k:${col}"><span class="eyebrow">${lab}</span><span class="big">${big.toLocaleString()}</span><span class="sub">${sub}</span>${d}</div>`;
+  $("#kpis").innerHTML = k.map(kpi).join("");
+  $("#kpis-vlm").innerHTML = kv.map(kpi).join("");
 
-  $("#vstack").innerHTML = stack([[n(t.deliverable), "s-pass", "PASS"], [n(t.review), "s-review", "REVIEW"], [n(t.fail), "s-fail", "FAIL"]], R);
-  $("#vlegend").innerHTML = `<span><i class="s-pass"></i>PASS ${t.deliverable}</span><span><i class="s-review"></i>REVIEW ${t.review}</span><span><i class="s-fail"></i>FAIL ${t.fail}</span>`;
+  const vrow = (lab, small, p, rv, f) => `<div class="vrow"><span class="lab"><b>${lab}</b><small>${small}</small></span>` +
+    `<div class="stack" style="height:18px">${stack([[n(p), "s-pass", "PASS"], [n(rv), "s-review", "REVIEW"], [n(f), "s-fail", "FAIL"]], R)}</div>` +
+    `<div class="legend"><span><i class="s-pass"></i>PASS ${n(p)}</span><span><i class="s-review"></i>REVIEW ${n(rv)}</span><span><i class="s-fail"></i>FAIL ${n(f)}</span></div></div>`;
+  $("#vrows").innerHTML = vrow("Data checks", "decide deliverable", t.deliverable, t.review, t.fail) +
+    vrow("Repetitions", "VLM count · guidance", t.vlm_pass, t.vlm_review, t.vlm_fail);
 
   const byId = Object.fromEntries(r.checks.map(c => [c.id, c]));
   const dv = r.checks.filter(c => "DV".includes(c.id[0]));
@@ -237,15 +260,15 @@ function render() {
   const c1 = byId.C1, nocount = R - r.counted;
   $("#callout").innerHTML =
     `<b>Files, sync, frames</b><span>${dvBad.length ? `${dvBad.length} of ${dvRan.length} checks have non-passing recordings: ${dvBad.map(c => c.id).join(", ")}.` : `All ${dvRan.length} checks that ran (${dvRan.map(c => c.id).join(", ")}) passed on every recording.`}${dv.length > dvRan.length ? ` Not run: ${dv.filter(c => !dvRan.includes(c)).map(c => c.id).join(", ")}.` : ""}</span>` +
-    `<b>Length (C3)</b><span>${c3f ? `${c3f} recordings are shorter than 9 s. This is the only hard failure that does not depend on cycle counts.` : "Every recording is at least 9 s long."}</span>` +
-    `<b>Cycle counts</b><span>${nocount ? `${nocount} recordings have no cycle count yet (manual or VLM), so they stay REVIEW on C1/C2 until counted.` : "Every recording has a cycle count."}</span>`;
+    `<b>Length (C3)</b><span>${c3f ? `${c3f} recordings are shorter than 9 s.` : "Every recording is at least 9 s long."}</span>` +
+    `<b>Repetitions</b><span>Counted by the VLM (${Object.entries(r.count_sources).map(([k, v]) => `${k} ${v}`).join(", ")}). Human evaluation has disagreed with these counts, so they are guidance only: their verdict is shown apart and does not change the data-check numbers. ${nocount ? `${nocount} recordings have no count yet and are REVIEW on C1/C2.` : ""}</span>`;
 
   const span = cs => cs.length ? `${cs[0].id}–${cs[cs.length - 1].id}` : "";
   const pick = p => r.checks.filter(c => p.includes(c.id[0]));
   const groups = [
     ["Files, sync and frames", `${span(pick("D"))}, ${span(pick("V"))} · hard`, pick("DV")],
-    ["Cycles and length", `${span(pick("C"))} · hard`, pick("C")],
-    ["Warnings", `${span(pick("W"))} · do not block delivery`, pick("W")],
+    ["Length and warnings", "C3 hard · W do not block", r.checks.filter(c => "CW".includes(c.id[0]) && !c.vlm)],
+    ["Repetitions (VLM count)", "verdict kept apart", r.checks.filter(c => c.vlm)],
   ];
   const ST = {PASS: "s-pass", REVIEW: "s-review", FAIL: "s-fail"};
   const PL = {PASS: "p-pass", REVIEW: "p-review", FAIL: "p-fail"};
@@ -258,7 +281,7 @@ function render() {
       const cls = worst ? (PL[worst] || "p-info") : (c.counts.PASS === R ? "p-pass" : "p-info");
       const bar = stack(entries.map(([s, v]) => [v, ST[s] || "s-info", s]), R);
       const top = c.top.length ? `<div class="top">${c.top.map(([v, k2]) => `<span><span class="mono">${k2}×</span> ${esc(v)}</span>`).join("")}</div>` : "";
-      const vlm = c.vlm ? ` <span class="pill p-vlm" title="depends on cycle counts / VLM result">counts</span>` : "";
+      const vlm = c.vlm && "CW".includes(c.id[0]) && c.hard ? ` <span class="pill p-vlm" title="hard check, but on the VLM count: own verdict">hard · VLM</span>` : "";
       return `<div class="chk"><span class="id">${c.id}</span><span class="nm">${esc(c.name)}${vlm}</span><span class="st pill ${cls}">${label}</span><div class="bar"><div class="stack">${bar}</div></div>${top}</div>`;
     }).join("") + `</div>`).join("");
 
@@ -267,36 +290,48 @@ function render() {
   const order = [];
   st.forEach(s => { order.push(s); tk.filter(x => x.name === s.name || x.name.startsWith(s.name + "/")).forEach(x => order.push(x)); });
   order.push(r.summary.find(s => s.level === "all"));
-  $("#ttable").innerHTML = `<thead><tr><th>Task</th><th class="num">Rec</th><th class="num">Hours</th><th class="num">Pass</th><th class="num">Deliv h</th><th class="num">Review</th><th class="num">Fail</th><th>Verdicts</th><th>Failing checks</th></tr></thead><tbody>` +
+  $("#ttable").innerHTML = `<thead><tr><th colspan="3"></th><th class="grp" colspan="6">Data checks</th><th class="grp" colspan="5">Repetitions · VLM count</th></tr>` +
+    `<tr><th>Task</th><th class="num">Rec</th><th class="num">Hours</th><th class="num sep">Pass</th><th class="num">Deliv h</th><th class="num">Review</th><th class="num">Fail</th><th>Verdicts</th><th>Failing checks</th>` +
+    `<th class="num sep">Pass</th><th class="num">Review</th><th class="num">Fail</th><th>Verdicts</th><th class="num">Both pass h</th></tr></thead><tbody>` +
     order.map(s => `<tr class="${s.level === "station" ? "station" : s.level === "all" ? "all" : ""}"><td class="task">${s.level === "task" ? "&nbsp;&nbsp;" : ""}${esc(s.level === "all" ? "All recordings" : s.name)}</td>` +
-      `<td class="num">${s.recordings}</td><td class="num">${n(s.hours).toFixed(2)}</td><td class="num">${s.deliverable}</td><td class="num">${n(s.deliverable_hours).toFixed(2)}</td><td class="num">${s.review}</td><td class="num">${s.fail}</td>` +
-      `<td><div class="stack">${stack([[n(s.deliverable), "s-pass", "PASS"], [n(s.review), "s-review", "REVIEW"], [n(s.fail), "s-fail", "FAIL"]], n(s.recordings))}</div></td><td class="muted">${esc(s.fail_checks)}</td></tr>`).join("") + `</tbody>`;
+      `<td class="num">${s.recordings}</td><td class="num">${n(s.hours).toFixed(2)}</td><td class="num sep">${s.deliverable}</td><td class="num">${n(s.deliverable_hours).toFixed(2)}</td><td class="num">${s.review}</td><td class="num">${s.fail}</td>` +
+      `<td><div class="stack">${stack([[n(s.deliverable), "s-pass", "PASS"], [n(s.review), "s-review", "REVIEW"], [n(s.fail), "s-fail", "FAIL"]], n(s.recordings))}</div></td><td class="muted">${esc(s.fail_checks)}</td>` +
+      `<td class="num sep">${n(s.vlm_pass)}</td><td class="num">${n(s.vlm_review)}</td><td class="num">${n(s.vlm_fail)}</td>` +
+      `<td><div class="stack">${stack([[n(s.vlm_pass), "s-pass", "PASS"], [n(s.vlm_review), "s-review", "REVIEW"], [n(s.vlm_fail), "s-fail", "FAIL"]], n(s.recordings))}</div></td>` +
+      `<td class="num">${n(s.both_pass_hours).toFixed(2)}</td></tr>`).join("") + `</tbody>`;
 
   renderFindings();
 }
 
 function renderFindings() {
   const r = RUNS[cur];
-  const counts = {}; r.issues.forEach(i => counts[i.kind] = (counts[i.kind] || 0) + 1);
-  $("#filters").innerHTML = [["all", "All", r.issues.length], ...Object.entries(KIND).filter(([k]) => counts[k]).map(([k, [lab]]) => [k, lab, counts[k]])]
+  const inGroup = r.issues.filter(i => groupFilter === "all" || i.group === groupFilter);
+  const counts = {}; inGroup.forEach(i => counts[i.kind] = (counts[i.kind] || 0) + 1);
+  if (kindFilter !== "all" && !counts[kindFilter]) kindFilter = "all";
+  const gcount = g => g === "all" ? r.issues.length : r.issues.filter(i => i.group === g).length;
+  $("#filters").innerHTML = Object.entries(GROUPS).map(([g, lab]) =>
+      `<button type="button" data-g="${g}" aria-pressed="${groupFilter === g}">${lab} <span class="mono">${gcount(g)}</span></button>`).join("") +
+    `<span class="muted" aria-hidden="true">|</span>` +
+    [["all", "Any kind", inGroup.length], ...Object.entries(KIND).filter(([k]) => counts[k]).map(([k, [lab]]) => [k, lab, counts[k]])]
     .map(([k, lab, c]) => `<button type="button" data-k="${k}" aria-pressed="${kindFilter === k}">${lab} <span class="mono">${c}</span></button>`).join("") +
     `<input id="fq" type="search" placeholder="Filter by task, episode or reason" value="${esc(query)}" aria-label="Filter recordings">`;
-  $("#filters").querySelectorAll("button").forEach(b => b.onclick = () => { kindFilter = b.dataset.k; renderFindings(); });
+  $("#filters").querySelectorAll("button[data-k]").forEach(b => b.onclick = () => { kindFilter = b.dataset.k; renderFindings(); });
+  $("#filters").querySelectorAll("button[data-g]").forEach(b => b.onclick = () => { groupFilter = b.dataset.g; kindFilter = "all"; renderFindings(); });
   const q = $("#fq"); q.oninput = () => { query = q.value; drawRows(); };
   drawRows();
 }
 function drawRows() {
   const r = RUNS[cur], q = query.trim().toLowerCase();
-  const list = r.issues.filter(i => (kindFilter === "all" || i.kind === kindFilter) &&
+  const list = r.issues.filter(i => (groupFilter === "all" || i.group === groupFilter) && (kindFilter === "all" || i.kind === kindFilter) &&
     (!q || `${i.task} ${i.episode} ${i.reason} ${i.check}`.toLowerCase().includes(q)));
   $("#fcount").textContent = `${list.length} of ${r.issues.length} findings`;
-  $("#ftable").innerHTML = `<thead><tr><th>Task</th><th>Episode</th><th>Verdict</th><th>Check</th><th>Finding</th><th class="num">Length</th></tr></thead><tbody>` +
+  $("#ftable").innerHTML = `<thead><tr><th>Task</th><th>Episode</th><th>Group</th><th>Verdict</th><th>Check</th><th>Finding</th><th class="num">Length</th></tr></thead><tbody>` +
     (list.length ? list.map(i => {
       const [lab, cls] = KIND[i.kind] || ["", "p-info"];
       const vc = {PASS: "p-pass", REVIEW: "p-review", FAIL: "p-fail"}[i.verdict] || "p-info";
-      return `<tr><td class="task">${esc(i.task)}</td><td class="mono">${esc(i.episode)}</td><td><span class="pill ${vc}">${i.verdict}</span></td>` +
+      return `<tr><td class="task">${esc(i.task)}</td><td class="mono">${esc(i.episode)}</td><td class="muted">${i.group === "vlm" ? "Repetitions" : "Data"}</td><td><span class="pill ${vc}">${i.verdict}</span></td>` +
         `<td><span class="mono">${i.check}</span> <span class="pill ${cls}">${lab}</span></td><td class="reason">${esc(i.reason)}</td><td class="num">${i.duration == null ? "–" : i.duration.toFixed(1) + " s"}</td></tr>`;
-    }).join("") : `<tr><td colspan="6" class="muted">No findings match this filter.</td></tr>`) + `</tbody>`;
+    }).join("") : `<tr><td colspan="7" class="muted">No findings match this filter.</td></tr>`) + `</tbody>`;
 }
 
 function fromHash() {

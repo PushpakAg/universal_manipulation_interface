@@ -13,7 +13,13 @@ HARD checks (any FAIL fails the recording):
   V3 codec + resolution as meta   V4 synchronized (same sync index)  D5 files: none empty, names match meta  D6 not a duplicate of another recording (same gripper data)
   V5 same start time              V6 constant frame rate             V7 every frame's timestamp (--deep)
   V8 every frame decodes (--decode)
+  V9 left / right views not swapped (--views, also with --deep): ArUco gripper tags (UMI: gripper g has tags 6g..6g+5,
+     fingers 6g / 6g+1) name the gripper each wrist camera sits on (its own finger tags, bottom of its view); in the head
+     view the left file's gripper must be left of the right file's. Plus: each gripper csv follows its own video's
+     finger tags. Keyframes only (about 1 per second) are decoded.
   C1 >= 3 cycles (manual count, else VLM count)                   C2 cycles >= 3 s   C3 duration >= 9 s
+Repetition checks C1, C2, W2-W4 rest on the VLM cycle count until a person counts: they get their own verdict
+  (vlm_verdict) and their own report columns; verdict / deliverable are the data checks only.
 WARN / INFO: W1 both grippers move (U5, passive allowed), W2 task is not a setup activity, W3 target 5 cycles,
   W4 duration / count > 30 s, W5 mosaic frame count = head, W6 file naming <date>_<taskNN>_<episode>,
   W7 calibrations match the rest of the station (left / right swapped?), W8 sync refined by wrist motion,
@@ -26,6 +32,7 @@ Videos are probed with ffprobe from the mp4 header only (S3: a presigned URL, no
     python scripts/check_delivery.py --limit 2                        # 2 recordings per task
     python scripts/check_delivery.py --deep                           # + every frame timestamp (reads whole files)
     python scripts/check_delivery.py --decode --task task06 --limit 3 # + full decode of a sample
+    python scripts/check_delivery.py --views                          # + left / right view swap (V9) without --deep
 
 Output (reports/):
   delivery_check.csv              one row per recording: verdict (PASS / REVIEW / FAIL), reasons, every check and value
@@ -55,19 +62,23 @@ STATION = re.compile(r"^station\d+$", re.I)
 TASK_DIR = re.compile(r"^task\d+$", re.I)
 VIDEO_ROLES = ("head", "left", "right")
 GRIPPERS = ("right", "left")
-CHECK_IDS = ("D1", "D2", "D3", "D4", "D5", "D6", "V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "C1", "C2", "C3",
+CHECK_IDS = ("D1", "D2", "D3", "D4", "D5", "D6", "V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9", "C1", "C2", "C3",
              "W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8", "W9", "W10", "W11")
-HARD = {"D1", "D2", "D3", "D4", "D5", "D6", "V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "C1", "C2", "C3"}
+HARD = {"D1", "D2", "D3", "D4", "D5", "D6", "V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9", "C1", "C2", "C3"}
+# Repetition checks: they rest on the cycle count (the VLM's, until a person counts) and the VLM task. They get their
+# own verdict (vlm_verdict) and their own columns in every report, so the VLM count does not move the data-check numbers.
+VLM_CHECKS = ("C1", "C2", "W2", "W3", "W4")
+DATA_CHECKS = tuple(k for k in CHECK_IDS if k not in VLM_CHECKS)
 CHECK_NAMES = {
     "D1": "three views present", "D2": "camera metadata", "D3": "sync method and frame index", "D4": "gripper width per frame",
     "D5": "files and names", "D6": "not a duplicate", "V1": "same frame rate", "V2": "same frame count and duration", "V3": "codec and resolution",
     "V4": "synchronized start index", "V5": "same start time", "V6": "constant frame rate", "V7": "frame timeline (--deep)",
-    "V8": "frames decode (--decode)", "C1": "at least 3 cycles", "C2": "cycles at least 3 s", "C3": "at least 9 s long",
+    "V8": "frames decode (--decode)", "V9": "left / right views not swapped (--views)", "C1": "at least 3 cycles", "C2": "cycles at least 3 s", "C3": "at least 9 s long",
     "W1": "both grippers move", "W2": "task is not setup", "W3": "target 5 cycles", "W4": "cycles up to 30 s",
     "W5": "mosaic", "W6": "file naming", "W7": "calibration matches station", "W8": "sync refined by wrist motion",
     "W9": "gripper width without jumps", "W10": "gripper width not frozen", "W11": "video bitrate"}
 CHECK_FILES = {"D1": "video", "V1": "video", "V2": "video", "V3": "video", "V5": "video", "V6": "video", "V7": "video",
-               "V8": "video", "D2": "meta", "D3": "meta", "D5": "meta", "V4": "meta", "D4": "gripper", "C1": "recording",
+               "V8": "video", "V9": "video", "D2": "meta", "D3": "meta", "D5": "meta", "V4": "meta", "D4": "gripper", "C1": "recording",
                "C2": "recording", "C3": "head", "W2": "vlm", "D6": "recording"}
 REC_NAME = re.compile(r"^(\d{4}-\d{2}-\d{2}_)?task\d+_episode_\d{6}$", re.I)
 
@@ -218,6 +229,127 @@ def parse_resolution(v):
         return int(v[0]), int(v[1])
     m = re.match(r"^\s*(\d+)\s*[x×X,]\s*(\d+)\s*$", str(v or ""))
     return (int(m.group(1)), int(m.group(2))) if m else None
+
+
+# ---------------------------------------------------------------- V9 left / right views from the gripper tags
+def keyframes(url, size):
+    """The keyframes (about one per second; only these are decoded), gray, scaled to size, and their times."""
+    import numpy as np
+    w, h = size
+    out = subprocess.run(["ffmpeg", "-v", "info", "-nostdin", "-threads", "2", "-skip_frame", "nokey", "-i", url,
+                          "-map", "0:v:0", "-vf", f"showinfo,scale={w}:{h},format=gray", "-vsync", "passthrough",
+                          "-f", "rawvideo", "-"], capture_output=True, timeout=1800)
+    if out.returncode != 0:
+        raise RuntimeError(out.stderr.decode(errors="replace").strip().splitlines()[-1][:120] or "ffmpeg failed")
+    frames = np.frombuffer(out.stdout, np.uint8).reshape(-1, h, w)
+    times = [float(m) for m in re.findall(r"pts_time:\s*(-?[\d.]+)", out.stderr.decode(errors="replace"))]
+    return frames, times[: len(frames)]
+
+
+def tag_sightings(frames, max_id):
+    """Per frame: [(tag id, x, y)] of the gripper tags (DICT_4X4_50, ids below max_id)."""
+    import cv2
+    det = cv2.aruco.ArucoDetector(cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50),
+                                  cv2.aruco.DetectorParameters())
+    out = []
+    for f in frames:
+        corners, ids, _ = det.detectMarkers(f)
+        out.append([] if ids is None else
+                   [(int(i), *c.reshape(4, 2).mean(0)) for i, c in zip(ids.ravel(), corners) if i < max_id])
+    return out
+
+
+def corr(a, b):
+    import numpy as np
+    a, b = np.asarray(a, float), np.asarray(b, float)
+    ok = np.isfinite(a) & np.isfinite(b)
+    a, b = a[ok] - a[ok].mean(), b[ok] - b[ok].mean()
+    d = np.sqrt((a * a).sum() * (b * b).sum())
+    return float((a * b).sum() / d) if len(a) > 2 and d > 0 else None
+
+
+def check_views(store, files, probes, texts, cfg):
+    """V9: (status, value, culprit roles). The gripper each wrist camera sits on = the group (tag id // 6) of the finger
+    tags (ids 6g, 6g+1) in the lower part of its own view. Votes per keyframe: in the head view the left file's gripper
+    is left of the right file's; in each wrist view the other gripper is on the outer side (the left camera sees the
+    right gripper to its right). The head votes decide; the wrist votes only when the head has too few."""
+    import numpy as np
+    width, max_id = cfg.get("views_width", 1352), cfg.get("views_max_tag_id", 12)
+    size = {r: (width, round(probes[r]["height"] * width / probes[r]["width"] / 2) * 2) for r in VIDEO_ROLES}
+    seen, times, own, fdist = {}, {}, {}, {}
+    for r in ("left", "right"):
+        fr, times[r] = keyframes(store.url(files[r]), size[r])
+        seen[r] = tag_sightings(fr, max_id)
+        w, h = size[r]
+        # own fingers: BOTH finger tags of one gripper in the lower part, one each side of the centre (a table marker
+        # with the same id at the bottom of the view does not count)
+        c = collections.Counter()
+        for s in seen[r]:
+            low = collections.defaultdict(list)
+            for i, x, y in s:
+                if i % 6 in (0, 1) and y > 0.6 * h:
+                    low[i].append(x)
+            c.update({g for g in {i // 6 for i in low} if low.get(6 * g) and low.get(6 * g + 1)
+                      and (min(low[6 * g]) - w / 2) * (min(low[6 * g + 1]) - w / 2) < 0})
+        need = cfg.get("views_min_own", 3)
+        if not c or c.most_common(1)[0][1] < need:
+            return "INFO", (f"{r} view: own gripper's two finger tags seen together in fewer than {need} keyframes "
+                            f"(short clip, fingers hidden, or not UMI tags)"), []
+        own[r] = g = c.most_common(1)[0][0]
+        fdist[r] = []  # finger tag distance per keyframe (nan when not both seen): the opening as the video shows it
+        for s in seen[r]:
+            xs = {i: x for i, x, y in s if i in (6 * g, 6 * g + 1) and y > 0.6 * h}
+            fdist[r].append(abs(xs[6 * g] - xs[6 * g + 1]) if len(xs) == 2 else np.nan)
+    gl, gr = own["left"], own["right"]
+    if gl == gr:
+        return "FAIL", (f"left and right views both sit on gripper {gl} (finger tags {6 * gl} / {6 * gl + 1}): "
+                        f"the same camera twice?"), ["left", "right"]
+    fr, _ = keyframes(store.url(files["head"]), size["head"])
+    head_votes = []
+    for s in tag_sightings(fr, max_id):
+        xs = collections.defaultdict(list)
+        for i, x, y in s:
+            xs[i // 6].append(x)
+        if xs.get(gl) and xs.get(gr):
+            head_votes.append(float(np.median(xs[gl])) < float(np.median(xs[gr])))
+    wrist_votes = []
+    for r, other, side in (("left", gr, 1), ("right", gl, -1)):
+        for s in seen[r]:
+            xs = [x for i, x, y in s if i // 6 == other]
+            if xs:
+                wrist_votes.append((float(np.median(xs)) - size[r][0] / 2) * side > 0)
+    # gripper csvs: each follows the finger tags of its own video (else the csvs are exchanged vs the videos)
+    csv_note, csv_bad = "", False
+    fps = probes["left"].get("fps") or cfg["expected_fps"]
+    widths = {g: read_widths(texts[g])[1] for g in GRIPPERS if g in texts}
+    if len(widths) == 2:
+        def at(g, r):
+            t0 = times[r][0] if times[r] else 0.0
+            return [widths[g][min(len(widths[g]) - 1, max(0, round((t - t0) * fps)))] for t in times[r]]
+        same = [corr(fdist[r], at(r, r)) for r in ("left", "right")]
+        cross = [corr(fdist[r], at(o, r)) for r, o in (("left", "right"), ("right", "left"))]
+        pts = min(sum(1 for d in fdist[r] if d == d) for r in ("left", "right"))  # keyframes with both finger tags
+        if None not in same + cross and pts >= cfg.get("views_csv_min_points", 8):
+            s_, c_ = sum(same) / 2, sum(cross) / 2
+            csv_bad = c_ > s_ + cfg.get("views_csv_margin", 0.2)
+            csv_note = (f"; gripper csvs {'EXCHANGED vs the videos' if csv_bad else 'match their videos'} "
+                        f"(finger tags vs width r {s_:.2f} own, {c_:.2f} other)")
+    mv, agree = cfg.get("views_min_votes", 5), cfg.get("views_agree", 0.8)
+    basis, votes = ("head view", head_votes) if len(head_votes) >= mv else ("wrist views", wrist_votes)
+    txt = (f"left file on gripper {gl}, right file on gripper {gr}; head view: left file's gripper on the left in "
+           f"{sum(head_votes)}/{len(head_votes)} keyframes; wrist views: other gripper on the outer side in "
+           f"{sum(wrist_votes)}/{len(wrist_votes)}{csv_note}")
+    if csv_bad:
+        return "FAIL", "gripper csvs exchanged: " + txt, ["left_gripper", "right_gripper"]
+    if len(votes) < mv:
+        return "INFO", "too few keyframes with both grippers' tags to tell: " + txt, []
+    share = sum(votes) / len(votes)
+    if share >= agree:
+        return "PASS", txt, []
+    if share <= 1 - agree:
+        return "FAIL", (f"left / right views swapped ({basis}): the left file is the right hand's camera; exchange "
+                        f"left and right (videos, gripper csvs, calibration). " + txt), ["left", "right"]
+    return "REVIEW", f"unclear which hand ({basis} {share:.0%} for the labels): " + txt, ["left", "right"]
 
 
 # ---------------------------------------------------------------- the checklist
@@ -502,6 +634,19 @@ def check(store, rec, cfg, manual):
         put("V8", "FAIL" if bad else "PASS", "; ".join(f"{r}: {len(e)} errors, e.g. {e[0][:80]}" for r, e in bad.items())
             or "all frames decode")
 
+    # V9 left / right views (--views / --deep): the gripper tags say which hand each wrist camera is on
+    if not cfg.get("_views"):
+        put("V9", "SKIP", "not checked (run with --views or --deep)")
+    elif len(got) < 3:
+        put("V9", "FAIL", "not all three videos readable (see D1)")
+        culprits["V9"] = [r for r in VIDEO_ROLES if r not in got]
+    else:
+        try:
+            st, val, culprits["V9"] = check_views(store, files, got, texts, cfg)
+        except Exception as ex:
+            st, val = "REVIEW", f"view check failed: {ex}"[:200]
+        put("V9", st, val)
+
     # C1-C3 cycles, W2-W5
     vlm = {}
     if files.get("vlm"):
@@ -577,11 +722,48 @@ def check(store, rec, cfg, manual):
 
 
 def set_verdict(row):
-    fails = [f"{k}: {row[f'{k}_value']}" for k in CHECK_IDS if row.get(k) == "FAIL" and k in HARD]
-    reviews = [f"{k}: {row[f'{k}_value']}" for k in CHECK_IDS if row.get(k) == "REVIEW"]
-    row["verdict"] = "FAIL" if fails else ("REVIEW" if reviews else "PASS")
-    row["reasons"] = " | ".join(fails or reviews)
+    """verdict / reasons: the data checks (files, sync, frames, length, warnings). vlm_verdict / vlm_reasons: the
+    repetition checks (VLM_CHECKS), kept apart."""
+    for pre, ids in (("", DATA_CHECKS), ("vlm_", VLM_CHECKS)):
+        fails = [f"{k}: {row[f'{k}_value']}" for k in ids if row.get(k) == "FAIL" and k in HARD]
+        reviews = [f"{k}: {row[f'{k}_value']}" for k in ids if row.get(k) == "REVIEW"]
+        row[pre + "verdict"] = "FAIL" if fails else ("REVIEW" if reviews else "PASS")
+        row[pre + "reasons"] = " | ".join(fails or reviews)
     return row
+
+
+def hours(rs):
+    return sum(float(r.get("duration_s") or 0) for r in rs) / 3600
+
+
+def summary_row(level, name, sub):
+    """Recordings and hours by data-check verdict and, apart, by repetition (VLM) verdict."""
+    out = {"level": level, "name": name, "recordings": len(sub), "hours": round(hours(sub), 3)}
+    v = {x: [r for r in sub if r["verdict"] == x] for x in ("PASS", "REVIEW", "FAIL")}
+    out.update({"deliverable": len(v["PASS"]), "deliverable_hours": round(hours(v["PASS"]), 3),
+                "review": len(v["REVIEW"]), "review_hours": round(hours(v["REVIEW"]), 3),
+                "fail": len(v["FAIL"]), "fail_hours": round(hours(v["FAIL"]), 3),
+                "deliverable_pct": round(100 * len(v["PASS"]) / len(sub), 1) if sub else 0})
+    why = collections.Counter(k for r in sub for k in DATA_CHECKS if r.get(k) == "FAIL" and k in HARD)
+    out["fail_checks"] = ", ".join(f"{k} {CHECK_NAMES[k]} x{c}" for k, c in why.most_common())
+    q = {x: [r for r in sub if r.get("vlm_verdict") == x] for x in ("PASS", "REVIEW", "FAIL")}
+    for x, key in (("PASS", "vlm_pass"), ("REVIEW", "vlm_review"), ("FAIL", "vlm_fail")):
+        out[key], out[key + "_hours"] = len(q[x]), round(hours(q[x]), 3)
+    vwhy = collections.Counter((k, r[k]) for r in sub for k in VLM_CHECKS
+                               if (r.get(k) == "FAIL" and k in HARD) or r.get(k) == "REVIEW")
+    out["vlm_checks"] = ", ".join(f"{k} {st} x{c}" for (k, st), c in vwhy.most_common())
+    both = [r for r in v["PASS"] if r.get("vlm_verdict") == "PASS"]
+    out["both_pass"], out["both_pass_hours"] = len(both), round(hours(both), 3)
+    return out
+
+
+def summarize(rows):
+    """Summary rows: per task, per station, overall."""
+    summ = [summary_row("task", t, [r for r in rows if r["task"] == t]) for t in sorted({r["task"] for r in rows})]
+    stations = sorted({r["task"].split("/")[0] for r in rows})
+    summ += [summary_row("station", st, [r for r in rows if r["task"].split("/")[0] == st]) for st in stations]
+    summ.append(summary_row("all", "ALL", rows))
+    return summ
 
 
 def station_of(row):
@@ -617,7 +799,7 @@ def cross_checks(rows):
             c = r["_calib"]
             if c["left"] == common["right"] and c["right"] == common["left"] and common["left"] != common["right"]:
                 r["W7"], r["W7_value"] = "WARN", (f"left / right calibrations swapped vs the rest of the station "
-                                                  f"(left fx {c['left'][0]}, right fx {c['right'][0]}): cameras or labels swapped?")
+                                                  f"(left fx {c['left'][0]}, right fx {c['right'][0]}): cameras changed hands or labels swapped? V9 checks the views")
             elif any(c[v] != common[v] for v in VIDEO_ROLES):
                 odd = [v for v in VIDEO_ROLES if c[v] != common[v]]
                 r["W7"], r["W7_value"] = "INFO", f"{', '.join(odd)} calibration differs from the rest of the station"
@@ -665,9 +847,11 @@ def main():
     ap.add_argument("--deep", action="store_true",
                     help="V7: read every frame's timestamp of the three videos (reads the whole files; on S3 a download)")
     ap.add_argument("--decode", action="store_true", help="V8: decode every frame (CPU heavy; use with --task/--limit)")
+    ap.add_argument("--views", action="store_true",
+                    help="V9: left / right views not swapped, from the gripper tags in the keyframes (on with --deep)")
     a = ap.parse_args()
     cfg = json.loads(a.config.read_text())
-    cfg["_deep"], cfg["_decode"] = a.deep, a.decode
+    cfg["_deep"], cfg["_decode"], cfg["_views"] = a.deep, a.decode, a.views or a.deep
     if not shutil.which("ffprobe"):
         sys.exit("ffprobe not found: apt-get install ffmpeg (or brew install ffmpeg)")
     src = a.source or cfg["source"]
@@ -702,7 +886,7 @@ def main():
 
     out = a.out or HERE / cfg["out_csv"]
     out.parent.mkdir(parents=True, exist_ok=True)
-    cols = ["task", "episode", "verdict", "reasons", "n_cycles", "count_source", "duration_s"] + \
+    cols = ["task", "episode", "verdict", "reasons", "vlm_verdict", "vlm_reasons", "n_cycles", "count_source", "duration_s"] + \
            [c for k in CHECK_IDS for c in (k, f"{k}_value")] + ["folder"]
     with open(out, "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=cols, extrasaction="ignore")
@@ -729,47 +913,37 @@ def main():
         return " ".join(uris.get(r, f"{row['folder']}/<missing {r}>") for r in roles)
     fail_rows = []
     for row in rows:
-        if row["verdict"] == "PASS":
+        if row["verdict"] == "PASS" and row.get("vlm_verdict") == "PASS":
             continue
         if "D1" not in row:  # the check itself crashed
-            fail_rows.append({"task": row["task"], "episode": row["episode"], "verdict": row["verdict"], "check": "",
-                              "check_name": "check crashed", "status": "FAIL", "files": row["folder"] + "/",
+            fail_rows.append({"task": row["task"], "episode": row["episode"], "group": "data", "verdict": row["verdict"],
+                              "check": "", "check_name": "check crashed", "status": "FAIL", "files": row["folder"] + "/",
                               "reason": row["reasons"]})
             continue
         for k in CHECK_IDS:
             st = row.get(k)
             if (st == "FAIL" and k in HARD) or st == "REVIEW":
-                fail_rows.append({"task": row["task"], "episode": row["episode"], "verdict": row["verdict"], "check": k,
+                vlm = k in VLM_CHECKS
+                fail_rows.append({"task": row["task"], "episode": row["episode"], "group": "vlm" if vlm else "data",
+                                  "verdict": row["vlm_verdict" if vlm else "verdict"], "check": k,
                                   "check_name": CHECK_NAMES[k], "status": st,
                                   "files": concerned(row, k, row.get(f"{k}_value", "")), "reason": row.get(f"{k}_value", "")})
     with open(files_out["failures"], "w", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=["task", "episode", "verdict", "check", "check_name", "status", "files", "reason"])
+        w = csv.DictWriter(fh, fieldnames=["task", "episode", "group", "verdict", "check", "check_name", "status", "files",
+                                           "reason"])
         w.writeheader()
         w.writerows(fail_rows)
 
-    # deliverable: every PASS recording, with its length
-    hours = lambda rs: sum(float(r.get("duration_s") or 0) for r in rs) / 3600
+    # deliverable: every recording that passes the data checks, with its length and, apart, its repetition verdict
     deliver = [r for r in rows if r["verdict"] == "PASS"]
     with open(files_out["deliverable"], "w", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=["task", "episode", "duration_s", "n_cycles", "count_source", "folder"],
-                           extrasaction="ignore")
+        w = csv.DictWriter(fh, fieldnames=["task", "episode", "duration_s", "vlm_verdict", "n_cycles", "count_source",
+                                           "vlm_reasons", "folder"], extrasaction="ignore")
         w.writeheader()
         w.writerows(deliver)
 
-    # summary per task, per station and overall: recordings and hours by verdict
-    def summary_row(level, name, sub):
-        v = {x: [r for r in sub if r["verdict"] == x] for x in ("PASS", "REVIEW", "FAIL")}
-        why = collections.Counter(k for r in sub for k in CHECK_IDS if r.get(k) == "FAIL" and k in HARD)
-        return {"level": level, "name": name, "recordings": len(sub), "hours": round(hours(sub), 3),
-                "deliverable": len(v["PASS"]), "deliverable_hours": round(hours(v["PASS"]), 3),
-                "review": len(v["REVIEW"]), "review_hours": round(hours(v["REVIEW"]), 3),
-                "fail": len(v["FAIL"]), "fail_hours": round(hours(v["FAIL"]), 3),
-                "deliverable_pct": round(100 * len(v["PASS"]) / len(sub), 1) if sub else 0,
-                "fail_checks": ", ".join(f"{k} {CHECK_NAMES[k]} x{c}" for k, c in why.most_common())}
-    summ = [summary_row("task", t, [r for r in rows if r["task"] == t]) for t in sorted({r["task"] for r in rows})]
-    stations = sorted({r["task"].split("/")[0] for r in rows})
-    summ += [summary_row("station", st, [r for r in rows if r["task"].split("/")[0] == st]) for st in stations]
-    summ.append(summary_row("all", "ALL", rows))
+    # summary per task, per station and overall: recordings and hours by data verdict and by repetition verdict
+    summ = summarize(rows)
     with open(files_out["summary"], "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(summ[0]))
         w.writeheader()
@@ -781,27 +955,43 @@ def main():
           f"Checked against DataPRD1019 v1.1 (docs/UMI_delivery_checklist.md); "
           f"{'header + every frame timestamp' if a.deep else 'header only'}{', full decode' if a.decode else ''}.",
           *([] if a.deep else ["Not checked in this run: dropped frames inside a file (V7, run with --deep)."]),
+          *([] if cfg["_views"] else ["Not checked in this run: left / right view swap (V9, run with --views or --deep)."]),
           *([] if a.decode else ["Not checked in this run: corrupt frames (V8, run with --decode). "
                                  "Deliverable means: passes every check that ran."]), "",
-          f"**Deliverable: {tot['deliverable']} of {tot['recordings']} recordings, {tot['deliverable_hours']:.2f} h "
+          f"Two separate verdicts per recording. **Data checks** (files, sync, frames, length, warnings: "
+          f"{', '.join(DATA_CHECKS)}) decide what is deliverable here. **Repetition checks** ({', '.join(VLM_CHECKS)}) "
+          f"rest on the VLM cycle count until a person counts, so they are reported apart and do not change the "
+          f"data-check numbers.", "",
+          f"**Data checks: deliverable {tot['deliverable']} of {tot['recordings']} recordings, {tot['deliverable_hours']:.2f} h "
           f"of {tot['hours']:.2f} h** ({tot['deliverable_pct']}%). Review: {tot['review']} ({tot['review_hours']:.2f} h). "
           f"Fail: {tot['fail']} ({tot['fail_hours']:.2f} h).", "",
+          f"**Repetition checks (VLM count, guidance):** pass {tot['vlm_pass']} ({tot['vlm_pass_hours']:.2f} h), "
+          f"review {tot['vlm_review']} ({tot['vlm_review_hours']:.2f} h), fail {tot['vlm_fail']} ({tot['vlm_fail_hours']:.2f} h). "
+          f"Both pass: {tot['both_pass']} ({tot['both_pass_hours']:.2f} h).", "",
+          "## Data checks", "",
           "| Level | Name | Recordings | Hours | Deliverable | Deliverable h | Review | Review h | Fail | Fail h | Fail checks |",
           "|---|---|---|---|---|---|---|---|---|---|---|"]
     md += [f"| {x['level']} | {x['name']} | {x['recordings']} | {x['hours']:.2f} | {x['deliverable']} | "
            f"{x['deliverable_hours']:.2f} | {x['review']} | {x['review_hours']:.2f} | {x['fail']} | {x['fail_hours']:.2f} | "
            f"{x['fail_checks']} |" for x in summ]
-    reasons = collections.Counter((f["check"], f["check_name"], f["status"]) for f in fail_rows)
-    md += ["", "## Why recordings are not deliverable", "", "| Check | What | Status | Recordings |", "|---|---|---|---|"]
-    md += [f"| {k} | {n} | {st} | {c} |" for (k, n, st), c in reasons.most_common()]
+    md += ["", "## Repetition checks (VLM count; a hand count in manual_counts.csv overrides it)", "",
+           "| Level | Name | Recordings | Pass | Pass h | Review | Review h | Fail | Fail h | Both pass | Both pass h | Checks |",
+           "|---|---|---|---|---|---|---|---|---|---|---|---|"]
+    md += [f"| {x['level']} | {x['name']} | {x['recordings']} | {x['vlm_pass']} | {x['vlm_pass_hours']:.2f} | "
+           f"{x['vlm_review']} | {x['vlm_review_hours']:.2f} | {x['vlm_fail']} | {x['vlm_fail_hours']:.2f} | "
+           f"{x['both_pass']} | {x['both_pass_hours']:.2f} | {x['vlm_checks']} |" for x in summ]
+    for grp, title in (("data", "Why recordings fail the data checks"), ("vlm", "Repetition check findings")):
+        reasons = collections.Counter((f["check"], f["check_name"], f["status"]) for f in fail_rows if f["group"] == grp)
+        md += ["", f"## {title}", "", "| Check | What | Status | Recordings |", "|---|---|---|---|"]
+        md += [f"| {k} | {n} | {st} | {c} |" for (k, n, st), c in reasons.most_common()]
     md += ["", f"Every failed or review check, with the S3 file and the reason: `{files_out['failures'].name}`. "
            f"Deliverable recordings: `{files_out['deliverable'].name}`. All checks per recording: `{out.name}`.", ""]
     files_out["report"].write_text("\n".join(md))
 
-    print(f"{'level':8s} {'name':32s} {'n':>5s} {'hours':>7s} {'deliv':>6s} {'deliv_h':>8s} {'review':>6s} {'fail':>5s}  fail checks")
+    print(f"{'level':8s} {'name':32s} {'n':>5s} {'hours':>7s} {'deliv':>6s} {'deliv_h':>8s} {'review':>6s} {'fail':>5s} | {'vlm_p':>5s} {'vlm_r':>5s} {'vlm_f':>5s}  data fail checks")
     for x in summ:
         print(f"{x['level']:8s} {x['name']:32s} {x['recordings']:5d} {x['hours']:7.2f} {x['deliverable']:6d} "
-              f"{x['deliverable_hours']:8.2f} {x['review']:6d} {x['fail']:5d}  {x['fail_checks'][:80]}")
+              f"{x['deliverable_hours']:8.2f} {x['review']:6d} {x['fail']:5d} | {x['vlm_pass']:5d} {x['vlm_review']:5d} {x['vlm_fail']:5d}  {x['fail_checks'][:70]}")
     print("-> " + "\n-> ".join(str(x) for x in (out, *files_out.values())))
 
 

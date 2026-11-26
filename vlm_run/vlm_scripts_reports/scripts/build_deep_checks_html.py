@@ -2,7 +2,8 @@
 """Build reports/deep_checks.html: one page for every saved delivery deep check, with a switch between runs.
 
 Each run is a folder reports/deep_checks/<id>/ (v1, v2, ...) holding the outputs of check_delivery.py
-(delivery_check.csv, delivery_check_summary.csv) and a run.json with its label, date and notes.
+(delivery_check.csv, ...) and a run.json with its label, date and notes. Verdicts and the summary are recomputed from
+delivery_check.csv: the data checks and the repetition checks (VLM count) are shown apart.
 
 After a new deep check:
     .venv/bin/python scripts/check_delivery.py --deep 2>&1 | tee check.log
@@ -28,9 +29,9 @@ SNAP_FILES = ["delivery_check.csv", "delivery_check_summary.csv", "delivery_chec
               "delivery_check_deliverable.csv", "delivery_check_report.md"]
 
 sys.path.insert(0, str(HERE / "scripts"))
-from check_delivery import CHECK_IDS, CHECK_NAMES as NAMES  # noqa: E402  (one list of checks for both)
+from check_delivery import CHECK_IDS, CHECK_NAMES as NAMES, VLM_CHECKS, set_verdict, summarize  # noqa: E402
 
-VLM_DEPENDENT = {"C1", "C2", "W2", "W3", "W4"}
+VLM_DEPENDENT = set(VLM_CHECKS)
 WARN_KIND = {"W4": "warn", "W6": "warn", "W7": "calib", "W8": "sync", "W9": "gripper", "W10": "gripper", "W11": "bitrate"}
 
 
@@ -67,8 +68,15 @@ def load_run(d):
     meta = json.loads((d / "run.json").read_text()) if (d / "run.json").exists() else {"id": d.name}
     meta.setdefault("label", f"{d.name} deep check")
     rows = list(csv.DictReader(open(d / "delivery_check.csv")))
-    summary = list(csv.DictReader(open(d / "delivery_check_summary.csv")))
     ids = [k for k in CHECK_IDS if k in rows[0]]
+    # data verdict and repetition (VLM) verdict, recomputed from the saved check columns so every run, also those
+    # saved before the split, shows the two apart; a crashed check (no D1) stays FAIL with its reason
+    for r in rows:
+        if r.get("D1"):
+            set_verdict(r)
+        else:
+            r["vlm_verdict"], r["vlm_reasons"] = "", ""
+    summary = summarize(rows)
 
     checks = []
     for k in CHECK_IDS:
@@ -86,13 +94,19 @@ def load_run(d):
     for r in rows:
         dur = num(r["duration_s"])
         def add(check, kind, why):
-            issues.append({"task": r["task"], "episode": r["episode"], "verdict": r["verdict"], "check": check,
+            vlm = check in VLM_DEPENDENT
+            issues.append({"task": r["task"], "episode": r["episode"], "group": "vlm" if vlm else "data",
+                           "verdict": r["vlm_verdict" if vlm else "verdict"], "check": check,
                            "kind": kind, "reason": why, "duration": dur, "folder": r["folder"]})
         for k in ids:
             st, val = r[k], r[k + "_value"]
-            if st == "FAIL":
-                add(k, "dup" if k == "D6" else "fail", val)
+            if k == "V9" and st in ("FAIL", "REVIEW"):
+                add(k, "swap", val)
+            elif st == "FAIL":
+                add(k, "dup" if k == "D6" else ("vlmfail" if k in VLM_DEPENDENT else "fail"), val)
             elif k == "C1" and st == "REVIEW" and val.startswith(("0 cycles", "1 cycles", "2 cycles")):
+                add(k, "count", val)
+            elif k == "C2" and st == "REVIEW" and val != "no count":
                 add(k, "count", val)
             elif k == "W2" and st == "REVIEW":
                 add(k, "setup", val)
@@ -103,7 +117,7 @@ def load_run(d):
             elif st == "WARN" and k[0] in "DV":
                 add(k, "warn", val)
 
-    tot = next(s for s in summary if s["level"] == "all")
+    tot = summary[-1]
     return {"meta": meta, "total": tot, "summary": summary, "checks": checks, "issues": issues,
             "counted": sum(1 for r in rows if r["count_source"]),
             "count_sources": dict(collections.Counter(r["count_source"] or "none" for r in rows))}

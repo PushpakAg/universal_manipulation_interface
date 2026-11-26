@@ -98,6 +98,7 @@ sudo apt-get install -y ffmpeg                         # ffprobe (once)
 .venv/bin/python scripts/check_delivery.py --source /local/delivery/folder
 .venv/bin/python scripts/check_delivery.py --deep                          # + every frame timestamp (streams all videos)
 .venv/bin/python scripts/check_delivery.py --decode --task task06 --limit 3  # + full decode of a sample
+.venv/bin/python scripts/check_delivery.py --views                        # + left / right view swap (V9) only
 ```
 
 Reports in `reports/`: `delivery_check_report.md` (deliverable recordings and hours per task / station, fail reasons),
@@ -107,8 +108,13 @@ Reports in `reports/`: `delivery_check_report.md` (deliverable recordings and ho
 Hard checks (any FAIL fails the recording): three views (D1), camera metadata (D2), sync method and index (D3),
 gripper width per frame (D4, exactly one row per frame), files and names (D5), same frame rate (V1), exactly the same
 frame count and duration (V2), codec and resolution (V3), synchronized (V4), same start (V5), constant frame rate (V6),
-no dropped frames (V7, --deep), every frame decodes (V8, --decode),
+no dropped frames (V7, --deep), every frame decodes (V8, --decode), left / right views not swapped (V9, --views or
+--deep: the ArUco gripper tags tell which gripper each wrist camera sits on and on which side of the head view it is),
 at least 3 cycles (C1, manual count first, else the VLM count), cycles at least 3 s (C2), at least 9 s long (C3).
+The repetition checks (C1, C2, W2-W4) rest on the VLM count until a person counts, and human evaluation has disagreed
+with that count, so they get their own verdict (`vlm_verdict`, `vlm_reasons`, `group=vlm` in the failures CSV,
+`vlm_*` columns in the summary) and are shown apart in `reports/deep_checks.html`; `verdict` and "deliverable" are
+the data checks only.
 Videos are read from the mp4 header only (presigned URL), so no video is downloaded. Rules R4-R8 and U3-U6 need a
 person: see `docs/UMI_delivery_checklist.md`.
 
