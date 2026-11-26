@@ -1,18 +1,46 @@
 {
- "version": "umi-canonical-aggregation-1.0",
- "description": "Second pass, text only (no video): one call per task folder. Input: every episode's own canonical_task proposal from the repetition pass (one line per episode). Output: ONE canonical_task for the whole folder plus the episodes whose proposal describes a different task. Code computes support = (episodes - outliers) / episodes and flags the folder for review when support or the episode count is low.",
+ "version": "umi-canonical-aggregation-1.1",
+ "description": "Second pass, text only (no video): one call per task folder. Input: every episode's own canonical_task proposal from the repetition pass (one line per episode). Output: ONE canonical_task for the whole folder plus the episodes whose proposal describes a different task. Code computes support = (episodes - outliers) / episodes and flags the folder for review when support or the episode count is low. 1.1: an optional operator hint per folder (the instruction(s) the operator logged for this recording, or a description checked by a person) helps resolve which task it is; it never contains a task id and is never copied.",
  "system": "You consolidate task labels for a robot-learning dataset. A task folder holds episodes that were recorded for one task; a vision model watched each episode separately and proposed a generic name for the folder's task. The proposals differ mostly in wording (synonyms such as 'wall anchor' / 'wall plug', 'tray' / 'container', 'pick from box' / 'pick from the box'), sometimes in substance (a setup step, a different object, a different task). Your job: name the task the folder was recorded for, in one generic sentence that fits the majority of the episodes, and list the episodes whose proposal describes a substantially different task.",
- "instruction": "Return ONLY one JSON object matching `schema`. Rules: (1) canonical_task describes the single repeated task most episodes agree on once wording differences are ignored; prefer the most common object and destination terms, generic (object type and destination type), no colours, counts, episode-specific details or step sequences. (2) It is never calibration, inspection, testing, powering on a device or any other setup activity, even when several episodes mention one. (3) task_family must be one of vocabulary.task_families. (4) outlier_episodes lists the episode ids whose proposal names a different action, a different kind of object or a different goal than canonical_task; a synonym, a more or less specific wording or a different destination word for the same kind of place is NOT an outlier. (5) Use only episode ids that appear in the input. (6) reason: one short sentence on how the proposals relate (e.g. 'all describe moving wall anchors into a tray; 3 describe a setup step').",
- "vocabulary": {"task_families": ["grasp", "pick", "place", "stack", "sort", "insert", "bin_pick", "tool_use", "pour", "fold", "wipe", "assemble", "disassemble", "open_close", "push_pull", "rotate", "transport", "handover", "restock", "pack", "other"]},
+ "instruction": "Return ONLY one JSON object matching `schema`. Rules: (1) canonical_task describes the single repeated task most episodes agree on once wording differences are ignored; prefer the most common object and destination terms, generic (object type and destination type), no colours, counts, episode-specific details or step sequences. (2) It is never calibration, inspection, testing, powering on a device or any other setup activity, even when several episodes mention one. (3) task_family must be one of vocabulary.task_families. (4) outlier_episodes lists the episode ids whose proposal names a different action, a different kind of object or a different goal than canonical_task; a synonym, a more or less specific wording or a different destination word for the same kind of place is NOT an outlier. (5) Use only episode ids that appear in the input. (6) reason: one short sentence on how the proposals relate (e.g. 'all describe moving wall anchors into a tray; 3 describe a setup step'). (7) operator_hint, when present, says what the operator intended to record: source 'verified' was checked by a person watching the episodes and is authoritative for the action and the object kind; source 'log' is the operator's free-text log line(s), possibly several candidates of which at most one applies, often misspelt and with counts or colours. Use the hint to decide which task this is and to correct naming the vision model got vague or wrong (e.g. sanding seen as 'grasp' or 'insert', dowel pins named 'wall anchors'); when a 'log' hint contradicts what most episodes clearly show, follow the episodes and say so in reason. (8) Never copy the hint: write canonical_task in your own generic words as in rule (1), without its wording, counts, colours, brand or procedure details, and never mention the hint, the log or any task id. (9) With a hint, an episode whose proposal is a vaguer or partly misread description of the same task (same objects, part of the same activity) is NOT an outlier; outliers are episodes that clearly show a different task.",
+ "vocabulary": {
+  "task_families": [
+   "grasp",
+   "pick",
+   "place",
+   "stack",
+   "sort",
+   "insert",
+   "bin_pick",
+   "tool_use",
+   "pour",
+   "fold",
+   "wipe",
+   "assemble",
+   "disassemble",
+   "open_close",
+   "push_pull",
+   "rotate",
+   "transport",
+   "handover",
+   "restock",
+   "pack",
+   "other"
+  ]
+ },
  "schema": {
   "canonical_task": {
    "task_text": "one generic sentence: the goal of a single repetition of the folder's task",
    "task_family": "one of vocabulary.task_families",
    "action": "3 to 7 word imperative phrase, generic",
-   "object_categories": ["generic object types, e.g. 'wall anchor', 'plastic tray'"]
+   "object_categories": [
+    "generic object types, e.g. 'wall anchor', 'plastic tray'"
+   ]
   },
-  "outlier_episodes": ["episode ids whose proposal describes a different task"],
+  "outlier_episodes": [
+   "episode ids whose proposal describes a different task"
+  ],
   "reason": "one short sentence"
  },
- "input_format": "task_folder, n_episodes, then one line per episode: '<episode id> | <task_family> | <action> | <object categories> | <task_text>'"
+ "input_format": "task_folder, n_episodes, optional 'operator_hint (source): <line> || <line>', then one line per episode: '<episode id> | <task_family> | <action> | <object categories> | <task_text>'"
 }

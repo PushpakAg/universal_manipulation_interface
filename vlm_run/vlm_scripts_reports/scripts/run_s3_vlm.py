@@ -593,6 +593,23 @@ def _majority(props):
     return chosen, sorted(ep for ep, _ in props if ep not in set(win["eps"])), len(votes)
 
 
+TASK_HINTS = Path(__file__).resolve().parents[1] / "task_data" / "task_hints.json"
+_HINTS = None
+
+
+def _task_hint(a, task):
+    """Grounding hint for a task folder from task_data/task_hints.json (written by scripts/task_map.py): the operator's
+    logged instruction(s) or a by-eye description; no task id. None when the file or the folder is missing or
+    canonical_hints is off in the config."""
+    global _HINTS
+    if not getattr(a, "canonical_hints", True):
+        return None
+    if _HINTS is None:
+        _HINTS = json.loads(TASK_HINTS.read_text()) if TASK_HINTS.exists() else {}
+    h = _HINTS.get(task)
+    return h if h and h.get("hint") else None
+
+
 def _aggregate_llm(a, task, props, model, key, mcfg):
     """One text-only Gemini call for a task folder: every episode's proposal in, one canonical_task and the outlier
     episodes out (prompts/canonical_aggregation). Cached in <results>/canonical/<task>.json by an input hash, so a
@@ -601,7 +618,9 @@ def _aggregate_llm(a, task, props, model, key, mcfg):
     spec = json.loads(AGG_PROMPT.read_text())
     lines = [f"{ep} | {o.get('task_family')} | {o.get('action')} | {', '.join(o.get('object_categories') or [])} | {o.get('task_text')}"
              for ep, o in props]
-    user = f"task_folder: {task.rsplit('/', 1)[-1]}\nn_episodes: {len(props)}\n" + "\n".join(lines)
+    hint = _task_hint(a, task)
+    user = (f"task_folder: {task.rsplit('/', 1)[-1]}\nn_episodes: {len(props)}\n"
+            + (f"operator_hint ({hint['source']}): {' || '.join(hint['hint'])}\n" if hint else "") + "\n".join(lines))
     h = hashlib.sha1((spec["version"] + model + user).encode()).hexdigest()[:16]
     cache = a.results / "canonical" / (task.replace("/", "__") + ".json")
     if cache.exists():
@@ -673,7 +692,9 @@ def consolidate_canonical(a, tasks):
                 out, usage, ver, cached = _aggregate_llm(a, task, props, model, key, mcfg)
                 chosen = {k: out["canonical_task"].get(k) for k in ("task_text", "task_family", "action", "object_categories")}
                 outliers = sorted(set(out.get("outlier_episodes") or []) & eps)
-                info.update(method="llm aggregation of episode proposals", model=model, prompt_version=ver,
+                hint = _task_hint(a, task)
+                info.update(method="llm aggregation of episode proposals" + (f" + operator hint ({hint['source']})" if hint else ""),
+                            model=model, prompt_version=ver,
                             reason=out.get("reason"), cost_usd=usage.get("cost_usd"), cached=cached)
                 cost += 0 if cached else float(usage.get("cost_usd") or 0)
             except Exception as ex:
@@ -862,6 +883,7 @@ def main():
     a.canonical_method = a.canonical_method or cfg_run.get("canonical_method", "llm")
     a.canonical_min_support = float(cfg_run.get("canonical_min_support", 0.5))
     a.canonical_min_episodes = int(cfg_run.get("canonical_min_episodes", 5))
+    a.canonical_hints = bool(cfg_run.get("canonical_hints", True))
     migrate_legacy(a)
 
     if a.summary_only:
