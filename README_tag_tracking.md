@@ -609,6 +609,21 @@ python run_tag_tracking_pipeline.py -c <config> -nr --videos_only <session>
 python scripts_tag_tracking/15_export_episode_videos.py -i <session> -c <config> --task station3/2026-11-22/task01 -o s3://my-bucket/umi_data/industrial_data_mp4 -w ~/umi_data_mp4 -j 4 --mosaic 1000
 ```
 
+### Left and right swapped in exported episodes
+
+When the grippers were in the other hands than the config said, the exported episodes (7. or 8.) are
+fixed in place, without reprocessing: left / right mp4s and gripper CSVs swapped by name, the camera
+records in meta.json swapped and marked `left_right_swapped`, the mosaic rendered again, checked and
+written back (meta.json last). The list has one path per line, an episode folder or any file in it
+(e.g. the mosaic URLs); marked episodes are skipped, so a list can be run again:
+
+```
+python scripts_tag_tracking/swap_left_right.py left_right_switch.csv -w ~/swap_work -j 4 --dry_run
+python scripts_tag_tracking/swap_left_right.py left_right_switch.csv -w ~/swap_work -j 4
+```
+
+MCAP files (robot0 / robot1) are not changed. Process later days with the matching config instead.
+
 ### Yield: hours recorded, in tasks, in MCAP episodes, and where the rest went
 
 From S3 only: the uploaded day folders (MP4 headers), the sessions' `pairs.csv` and the episode
