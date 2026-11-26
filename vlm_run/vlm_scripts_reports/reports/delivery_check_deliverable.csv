@@ -690,144 +690,144 @@ station2/2026-11-24/task00,episode_000021,70.25,FAIL,0,vlm,"C1: 0 cycles (vlm, c
 station2/2026-11-24/task01,episode_000000,10.36,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000000
 station2/2026-11-24/task01,episode_000001,121.35,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000001
 station2/2026-11-24/task01,episode_000003,47.71,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000003
-station2/2026-11-24/task01,episode_000004,243.34,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000004
+station2/2026-11-24/task01,episode_000004,243.34,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000004
 station2/2026-11-24/task01,episode_000005,124.62,PASS,12,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000005
 station2/2026-11-24/task01,episode_000006,142.16,PASS,9,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000006
 station2/2026-11-24/task01,episode_000007,112.48,PASS,11,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000007
-station2/2026-11-24/task01,episode_000008,94.94,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000008
-station2/2026-11-24/task01,episode_000009,109.32,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000009
-station2/2026-11-24/task01,episode_000010,64.9,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000010
-station2/2026-11-24/task01,episode_000011,60.54,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000011
-station2/2026-11-24/task01,episode_000012,12.58,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000012
-station2/2026-11-24/task01,episode_000013,64.55,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000013
-station2/2026-11-24/task01,episode_000014,35.84,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000014
-station2/2026-11-24/task02,episode_000000,104.17,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000000
-station2/2026-11-24/task02,episode_000001,86.9,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000001
-station2/2026-11-24/task02,episode_000002,106.7,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000002
-station2/2026-11-24/task02,episode_000003,98.95,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000003
-station2/2026-11-24/task02,episode_000004,73.27,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000004
-station2/2026-11-24/task02,episode_000005,81.7,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000005
-station2/2026-11-24/task02,episode_000006,92.32,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000006
-station2/2026-11-24/task02,episode_000007,73.64,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000007
-station2/2026-11-24/task02,episode_000008,71.84,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000008
-station2/2026-11-24/task02,episode_000009,71.07,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000009
-station2/2026-11-24/task02,episode_000010,79.31,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000010
-station2/2026-11-24/task02,episode_000011,92.12,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000011
-station2/2026-11-24/task02,episode_000012,73.99,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000012
-station2/2026-11-24/task02,episode_000013,73.96,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000013
-station2/2026-11-24/task02,episode_000014,68.85,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000014
-station2/2026-11-24/task02,episode_000015,73.22,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000015
-station2/2026-11-24/task02,episode_000016,66.85,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000016
-station2/2026-11-24/task02,episode_000017,77.43,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000017
-station2/2026-11-24/task02,episode_000018,69.67,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000018
-station2/2026-11-24/task02,episode_000019,82.9,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000019
-station2/2026-11-24/task02,episode_000020,67.68,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000020
-station2/2026-11-24/task02,episode_000021,76.37,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000021
-station2/2026-11-24/task02,episode_000022,68.45,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000022
-station2/2026-11-24/task02,episode_000023,70.79,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000023
-station2/2026-11-24/task02,episode_000024,70.4,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000024
-station2/2026-11-24/task02,episode_000025,65.08,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000025
-station2/2026-11-24/task02,episode_000026,67.42,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000026
-station2/2026-11-24/task02,episode_000027,60.76,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000027
-station2/2026-11-24/task02,episode_000028,71.54,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000028
-station2/2026-11-24/task02,episode_000029,97.81,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000029
-station2/2026-11-24/task02,episode_000030,71.87,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000030
-station2/2026-11-24/task02,episode_000031,76.36,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000031
-station2/2026-11-24/task02,episode_000032,62.36,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000032
-station2/2026-11-24/task02,episode_000033,57.94,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000033
-station2/2026-11-24/task03,episode_000000,152.92,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000000
-station2/2026-11-24/task03,episode_000001,117.98,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000001
-station2/2026-11-24/task03,episode_000002,126.17,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000002
-station2/2026-11-24/task03,episode_000003,133.06,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000003
-station2/2026-11-24/task03,episode_000004,143.97,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000004
-station2/2026-11-24/task03,episode_000005,127.93,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000005
-station2/2026-11-24/task03,episode_000006,106.55,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000006
-station2/2026-11-24/task03,episode_000007,115.81,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000007
-station2/2026-11-24/task03,episode_000008,93.12,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000008
-station2/2026-11-24/task03,episode_000009,113.86,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000009
-station2/2026-11-24/task03,episode_000010,84.38,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000010
-station2/2026-11-24/task03,episode_000011,93.83,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000011
-station2/2026-11-24/task03,episode_000012,110.09,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000012
-station2/2026-11-24/task03,episode_000013,148.6,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000013
-station2/2026-11-24/task03,episode_000014,136.03,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000014
-station2/2026-11-24/task03,episode_000015,106.07,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000015
-station2/2026-11-24/task03,episode_000016,93.64,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000016
-station2/2026-11-24/task03,episode_000017,150.71,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000017
-station2/2026-11-24/task03,episode_000018,137.07,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000018
-station2/2026-11-24/task03,episode_000019,105.8,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000019
-station2/2026-11-24/task03,episode_000020,109.91,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000020
-station2/2026-11-24/task03,episode_000021,12.03,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000021
-station2/2026-11-24/task03,episode_000022,127.46,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000022
-station2/2026-11-24/task03,episode_000023,162.78,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000023
-station2/2026-11-24/task03,episode_000024,128.98,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000024
-station2/2026-11-24/task03,episode_000025,67.65,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000025
-station2/2026-11-24/task04,episode_000000,77.89,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000000
-station2/2026-11-24/task04,episode_000001,88.49,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000001
-station2/2026-11-24/task04,episode_000002,89.17,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000002
-station2/2026-11-24/task04,episode_000003,79.49,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000003
-station2/2026-11-24/task04,episode_000004,83.98,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000004
-station2/2026-11-24/task04,episode_000005,87.92,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000005
-station2/2026-11-24/task04,episode_000006,11.61,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000006
-station2/2026-11-24/task04,episode_000007,91.61,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000007
-station2/2026-11-24/task04,episode_000008,86.3,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000008
-station2/2026-11-24/task04,episode_000009,88.85,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000009
-station2/2026-11-24/task04,episode_000010,91.86,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000010
-station2/2026-11-24/task04,episode_000011,97.53,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000011
-station2/2026-11-24/task04,episode_000012,60.51,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000012
-station2/2026-11-24/task04,episode_000013,75.92,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000013
-station2/2026-11-24/task04,episode_000014,80.18,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000014
-station2/2026-11-24/task04,episode_000015,72.65,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000015
-station2/2026-11-24/task04,episode_000016,84.52,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000016
-station2/2026-11-24/task04,episode_000017,72.99,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000017
-station2/2026-11-24/task04,episode_000018,80.45,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000018
-station2/2026-11-24/task04,episode_000019,52.4,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000019
-station2/2026-11-24/task04,episode_000020,72.8,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000020
-station2/2026-11-24/task04,episode_000021,87.52,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000021
-station2/2026-11-24/task04,episode_000022,89.02,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000022
-station2/2026-11-24/task04,episode_000023,85.18,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000023
-station2/2026-11-24/task04,episode_000024,77.96,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000024
-station2/2026-11-24/task04,episode_000025,58.11,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000025
-station2/2026-11-24/task04,episode_000026,92.52,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000026
-station2/2026-11-24/task04,episode_000027,86.07,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000027
-station2/2026-11-24/task04,episode_000028,75.09,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000028
-station2/2026-11-24/task04,episode_000029,85.55,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000029
-station2/2026-11-24/task04,episode_000030,75.69,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000030
-station2/2026-11-24/task04,episode_000031,61.34,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000031
-station2/2026-11-24/task04,episode_000032,68.8,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000032
-station2/2026-11-24/task04,episode_000033,83.42,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000033
-station2/2026-11-24/task04,episode_000034,77.38,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000034
-station2/2026-11-24/task04,episode_000035,81.85,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000035
-station2/2026-11-24/task04,episode_000036,74.76,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000036
-station2/2026-11-24/task04,episode_000037,78.39,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000037
-station2/2026-11-24/task05,episode_000000,130.88,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000000
-station2/2026-11-24/task05,episode_000001,139.07,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000001
-station2/2026-11-24/task05,episode_000002,98.0,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000002
-station2/2026-11-24/task05,episode_000003,95.88,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000003
-station2/2026-11-24/task05,episode_000004,97.28,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000004
-station2/2026-11-24/task05,episode_000005,135.5,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000005
-station2/2026-11-24/task05,episode_000007,116.51,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000007
-station2/2026-11-24/task05,episode_000008,75.84,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000008
-station2/2026-11-24/task05,episode_000009,126.34,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000009
-station2/2026-11-24/task05,episode_000010,113.34,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000010
-station2/2026-11-24/task05,episode_000011,48.31,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000011
-station2/2026-11-24/task05,episode_000012,90.2,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000012
-station2/2026-11-24/task05,episode_000013,110.51,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000013
-station2/2026-11-24/task05,episode_000014,114.93,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000014
-station2/2026-11-24/task05,episode_000015,125.56,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000015
-station2/2026-11-24/task05,episode_000016,86.0,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000016
-station2/2026-11-24/task05,episode_000017,99.56,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000017
-station2/2026-11-24/task05,episode_000018,77.91,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000018
-station2/2026-11-24/task05,episode_000019,110.88,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000019
-station2/2026-11-24/task05,episode_000020,124.77,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000020
-station2/2026-11-24/task05,episode_000021,131.1,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000021
-station2/2026-11-24/task05,episode_000022,128.09,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000022
-station2/2026-11-24/task05,episode_000023,123.07,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000023
-station2/2026-11-24/task05,episode_000024,85.73,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000024
-station2/2026-11-24/task06,episode_000000,110.93,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task06/episode_000000
-station2/2026-11-24/task06,episode_000001,114.63,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task06/episode_000001
-station2/2026-11-24/task06,episode_000002,267.78,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task06/episode_000002
-station2/2026-11-24/task06,episode_000003,230.48,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task06/episode_000003
-station2/2026-11-24/task06,episode_000004,249.36,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task06/episode_000004
+station2/2026-11-24/task01,episode_000008,94.94,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000008
+station2/2026-11-24/task01,episode_000009,109.32,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000009
+station2/2026-11-24/task01,episode_000010,64.9,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000010
+station2/2026-11-24/task01,episode_000011,60.54,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000011
+station2/2026-11-24/task01,episode_000012,12.58,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000012
+station2/2026-11-24/task01,episode_000013,64.55,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000013
+station2/2026-11-24/task01,episode_000014,35.84,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task01/episode_000014
+station2/2026-11-24/task02,episode_000000,104.17,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000000
+station2/2026-11-24/task02,episode_000001,86.9,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000001
+station2/2026-11-24/task02,episode_000002,106.7,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000002
+station2/2026-11-24/task02,episode_000003,98.95,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000003
+station2/2026-11-24/task02,episode_000004,73.27,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000004
+station2/2026-11-24/task02,episode_000005,81.7,PASS,7,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000005
+station2/2026-11-24/task02,episode_000006,92.32,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000006
+station2/2026-11-24/task02,episode_000007,73.64,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000007
+station2/2026-11-24/task02,episode_000008,71.84,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000008
+station2/2026-11-24/task02,episode_000009,71.07,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000009
+station2/2026-11-24/task02,episode_000010,79.31,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000010
+station2/2026-11-24/task02,episode_000011,92.12,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000011
+station2/2026-11-24/task02,episode_000012,73.99,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000012
+station2/2026-11-24/task02,episode_000013,73.96,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000013
+station2/2026-11-24/task02,episode_000014,68.85,PASS,8,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000014
+station2/2026-11-24/task02,episode_000015,73.22,PASS,8,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000015
+station2/2026-11-24/task02,episode_000016,66.85,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000016
+station2/2026-11-24/task02,episode_000017,77.43,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000017
+station2/2026-11-24/task02,episode_000018,69.67,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000018
+station2/2026-11-24/task02,episode_000019,82.9,PASS,7,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000019
+station2/2026-11-24/task02,episode_000020,67.68,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000020
+station2/2026-11-24/task02,episode_000021,76.37,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000021
+station2/2026-11-24/task02,episode_000022,68.45,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000022
+station2/2026-11-24/task02,episode_000023,70.79,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000023
+station2/2026-11-24/task02,episode_000024,70.4,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000024
+station2/2026-11-24/task02,episode_000025,65.08,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000025
+station2/2026-11-24/task02,episode_000026,67.42,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000026
+station2/2026-11-24/task02,episode_000027,60.76,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000027
+station2/2026-11-24/task02,episode_000028,71.54,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000028
+station2/2026-11-24/task02,episode_000029,97.81,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000029
+station2/2026-11-24/task02,episode_000030,71.87,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000030
+station2/2026-11-24/task02,episode_000031,76.36,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000031
+station2/2026-11-24/task02,episode_000032,62.36,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000032
+station2/2026-11-24/task02,episode_000033,57.94,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task02/episode_000033
+station2/2026-11-24/task03,episode_000000,152.92,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000000
+station2/2026-11-24/task03,episode_000001,117.98,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000001
+station2/2026-11-24/task03,episode_000002,126.17,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000002
+station2/2026-11-24/task03,episode_000003,133.06,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000003
+station2/2026-11-24/task03,episode_000004,143.97,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000004
+station2/2026-11-24/task03,episode_000005,127.93,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000005
+station2/2026-11-24/task03,episode_000006,106.55,PASS,7,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000006
+station2/2026-11-24/task03,episode_000007,115.81,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000007
+station2/2026-11-24/task03,episode_000008,93.12,PASS,7,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000008
+station2/2026-11-24/task03,episode_000009,113.86,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000009
+station2/2026-11-24/task03,episode_000010,84.38,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000010
+station2/2026-11-24/task03,episode_000011,93.83,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000011
+station2/2026-11-24/task03,episode_000012,110.09,REVIEW,0,vlm,"C1: 0 cycles (vlm, confidence 0.7): count by hand",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000012
+station2/2026-11-24/task03,episode_000013,148.6,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000013
+station2/2026-11-24/task03,episode_000014,136.03,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000014
+station2/2026-11-24/task03,episode_000015,106.07,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000015
+station2/2026-11-24/task03,episode_000016,93.64,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000016
+station2/2026-11-24/task03,episode_000017,150.71,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000017
+station2/2026-11-24/task03,episode_000018,137.07,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000018
+station2/2026-11-24/task03,episode_000019,105.8,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000019
+station2/2026-11-24/task03,episode_000020,109.91,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000020
+station2/2026-11-24/task03,episode_000021,12.03,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000021
+station2/2026-11-24/task03,episode_000022,127.46,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000022
+station2/2026-11-24/task03,episode_000023,162.78,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000023
+station2/2026-11-24/task03,episode_000024,128.98,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000024
+station2/2026-11-24/task03,episode_000025,67.65,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task03/episode_000025
+station2/2026-11-24/task04,episode_000000,77.89,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000000
+station2/2026-11-24/task04,episode_000001,88.49,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000001
+station2/2026-11-24/task04,episode_000002,89.17,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000002
+station2/2026-11-24/task04,episode_000003,79.49,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000003
+station2/2026-11-24/task04,episode_000004,83.98,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000004
+station2/2026-11-24/task04,episode_000005,87.92,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000005
+station2/2026-11-24/task04,episode_000006,11.61,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000006
+station2/2026-11-24/task04,episode_000007,91.61,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000007
+station2/2026-11-24/task04,episode_000008,86.3,PASS,8,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000008
+station2/2026-11-24/task04,episode_000009,88.85,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000009
+station2/2026-11-24/task04,episode_000010,91.86,PASS,11,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000010
+station2/2026-11-24/task04,episode_000011,97.53,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000011
+station2/2026-11-24/task04,episode_000012,60.51,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000012
+station2/2026-11-24/task04,episode_000013,75.92,PASS,16,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000013
+station2/2026-11-24/task04,episode_000014,80.18,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000014
+station2/2026-11-24/task04,episode_000015,72.65,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000015
+station2/2026-11-24/task04,episode_000016,84.52,PASS,7,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000016
+station2/2026-11-24/task04,episode_000017,72.99,PASS,16,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000017
+station2/2026-11-24/task04,episode_000018,80.45,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000018
+station2/2026-11-24/task04,episode_000019,52.4,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000019
+station2/2026-11-24/task04,episode_000020,72.8,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000020
+station2/2026-11-24/task04,episode_000021,87.52,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000021
+station2/2026-11-24/task04,episode_000022,89.02,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000022
+station2/2026-11-24/task04,episode_000023,85.18,PASS,9,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000023
+station2/2026-11-24/task04,episode_000024,77.96,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000024
+station2/2026-11-24/task04,episode_000025,58.11,REVIEW,20,vlm,C2: 58.1 s for 20 cycles: some cycle < 3 s,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000025
+station2/2026-11-24/task04,episode_000026,92.52,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000026
+station2/2026-11-24/task04,episode_000027,86.07,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000027
+station2/2026-11-24/task04,episode_000028,75.09,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000028
+station2/2026-11-24/task04,episode_000029,85.55,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000029
+station2/2026-11-24/task04,episode_000030,75.69,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000030
+station2/2026-11-24/task04,episode_000031,61.34,PASS,11,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000031
+station2/2026-11-24/task04,episode_000032,68.8,PASS,9,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000032
+station2/2026-11-24/task04,episode_000033,83.42,PASS,14,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000033
+station2/2026-11-24/task04,episode_000034,77.38,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000034
+station2/2026-11-24/task04,episode_000035,81.85,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000035
+station2/2026-11-24/task04,episode_000036,74.76,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000036
+station2/2026-11-24/task04,episode_000037,78.39,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task04/episode_000037
+station2/2026-11-24/task05,episode_000000,130.88,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000000
+station2/2026-11-24/task05,episode_000001,139.07,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000001
+station2/2026-11-24/task05,episode_000002,98.0,REVIEW,2,vlm,"C1: 2 cycles (vlm, confidence 0.7): count by hand",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000002
+station2/2026-11-24/task05,episode_000003,95.88,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000003
+station2/2026-11-24/task05,episode_000004,97.28,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000004
+station2/2026-11-24/task05,episode_000005,135.5,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000005
+station2/2026-11-24/task05,episode_000007,116.51,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000007
+station2/2026-11-24/task05,episode_000008,75.84,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000008
+station2/2026-11-24/task05,episode_000009,126.34,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000009
+station2/2026-11-24/task05,episode_000010,113.34,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000010
+station2/2026-11-24/task05,episode_000011,48.31,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000011
+station2/2026-11-24/task05,episode_000012,90.2,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000012
+station2/2026-11-24/task05,episode_000013,110.51,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000013
+station2/2026-11-24/task05,episode_000014,114.93,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000014
+station2/2026-11-24/task05,episode_000015,125.56,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000015
+station2/2026-11-24/task05,episode_000016,86.0,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000016
+station2/2026-11-24/task05,episode_000017,99.56,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000017
+station2/2026-11-24/task05,episode_000018,77.91,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000018
+station2/2026-11-24/task05,episode_000019,110.88,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000019
+station2/2026-11-24/task05,episode_000020,124.77,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000020
+station2/2026-11-24/task05,episode_000021,131.1,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000021
+station2/2026-11-24/task05,episode_000022,128.09,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000022
+station2/2026-11-24/task05,episode_000023,123.07,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000023
+station2/2026-11-24/task05,episode_000024,85.73,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task05/episode_000024
+station2/2026-11-24/task06,episode_000000,110.93,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task06/episode_000000
+station2/2026-11-24/task06,episode_000001,114.63,PASS,14,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task06/episode_000001
+station2/2026-11-24/task06,episode_000002,267.78,PASS,14,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task06/episode_000002
+station2/2026-11-24/task06,episode_000003,230.48,REVIEW,84,vlm,C2: 230.5 s for 84 cycles: some cycle < 3 s,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task06/episode_000003
+station2/2026-11-24/task06,episode_000004,249.36,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station2/2026-11-24/task06/episode_000004
 station3/2026-11-21/task02,episode_000000,27.86,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station3/2026-11-21/task02/episode_000000
 station3/2026-11-21/task02,episode_000001,18.1,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station3/2026-11-21/task02/episode_000001
 station3/2026-11-21/task02,episode_000002,19.05,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.8), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station3/2026-11-21/task02/episode_000002
@@ -1234,10 +1234,10 @@ station3/2026-11-24/task04,episode_000021,68.63,PASS,12,vlm,,s3://prod-mono-pipe
 station3/2026-11-24/task04,episode_000022,67.45,PASS,13,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station3/2026-11-24/task04/episode_000022
 station3/2026-11-24/task04,episode_000023,73.21,PASS,15,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station3/2026-11-24/task04/episode_000023
 station3/2026-11-24/task04,episode_000024,75.44,PASS,13,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station3/2026-11-24/task04/episode_000024
-station3/2026-11-24/task04,episode_000025,72.05,REVIEW,25,vlm,C2: 72.1 s for 25 cycles: some cycle < 3 s,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station3/2026-11-24/task04/episode_000025
+station3/2026-11-24/task04,episode_000025,72.05,REVIEW,25,vlm,C2: 72.0 s for 25 cycles: some cycle < 3 s,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station3/2026-11-24/task04/episode_000025
 station3/2026-11-24/task04,episode_000026,67.97,PASS,13,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station3/2026-11-24/task04/episode_000026
 station3/2026-11-24/task04,episode_000027,75.79,PASS,15,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station3/2026-11-24/task04/episode_000027
-station3/2026-11-24/task04,episode_000028,68.25,REVIEW,31,vlm,C2: 68.3 s for 31 cycles: some cycle < 3 s,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station3/2026-11-24/task04/episode_000028
+station3/2026-11-24/task04,episode_000028,68.25,REVIEW,31,vlm,C2: 68.2 s for 31 cycles: some cycle < 3 s,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station3/2026-11-24/task04/episode_000028
 station3/2026-11-24/task04,episode_000029,80.5,PASS,17,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station3/2026-11-24/task04/episode_000029
 station3/2026-11-24/task04,episode_000030,146.14,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station3/2026-11-24/task04/episode_000030
 station3/2026-11-24/task04,episode_000031,74.44,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station3/2026-11-24/task04/episode_000031
@@ -1301,126 +1301,126 @@ station3/task04,episode_000027,19.09,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0
 station3/task04,episode_000028,43.03,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station3/task04/episode_000028
 station3/task04,episode_000029,37.65,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station3/task04/episode_000029
 station3/task04,episode_000030,21.45,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station3/task04/episode_000030
-station4/2026-11-21/task00,episode_000000,19.3,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000000
-station4/2026-11-21/task00,episode_000001,28.83,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000001
-station4/2026-11-21/task00,episode_000002,24.19,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000002
-station4/2026-11-21/task00,episode_000003,53.94,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000003
-station4/2026-11-21/task00,episode_000004,22.76,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000004
-station4/2026-11-21/task00,episode_000006,18.62,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000006
-station4/2026-11-21/task00,episode_000007,26.59,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000007
-station4/2026-11-21/task00,episode_000008,20.2,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000008
-station4/2026-11-21/task00,episode_000010,13.65,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000010
-station4/2026-11-21/task00,episode_000011,15.05,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000011
-station4/2026-11-21/task00,episode_000012,13.05,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000012
-station4/2026-11-21/task00,episode_000013,13.55,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000013
-station4/2026-11-21/task00,episode_000014,10.51,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000014
-station4/2026-11-21/task00,episode_000017,12.5,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000017
-station4/2026-11-21/task00,episode_000020,16.53,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000020
-station4/2026-11-21/task00,episode_000022,19.07,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000022
-station4/2026-11-21/task00,episode_000024,13.2,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000024
-station4/2026-11-21/task00,episode_000027,18.55,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000027
-station4/2026-11-21/task00,episode_000031,14.08,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000031
-station4/2026-11-21/task01,episode_000000,20.39,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000000
-station4/2026-11-21/task01,episode_000001,22.69,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000001
-station4/2026-11-21/task01,episode_000002,18.1,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000002
-station4/2026-11-21/task01,episode_000003,19.05,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000003
-station4/2026-11-21/task01,episode_000004,22.47,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000004
-station4/2026-11-21/task01,episode_000005,18.33,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000005
-station4/2026-11-21/task01,episode_000007,16.98,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000007
-station4/2026-11-21/task01,episode_000008,19.82,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000008
-station4/2026-11-21/task01,episode_000009,11.43,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000009
-station4/2026-11-21/task01,episode_000010,15.03,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000010
-station4/2026-11-21/task01,episode_000012,24.72,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000012
-station4/2026-11-21/task01,episode_000013,14.51,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000013
-station4/2026-11-21/task01,episode_000014,26.53,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000014
-station4/2026-11-21/task01,episode_000015,13.33,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000015
-station4/2026-11-21/task01,episode_000016,11.21,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000016
-station4/2026-11-21/task01,episode_000017,10.43,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000017
-station4/2026-11-21/task01,episode_000018,19.37,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000018
-station4/2026-11-21/task01,episode_000019,16.55,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000019
-station4/2026-11-21/task01,episode_000020,21.72,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000020
-station4/2026-11-21/task01,episode_000021,20.1,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000021
-station4/2026-11-21/task01,episode_000023,17.97,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000023
-station4/2026-11-21/task01,episode_000024,16.27,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000024
-station4/2026-11-21/task01,episode_000025,21.75,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000025
-station4/2026-11-21/task01,episode_000026,15.57,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000026
-station4/2026-11-21/task01,episode_000027,17.53,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000027
-station4/2026-11-21/task01,episode_000028,14.05,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000028
-station4/2026-11-21/task01,episode_000029,15.53,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000029
-station4/2026-11-21/task01,episode_000030,16.63,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000030
-station4/2026-11-21/task01,episode_000031,16.27,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000031
-station4/2026-11-21/task01,episode_000032,21.64,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000032
-station4/2026-11-21/task01,episode_000033,12.05,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000033
-station4/2026-11-21/task01,episode_000034,19.52,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000034
-station4/2026-11-21/task01,episode_000035,9.61,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000035
-station4/2026-11-21/task01,episode_000036,18.75,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000036
-station4/2026-11-21/task01,episode_000037,22.36,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000037
-station4/2026-11-21/task01,episode_000038,14.06,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000038
-station4/2026-11-21/task01,episode_000039,15.67,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000039
-station4/2026-11-21/task01,episode_000040,17.95,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000040
-station4/2026-11-21/task01,episode_000041,13.68,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000041
-station4/2026-11-21/task01,episode_000042,19.65,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000042
-station4/2026-11-21/task01,episode_000043,19.74,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000043
-station4/2026-11-21/task01,episode_000044,18.8,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000044
-station4/2026-11-21/task01,episode_000045,18.27,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000045
-station4/2026-11-21/task01,episode_000047,12.8,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000047
-station4/2026-11-21/task01,episode_000048,16.6,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000048
-station4/2026-11-21/task01,episode_000049,16.42,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000049
-station4/2026-11-21/task01,episode_000050,16.6,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000050
-station4/2026-11-21/task01,episode_000051,21.7,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000051
-station4/2026-11-21/task01,episode_000052,13.33,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000052
-station4/2026-11-21/task01,episode_000053,13.46,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000053
-station4/2026-11-21/task01,episode_000054,21.97,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000054
-station4/2026-11-21/task01,episode_000055,18.17,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000055
-station4/2026-11-21/task01,episode_000056,11.01,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000056
-station4/2026-11-21/task01,episode_000057,24.24,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000057
-station4/2026-11-21/task01,episode_000058,19.69,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000058
-station4/2026-11-21/task01,episode_000059,34.98,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000059
-station4/2026-11-21/task01,episode_000060,23.77,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000060
-station4/2026-11-21/task01,episode_000061,25.88,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000061
-station4/2026-11-21/task01,episode_000062,21.32,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000062
-station4/2026-11-21/task01,episode_000063,18.62,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000063
-station4/2026-11-21/task01,episode_000064,22.79,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000064
-station4/2026-11-21/task01,episode_000065,15.77,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000065
-station4/2026-11-21/task01,episode_000066,18.02,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000066
-station4/2026-11-21/task01,episode_000067,20.24,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000067
-station4/2026-11-21/task01,episode_000068,17.97,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000068
-station4/2026-11-21/task01,episode_000069,17.97,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000069
-station4/2026-11-21/task01,episode_000070,19.92,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000070
-station4/2026-11-21/task01,episode_000071,16.78,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000071
-station4/2026-11-21/task01,episode_000072,14.35,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000072
-station4/2026-11-21/task01,episode_000073,20.27,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000073
-station4/2026-11-21/task01,episode_000074,12.76,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000074
-station4/2026-11-21/task01,episode_000075,18.3,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000075
-station4/2026-11-21/task01,episode_000076,17.67,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000076
-station4/2026-11-21/task01,episode_000077,20.99,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000077
-station4/2026-11-21/task01,episode_000078,21.07,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000078
-station4/2026-11-21/task01,episode_000079,19.79,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000079
-station4/2026-11-21/task01,episode_000081,20.29,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000081
-station4/2026-11-21/task01,episode_000082,11.49,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000082
-station4/2026-11-21/task01,episode_000083,19.0,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000083
-station4/2026-11-21/task01,episode_000084,22.21,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000084
-station4/2026-11-21/task01,episode_000086,16.58,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000086
-station4/2026-11-21/task01,episode_000087,26.98,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000087
-station4/2026-11-21/task01,episode_000089,21.92,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000089
-station4/2026-11-21/task01,episode_000090,15.4,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000090
-station4/2026-11-21/task01,episode_000091,23.39,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000091
-station4/2026-11-21/task01,episode_000092,18.97,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000092
-station4/2026-11-21/task01,episode_000093,27.84,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000093
-station4/2026-11-21/task01,episode_000094,19.27,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000094
-station4/2026-11-21/task01,episode_000095,19.97,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000095
-station4/2026-11-21/task01,episode_000096,20.69,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000096
-station4/2026-11-21/task01,episode_000097,23.41,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000097
-station4/2026-11-21/task01,episode_000098,26.99,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000098
-station4/2026-11-21/task01,episode_000099,23.07,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000099
-station4/2026-11-21/task01,episode_000100,22.16,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000100
-station4/2026-11-21/task01,episode_000101,18.27,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000101
-station4/2026-11-21/task01,episode_000102,19.49,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000102
-station4/2026-11-21/task01,episode_000103,20.75,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000103
-station4/2026-11-21/task01,episode_000104,19.1,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000104
-station4/2026-11-21/task01,episode_000105,20.25,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000105
-station4/2026-11-21/task01,episode_000107,19.14,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000107
-station4/2026-11-21/task01,episode_000108,13.16,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000108
+station4/2026-11-21/task00,episode_000000,19.3,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000000
+station4/2026-11-21/task00,episode_000001,28.83,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000001
+station4/2026-11-21/task00,episode_000002,24.19,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000002
+station4/2026-11-21/task00,episode_000003,53.94,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000003
+station4/2026-11-21/task00,episode_000004,22.76,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000004
+station4/2026-11-21/task00,episode_000006,18.62,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000006
+station4/2026-11-21/task00,episode_000007,26.59,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000007
+station4/2026-11-21/task00,episode_000008,20.2,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000008
+station4/2026-11-21/task00,episode_000010,13.65,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000010
+station4/2026-11-21/task00,episode_000011,15.05,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000011
+station4/2026-11-21/task00,episode_000012,13.05,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000012
+station4/2026-11-21/task00,episode_000013,13.55,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000013
+station4/2026-11-21/task00,episode_000014,10.51,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000014
+station4/2026-11-21/task00,episode_000017,12.5,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000017
+station4/2026-11-21/task00,episode_000020,16.53,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000020
+station4/2026-11-21/task00,episode_000022,19.07,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000022
+station4/2026-11-21/task00,episode_000024,13.2,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000024
+station4/2026-11-21/task00,episode_000027,18.55,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000027
+station4/2026-11-21/task00,episode_000031,14.08,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task00/episode_000031
+station4/2026-11-21/task01,episode_000000,20.39,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.98), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000000
+station4/2026-11-21/task01,episode_000001,22.69,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000001
+station4/2026-11-21/task01,episode_000002,18.1,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000002
+station4/2026-11-21/task01,episode_000003,19.05,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000003
+station4/2026-11-21/task01,episode_000004,22.47,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000004
+station4/2026-11-21/task01,episode_000005,18.33,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000005
+station4/2026-11-21/task01,episode_000007,16.98,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000007
+station4/2026-11-21/task01,episode_000008,19.82,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000008
+station4/2026-11-21/task01,episode_000009,11.43,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000009
+station4/2026-11-21/task01,episode_000010,15.03,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000010
+station4/2026-11-21/task01,episode_000012,24.72,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000012
+station4/2026-11-21/task01,episode_000013,14.51,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000013
+station4/2026-11-21/task01,episode_000014,26.53,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000014
+station4/2026-11-21/task01,episode_000015,13.33,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000015
+station4/2026-11-21/task01,episode_000016,11.21,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000016
+station4/2026-11-21/task01,episode_000017,10.43,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000017
+station4/2026-11-21/task01,episode_000018,19.37,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000018
+station4/2026-11-21/task01,episode_000019,16.55,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000019
+station4/2026-11-21/task01,episode_000020,21.72,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000020
+station4/2026-11-21/task01,episode_000021,20.1,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000021
+station4/2026-11-21/task01,episode_000023,17.97,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000023
+station4/2026-11-21/task01,episode_000024,16.27,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000024
+station4/2026-11-21/task01,episode_000025,21.75,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000025
+station4/2026-11-21/task01,episode_000026,15.57,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000026
+station4/2026-11-21/task01,episode_000027,17.53,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000027
+station4/2026-11-21/task01,episode_000028,14.05,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000028
+station4/2026-11-21/task01,episode_000029,15.53,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000029
+station4/2026-11-21/task01,episode_000030,16.63,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000030
+station4/2026-11-21/task01,episode_000031,16.27,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000031
+station4/2026-11-21/task01,episode_000032,21.64,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000032
+station4/2026-11-21/task01,episode_000033,12.05,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000033
+station4/2026-11-21/task01,episode_000034,19.52,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000034
+station4/2026-11-21/task01,episode_000035,9.61,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000035
+station4/2026-11-21/task01,episode_000036,18.75,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000036
+station4/2026-11-21/task01,episode_000037,22.36,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000037
+station4/2026-11-21/task01,episode_000038,14.06,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000038
+station4/2026-11-21/task01,episode_000039,15.67,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000039
+station4/2026-11-21/task01,episode_000040,17.95,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000040
+station4/2026-11-21/task01,episode_000041,13.68,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000041
+station4/2026-11-21/task01,episode_000042,19.65,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000042
+station4/2026-11-21/task01,episode_000043,19.74,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.98), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000043
+station4/2026-11-21/task01,episode_000044,18.8,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000044
+station4/2026-11-21/task01,episode_000045,18.27,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000045
+station4/2026-11-21/task01,episode_000047,12.8,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000047
+station4/2026-11-21/task01,episode_000048,16.6,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000048
+station4/2026-11-21/task01,episode_000049,16.42,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000049
+station4/2026-11-21/task01,episode_000050,16.6,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000050
+station4/2026-11-21/task01,episode_000051,21.7,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000051
+station4/2026-11-21/task01,episode_000052,13.33,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000052
+station4/2026-11-21/task01,episode_000053,13.46,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000053
+station4/2026-11-21/task01,episode_000054,21.97,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000054
+station4/2026-11-21/task01,episode_000055,18.17,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000055
+station4/2026-11-21/task01,episode_000056,11.01,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000056
+station4/2026-11-21/task01,episode_000057,24.24,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000057
+station4/2026-11-21/task01,episode_000058,19.69,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000058
+station4/2026-11-21/task01,episode_000059,34.98,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000059
+station4/2026-11-21/task01,episode_000060,23.77,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000060
+station4/2026-11-21/task01,episode_000061,25.88,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000061
+station4/2026-11-21/task01,episode_000062,21.32,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000062
+station4/2026-11-21/task01,episode_000063,18.62,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000063
+station4/2026-11-21/task01,episode_000064,22.79,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000064
+station4/2026-11-21/task01,episode_000065,15.77,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000065
+station4/2026-11-21/task01,episode_000066,18.02,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000066
+station4/2026-11-21/task01,episode_000067,20.24,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000067
+station4/2026-11-21/task01,episode_000068,17.97,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000068
+station4/2026-11-21/task01,episode_000069,17.97,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000069
+station4/2026-11-21/task01,episode_000070,19.92,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000070
+station4/2026-11-21/task01,episode_000071,16.78,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000071
+station4/2026-11-21/task01,episode_000072,14.35,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000072
+station4/2026-11-21/task01,episode_000073,20.27,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000073
+station4/2026-11-21/task01,episode_000074,12.76,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000074
+station4/2026-11-21/task01,episode_000075,18.3,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000075
+station4/2026-11-21/task01,episode_000076,17.67,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000076
+station4/2026-11-21/task01,episode_000077,20.99,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000077
+station4/2026-11-21/task01,episode_000078,21.07,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000078
+station4/2026-11-21/task01,episode_000079,19.79,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000079
+station4/2026-11-21/task01,episode_000081,20.29,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000081
+station4/2026-11-21/task01,episode_000082,11.49,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000082
+station4/2026-11-21/task01,episode_000083,19.0,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000083
+station4/2026-11-21/task01,episode_000084,22.21,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000084
+station4/2026-11-21/task01,episode_000086,16.58,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000086
+station4/2026-11-21/task01,episode_000087,26.98,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000087
+station4/2026-11-21/task01,episode_000089,21.92,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000089
+station4/2026-11-21/task01,episode_000090,15.4,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000090
+station4/2026-11-21/task01,episode_000091,23.39,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000091
+station4/2026-11-21/task01,episode_000092,18.97,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000092
+station4/2026-11-21/task01,episode_000093,27.84,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000093
+station4/2026-11-21/task01,episode_000094,19.27,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000094
+station4/2026-11-21/task01,episode_000095,19.97,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000095
+station4/2026-11-21/task01,episode_000096,20.69,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000096
+station4/2026-11-21/task01,episode_000097,23.41,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000097
+station4/2026-11-21/task01,episode_000098,26.99,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000098
+station4/2026-11-21/task01,episode_000099,23.07,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000099
+station4/2026-11-21/task01,episode_000100,22.16,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000100
+station4/2026-11-21/task01,episode_000101,18.27,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000101
+station4/2026-11-21/task01,episode_000102,19.49,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000102
+station4/2026-11-21/task01,episode_000103,20.75,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000103
+station4/2026-11-21/task01,episode_000104,19.1,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000104
+station4/2026-11-21/task01,episode_000105,20.25,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000105
+station4/2026-11-21/task01,episode_000107,19.14,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000107
+station4/2026-11-21/task01,episode_000108,13.16,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task01/episode_000108
 station4/2026-11-21/task02,episode_000001,13.7,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task02/episode_000001
 station4/2026-11-21/task02,episode_000002,24.59,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task02/episode_000002
 station4/2026-11-21/task02,episode_000003,21.32,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task02/episode_000003
@@ -1435,88 +1435,88 @@ station4/2026-11-21/task02,episode_000012,11.56,FAIL,1,vlm,"C1: 1 cycles (vlm, c
 station4/2026-11-21/task02,episode_000013,13.26,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task02/episode_000013
 station4/2026-11-21/task02,episode_000014,23.07,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.98), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task02/episode_000014
 station4/2026-11-21/task02,episode_000015,13.05,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task02/episode_000015
-station4/2026-11-21/task03,episode_000000,140.94,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000000
-station4/2026-11-21/task03,episode_000001,127.79,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000001
-station4/2026-11-21/task03,episode_000002,118.47,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000002
-station4/2026-11-21/task03,episode_000003,74.94,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000003
-station4/2026-11-21/task03,episode_000004,19.2,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000004
-station4/2026-11-21/task03,episode_000005,17.65,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000005
-station4/2026-11-21/task03,episode_000006,17.83,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000006
-station4/2026-11-21/task03,episode_000008,26.66,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000008
-station4/2026-11-21/task03,episode_000009,10.84,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000009
-station4/2026-11-21/task03,episode_000010,24.07,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000010
-station4/2026-11-21/task03,episode_000011,17.17,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000011
-station4/2026-11-21/task03,episode_000012,18.82,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000012
-station4/2026-11-21/task03,episode_000013,17.4,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000013
-station4/2026-11-21/task03,episode_000014,13.76,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000014
-station4/2026-11-21/task03,episode_000015,11.36,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000015
-station4/2026-11-21/task03,episode_000016,23.24,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000016
-station4/2026-11-21/task03,episode_000017,14.63,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000017
-station4/2026-11-21/task03,episode_000018,24.17,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000018
-station4/2026-11-21/task03,episode_000019,24.16,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000019
-station4/2026-11-21/task03,episode_000020,14.26,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000020
-station4/2026-11-21/task03,episode_000021,10.06,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000021
-station4/2026-11-22/task01,episode_000000,45.19,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000000
-station4/2026-11-22/task01,episode_000001,39.05,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000001
-station4/2026-11-22/task01,episode_000002,28.16,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000002
-station4/2026-11-22/task01,episode_000003,36.6,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000003
-station4/2026-11-22/task01,episode_000004,21.4,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000004
-station4/2026-11-22/task01,episode_000005,33.22,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000005
-station4/2026-11-22/task01,episode_000006,32.97,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000006
-station4/2026-11-22/task01,episode_000007,30.71,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000007
-station4/2026-11-22/task01,episode_000008,33.12,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000008
-station4/2026-11-22/task01,episode_000009,33.77,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000009
-station4/2026-11-22/task01,episode_000011,24.62,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000011
-station4/2026-11-22/task01,episode_000012,24.72,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000012
-station4/2026-11-22/task01,episode_000013,34.75,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000013
-station4/2026-11-22/task01,episode_000014,33.8,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000014
-station4/2026-11-22/task01,episode_000015,40.16,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000015
-station4/2026-11-22/task01,episode_000016,23.16,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000016
-station4/2026-11-22/task01,episode_000017,34.8,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000017
-station4/2026-11-22/task01,episode_000018,33.2,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000018
-station4/2026-11-22/task01,episode_000019,34.15,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000019
-station4/2026-11-22/task01,episode_000020,36.6,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000020
-station4/2026-11-22/task01,episode_000021,26.84,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000021
-station4/2026-11-22/task01,episode_000022,33.27,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000022
-station4/2026-11-22/task01,episode_000023,31.61,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000023
-station4/2026-11-22/task01,episode_000024,36.95,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000024
-station4/2026-11-22/task01,episode_000025,34.33,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000025
-station4/2026-11-22/task01,episode_000026,29.21,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000026
-station4/2026-11-22/task01,episode_000027,34.07,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000027
-station4/2026-11-22/task01,episode_000028,42.86,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000028
-station4/2026-11-22/task01,episode_000029,34.95,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000029
-station4/2026-11-22/task01,episode_000030,31.58,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000030
-station4/2026-11-22/task01,episode_000031,28.38,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000031
-station4/2026-11-22/task01,episode_000032,36.54,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000032
-station4/2026-11-22/task01,episode_000033,23.99,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000033
-station4/2026-11-22/task01,episode_000034,37.3,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000034
-station4/2026-11-22/task01,episode_000035,30.31,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000035
-station4/2026-11-22/task01,episode_000036,28.26,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000036
-station4/2026-11-22/task01,episode_000037,37.99,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000037
-station4/2026-11-22/task01,episode_000038,40.41,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000038
-station4/2026-11-22/task01,episode_000039,30.6,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000039
-station4/2026-11-22/task01,episode_000040,32.92,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000040
-station4/2026-11-22/task01,episode_000041,35.45,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000041
-station4/2026-11-22/task01,episode_000042,30.4,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000042
-station4/2026-11-22/task01,episode_000043,36.67,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000043
-station4/2026-11-22/task01,episode_000044,29.55,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000044
-station4/2026-11-22/task01,episode_000046,34.7,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000046
-station4/2026-11-22/task01,episode_000047,24.31,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000047
-station4/2026-11-22/task01,episode_000048,23.71,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000048
-station4/2026-11-22/task01,episode_000049,14.16,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000049
-station4/2026-11-22/task01,episode_000050,37.17,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000050
-station4/2026-11-22/task01,episode_000051,39.96,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000051
-station4/2026-11-22/task01,episode_000052,26.69,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000052
-station4/2026-11-22/task01,episode_000053,35.3,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000053
-station4/2026-11-22/task01,episode_000054,34.58,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000054
-station4/2026-11-22/task01,episode_000055,35.13,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000055
-station4/2026-11-22/task01,episode_000056,42.76,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000056
-station4/2026-11-22/task01,episode_000057,16.02,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000057
-station4/2026-11-22/task01,episode_000058,36.35,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000058
-station4/2026-11-22/task01,episode_000059,24.99,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000059
-station4/2026-11-22/task01,episode_000060,28.79,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000060
-station4/2026-11-22/task01,episode_000061,16.78,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000061
-station4/2026-11-22/task01,episode_000062,16.32,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000062
+station4/2026-11-21/task03,episode_000000,140.94,PASS,12,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000000
+station4/2026-11-21/task03,episode_000001,127.79,PASS,12,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000001
+station4/2026-11-21/task03,episode_000002,118.47,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000002
+station4/2026-11-21/task03,episode_000003,74.94,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000003
+station4/2026-11-21/task03,episode_000004,19.2,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000004
+station4/2026-11-21/task03,episode_000005,17.65,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000005
+station4/2026-11-21/task03,episode_000006,17.83,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000006
+station4/2026-11-21/task03,episode_000008,26.66,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000008
+station4/2026-11-21/task03,episode_000009,10.84,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000009
+station4/2026-11-21/task03,episode_000010,24.07,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.92), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000010
+station4/2026-11-21/task03,episode_000011,17.17,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000011
+station4/2026-11-21/task03,episode_000012,18.82,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000012
+station4/2026-11-21/task03,episode_000013,17.4,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000013
+station4/2026-11-21/task03,episode_000014,13.76,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000014
+station4/2026-11-21/task03,episode_000015,11.36,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000015
+station4/2026-11-21/task03,episode_000016,23.24,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000016
+station4/2026-11-21/task03,episode_000017,14.63,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000017
+station4/2026-11-21/task03,episode_000018,24.17,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000018
+station4/2026-11-21/task03,episode_000019,24.16,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000019
+station4/2026-11-21/task03,episode_000020,14.26,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000020
+station4/2026-11-21/task03,episode_000021,10.06,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-21/task03/episode_000021
+station4/2026-11-22/task01,episode_000000,45.19,PASS,12,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000000
+station4/2026-11-22/task01,episode_000001,39.05,PASS,8,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000001
+station4/2026-11-22/task01,episode_000002,28.16,REVIEW,10,vlm,C2: 28.2 s for 10 cycles: some cycle < 3 s,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000002
+station4/2026-11-22/task01,episode_000003,36.6,PASS,8,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000003
+station4/2026-11-22/task01,episode_000004,21.4,PASS,7,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000004
+station4/2026-11-22/task01,episode_000005,33.22,PASS,9,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000005
+station4/2026-11-22/task01,episode_000006,32.97,PASS,8,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000006
+station4/2026-11-22/task01,episode_000007,30.71,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000007
+station4/2026-11-22/task01,episode_000008,33.12,PASS,9,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000008
+station4/2026-11-22/task01,episode_000009,33.77,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000009
+station4/2026-11-22/task01,episode_000011,24.62,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000011
+station4/2026-11-22/task01,episode_000012,24.72,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000012
+station4/2026-11-22/task01,episode_000013,34.75,PASS,7,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000013
+station4/2026-11-22/task01,episode_000014,33.8,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000014
+station4/2026-11-22/task01,episode_000015,40.16,PASS,9,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000015
+station4/2026-11-22/task01,episode_000016,23.16,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000016
+station4/2026-11-22/task01,episode_000017,34.8,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000017
+station4/2026-11-22/task01,episode_000018,33.2,PASS,9,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000018
+station4/2026-11-22/task01,episode_000019,34.15,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000019
+station4/2026-11-22/task01,episode_000020,36.6,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000020
+station4/2026-11-22/task01,episode_000021,26.84,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000021
+station4/2026-11-22/task01,episode_000022,33.27,REVIEW,13,vlm,C2: 33.3 s for 13 cycles: some cycle < 3 s,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000022
+station4/2026-11-22/task01,episode_000023,31.61,PASS,8,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000023
+station4/2026-11-22/task01,episode_000024,36.95,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000024
+station4/2026-11-22/task01,episode_000025,34.33,PASS,9,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000025
+station4/2026-11-22/task01,episode_000026,29.21,PASS,8,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000026
+station4/2026-11-22/task01,episode_000027,34.07,PASS,11,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000027
+station4/2026-11-22/task01,episode_000028,42.86,PASS,8,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000028
+station4/2026-11-22/task01,episode_000029,34.95,PASS,8,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000029
+station4/2026-11-22/task01,episode_000030,31.58,PASS,7,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000030
+station4/2026-11-22/task01,episode_000031,28.38,PASS,7,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000031
+station4/2026-11-22/task01,episode_000032,36.54,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000032
+station4/2026-11-22/task01,episode_000033,23.99,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000033
+station4/2026-11-22/task01,episode_000034,37.3,PASS,8,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000034
+station4/2026-11-22/task01,episode_000035,30.31,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000035
+station4/2026-11-22/task01,episode_000036,28.26,REVIEW,10,vlm,C2: 28.3 s for 10 cycles: some cycle < 3 s,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000036
+station4/2026-11-22/task01,episode_000037,37.99,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000037
+station4/2026-11-22/task01,episode_000038,40.41,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000038
+station4/2026-11-22/task01,episode_000039,30.6,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000039
+station4/2026-11-22/task01,episode_000040,32.92,PASS,7,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000040
+station4/2026-11-22/task01,episode_000041,35.45,REVIEW,18,vlm,C2: 35.5 s for 18 cycles: some cycle < 3 s,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000041
+station4/2026-11-22/task01,episode_000042,30.4,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000042
+station4/2026-11-22/task01,episode_000043,36.67,PASS,11,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000043
+station4/2026-11-22/task01,episode_000044,29.55,REVIEW,17,vlm,C2: 29.6 s for 17 cycles: some cycle < 3 s,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000044
+station4/2026-11-22/task01,episode_000046,34.7,PASS,8,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000046
+station4/2026-11-22/task01,episode_000047,24.31,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000047
+station4/2026-11-22/task01,episode_000048,23.71,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000048
+station4/2026-11-22/task01,episode_000049,14.16,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000049
+station4/2026-11-22/task01,episode_000050,37.17,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000050
+station4/2026-11-22/task01,episode_000051,39.96,PASS,7,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000051
+station4/2026-11-22/task01,episode_000052,26.69,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000052
+station4/2026-11-22/task01,episode_000053,35.3,PASS,11,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000053
+station4/2026-11-22/task01,episode_000054,34.58,PASS,10,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000054
+station4/2026-11-22/task01,episode_000055,35.13,PASS,8,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000055
+station4/2026-11-22/task01,episode_000056,42.76,PASS,12,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000056
+station4/2026-11-22/task01,episode_000057,16.02,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000057
+station4/2026-11-22/task01,episode_000058,36.35,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000058
+station4/2026-11-22/task01,episode_000059,24.99,PASS,7,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000059
+station4/2026-11-22/task01,episode_000060,28.79,PASS,8,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000060
+station4/2026-11-22/task01,episode_000061,16.78,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000061
+station4/2026-11-22/task01,episode_000062,16.32,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task01/episode_000062
 station4/2026-11-22/task02,episode_000000,108.76,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task02/episode_000000
 station4/2026-11-22/task02,episode_000001,59.76,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task02/episode_000001
 station4/2026-11-22/task02,episode_000002,27.28,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.98), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task02/episode_000002
@@ -1546,35 +1546,35 @@ station4/2026-11-22/task02,episode_000025,87.55,PASS,4,vlm,,s3://prod-mono-pipel
 station4/2026-11-22/task02,episode_000026,41.91,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task02/episode_000026
 station4/2026-11-22/task02,episode_000027,89.84,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task02/episode_000027
 station4/2026-11-22/task02,episode_000028,55.22,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task02/episode_000028
-station4/2026-11-22/task03,episode_000000,63.61,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000000
-station4/2026-11-22/task03,episode_000001,12.16,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000001
-station4/2026-11-22/task03,episode_000002,21.94,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000002
-station4/2026-11-22/task03,episode_000003,16.33,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000003
-station4/2026-11-22/task03,episode_000004,12.41,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000004
-station4/2026-11-22/task03,episode_000005,32.25,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000005
-station4/2026-11-22/task03,episode_000006,38.5,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000006
-station4/2026-11-22/task03,episode_000007,34.58,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000007
-station4/2026-11-22/task03,episode_000008,31.63,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000008
-station4/2026-11-22/task03,episode_000009,24.31,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000009
-station4/2026-11-22/task03,episode_000010,16.65,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000010
-station4/2026-11-22/task03,episode_000011,20.69,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000011
-station4/2026-11-22/task03,episode_000013,10.51,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000013
-station4/2026-11-22/task03,episode_000014,39.29,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000014
-station4/2026-11-22/task03,episode_000017,12.95,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000017
-station4/2026-11-22/task03,episode_000019,74.99,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000019
-station4/2026-11-22/task03,episode_000022,22.59,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000022
-station4/2026-11-22/task03,episode_000024,36.7,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000024
-station4/2026-11-22/task03,episode_000025,19.8,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000025
-station4/2026-11-22/task03,episode_000026,17.45,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000026
-station4/2026-11-22/task03,episode_000029,10.64,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000029
-station4/2026-11-22/task03,episode_000031,47.5,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000031
-station4/2026-11-22/task03,episode_000032,78.73,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000032
-station4/2026-11-22/task03,episode_000033,37.79,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000033
-station4/2026-11-22/task03,episode_000034,20.92,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000034
-station4/2026-11-22/task03,episode_000035,96.54,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000035
-station4/2026-11-22/task03,episode_000036,31.8,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000036
-station4/2026-11-22/task03,episode_000037,11.68,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000037
-station4/2026-11-22/task03,episode_000038,15.42,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000038
+station4/2026-11-22/task03,episode_000000,63.61,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000000
+station4/2026-11-22/task03,episode_000001,12.16,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000001
+station4/2026-11-22/task03,episode_000002,21.94,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000002
+station4/2026-11-22/task03,episode_000003,16.33,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000003
+station4/2026-11-22/task03,episode_000004,12.41,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000004
+station4/2026-11-22/task03,episode_000005,32.25,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000005
+station4/2026-11-22/task03,episode_000006,38.5,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000006
+station4/2026-11-22/task03,episode_000007,34.58,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000007
+station4/2026-11-22/task03,episode_000008,31.63,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000008
+station4/2026-11-22/task03,episode_000009,24.31,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000009
+station4/2026-11-22/task03,episode_000010,16.65,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000010
+station4/2026-11-22/task03,episode_000011,20.69,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000011
+station4/2026-11-22/task03,episode_000013,10.51,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000013
+station4/2026-11-22/task03,episode_000014,39.29,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000014
+station4/2026-11-22/task03,episode_000017,12.95,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000017
+station4/2026-11-22/task03,episode_000019,74.99,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000019
+station4/2026-11-22/task03,episode_000022,22.59,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000022
+station4/2026-11-22/task03,episode_000024,36.7,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000024
+station4/2026-11-22/task03,episode_000025,19.8,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000025
+station4/2026-11-22/task03,episode_000026,17.45,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000026
+station4/2026-11-22/task03,episode_000029,10.64,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000029
+station4/2026-11-22/task03,episode_000031,47.5,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000031
+station4/2026-11-22/task03,episode_000032,78.73,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000032
+station4/2026-11-22/task03,episode_000033,37.79,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000033
+station4/2026-11-22/task03,episode_000034,20.92,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000034
+station4/2026-11-22/task03,episode_000035,96.54,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000035
+station4/2026-11-22/task03,episode_000036,31.8,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000036
+station4/2026-11-22/task03,episode_000037,11.68,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000037
+station4/2026-11-22/task03,episode_000038,15.42,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-22/task03/episode_000038
 station4/2026-11-24/task01,episode_000000,20.77,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task01/episode_000000
 station4/2026-11-24/task01,episode_000001,25.63,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task01/episode_000001
 station4/2026-11-24/task01,episode_000002,17.15,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task01/episode_000002
@@ -1634,85 +1634,85 @@ station4/2026-11-24/task02,episode_000040,13.2,FAIL,1,vlm,"C1: 1 cycles (vlm, co
 station4/2026-11-24/task02,episode_000041,20.34,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task02/episode_000041
 station4/2026-11-24/task02,episode_000042,21.14,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task02/episode_000042
 station4/2026-11-24/task02,episode_000043,37.32,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task02/episode_000043
-station4/2026-11-24/task03,episode_000000,63.28,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000000
-station4/2026-11-24/task03,episode_000001,74.81,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000001
-station4/2026-11-24/task03,episode_000002,34.75,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000002
-station4/2026-11-24/task03,episode_000003,72.62,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000003
-station4/2026-11-24/task03,episode_000004,82.86,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000004
-station4/2026-11-24/task03,episode_000005,77.81,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000005
-station4/2026-11-24/task03,episode_000006,19.52,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000006
-station4/2026-11-24/task03,episode_000007,20.65,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000007
-station4/2026-11-24/task03,episode_000008,44.08,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000008
-station4/2026-11-24/task03,episode_000009,64.85,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000009
-station4/2026-11-24/task03,episode_000010,40.74,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000010
-station4/2026-11-24/task03,episode_000011,68.58,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000011
-station4/2026-11-24/task03,episode_000012,30.25,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000012
-station4/2026-11-24/task03,episode_000013,73.24,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000013
-station4/2026-11-24/task03,episode_000014,28.56,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000014
-station4/2026-11-24/task03,episode_000015,74.76,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000015
-station4/2026-11-24/task03,episode_000016,81.06,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000016
-station4/2026-11-24/task03,episode_000017,71.12,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000017
-station4/2026-11-24/task03,episode_000018,61.41,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000018
-station4/2026-11-24/task03,episode_000019,49.26,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000019
-station4/2026-11-24/task03,episode_000020,57.67,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000020
-station4/2026-11-24/task03,episode_000021,45.61,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000021
-station4/2026-11-24/task03,episode_000022,64.0,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000022
-station4/2026-11-24/task03,episode_000023,66.35,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000023
-station4/2026-11-24/task03,episode_000024,58.79,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000024
-station4/2026-11-24/task03,episode_000025,45.24,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000025
-station4/2026-11-24/task03,episode_000026,63.48,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000026
-station4/2026-11-24/task03,episode_000027,63.26,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000027
-station4/2026-11-24/task03,episode_000028,84.08,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000028
-station4/2026-11-24/task03,episode_000029,76.69,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000029
-station4/2026-11-24/task03,episode_000030,66.65,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000030
-station4/2026-11-24/task03,episode_000031,49.75,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000031
-station4/2026-11-24/task03,episode_000032,53.3,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000032
-station4/2026-11-24/task03,episode_000033,77.38,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000033
-station4/2026-11-24/task03,episode_000034,63.68,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000034
-station4/2026-11-24/task03,episode_000035,85.52,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000035
-station4/2026-11-24/task03,episode_000036,97.35,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000036
-station4/2026-11-24/task03,episode_000037,59.22,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000037
-station4/2026-11-24/task04,episode_000000,123.14,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000000
-station4/2026-11-24/task04,episode_000002,53.42,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000002
-station4/2026-11-24/task04,episode_000003,69.05,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000003
-station4/2026-11-24/task04,episode_000004,51.07,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000004
-station4/2026-11-24/task04,episode_000005,28.63,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000005
-station4/2026-11-24/task04,episode_000006,34.35,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000006
-station4/2026-11-24/task04,episode_000007,35.9,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000007
-station4/2026-11-24/task04,episode_000008,31.88,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000008
-station4/2026-11-24/task04,episode_000009,10.64,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000009
-station4/2026-11-24/task04,episode_000010,31.03,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000010
-station4/2026-11-24/task04,episode_000011,21.29,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000011
-station4/2026-11-24/task04,episode_000012,34.22,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000012
-station4/2026-11-24/task04,episode_000013,47.5,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000013
-station4/2026-11-24/task04,episode_000014,43.93,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000014
-station4/2026-11-24/task04,episode_000015,41.84,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000015
-station4/2026-11-24/task04,episode_000016,43.54,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000016
-station4/2026-11-24/task04,episode_000017,58.77,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000017
-station4/2026-11-24/task04,episode_000018,29.51,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000018
-station4/2026-11-24/task04,episode_000019,33.7,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000019
-station4/2026-11-24/task04,episode_000020,30.51,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000020
-station4/2026-11-24/task04,episode_000021,29.0,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000021
-station4/2026-11-24/task04,episode_000022,28.04,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000022
-station4/2026-11-24/task04,episode_000024,31.03,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000024
-station4/2026-11-24/task04,episode_000025,25.04,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000025
-station4/2026-11-24/task04,episode_000026,31.58,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000026
-station4/2026-11-24/task04,episode_000027,29.78,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000027
-station4/2026-11-24/task04,episode_000028,36.25,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000028
-station4/2026-11-24/task04,episode_000029,33.9,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000029
-station4/2026-11-24/task04,episode_000030,22.29,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000030
-station4/2026-11-24/task04,episode_000031,13.08,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000031
-station4/2026-11-24/task04,episode_000032,32.0,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000032
-station4/2026-11-24/task04,episode_000033,36.39,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000033
-station4/2026-11-24/task04,episode_000034,35.97,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000034
-station4/2026-11-24/task04,episode_000035,43.63,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000035
-station4/2026-11-24/task04,episode_000036,40.81,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000036
-station4/2026-11-24/task04,episode_000037,34.48,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000037
-station4/2026-11-24/task04,episode_000038,35.9,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000038
-station4/2026-11-24/task04,episode_000039,36.87,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000039
-station4/2026-11-24/task04,episode_000040,37.34,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000040
-station4/2026-11-24/task04,episode_000041,29.91,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000041
-station4/2026-11-24/task04,episode_000042,32.3,REVIEW,,,C1: no cycle count (manual or VLM) | C2: no count,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000042
+station4/2026-11-24/task03,episode_000000,63.28,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000000
+station4/2026-11-24/task03,episode_000001,74.81,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000001
+station4/2026-11-24/task03,episode_000002,34.75,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000002
+station4/2026-11-24/task03,episode_000003,72.62,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000003
+station4/2026-11-24/task03,episode_000004,82.86,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000004
+station4/2026-11-24/task03,episode_000005,77.81,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000005
+station4/2026-11-24/task03,episode_000006,19.52,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000006
+station4/2026-11-24/task03,episode_000007,20.65,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.98), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000007
+station4/2026-11-24/task03,episode_000008,44.08,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000008
+station4/2026-11-24/task03,episode_000009,64.85,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000009
+station4/2026-11-24/task03,episode_000010,40.74,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000010
+station4/2026-11-24/task03,episode_000011,68.58,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000011
+station4/2026-11-24/task03,episode_000012,30.25,FAIL,1,vlm,"C1: 1 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000012
+station4/2026-11-24/task03,episode_000013,73.24,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000013
+station4/2026-11-24/task03,episode_000014,28.56,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000014
+station4/2026-11-24/task03,episode_000015,74.76,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000015
+station4/2026-11-24/task03,episode_000016,81.06,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000016
+station4/2026-11-24/task03,episode_000017,71.12,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000017
+station4/2026-11-24/task03,episode_000018,61.41,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000018
+station4/2026-11-24/task03,episode_000019,49.26,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000019
+station4/2026-11-24/task03,episode_000020,57.67,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000020
+station4/2026-11-24/task03,episode_000021,45.61,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000021
+station4/2026-11-24/task03,episode_000022,64.0,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.85), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000022
+station4/2026-11-24/task03,episode_000023,66.35,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000023
+station4/2026-11-24/task03,episode_000024,58.79,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000024
+station4/2026-11-24/task03,episode_000025,45.24,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000025
+station4/2026-11-24/task03,episode_000026,63.48,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000026
+station4/2026-11-24/task03,episode_000027,63.26,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000027
+station4/2026-11-24/task03,episode_000028,84.08,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000028
+station4/2026-11-24/task03,episode_000029,76.69,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000029
+station4/2026-11-24/task03,episode_000030,66.65,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000030
+station4/2026-11-24/task03,episode_000031,49.75,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000031
+station4/2026-11-24/task03,episode_000032,53.3,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000032
+station4/2026-11-24/task03,episode_000033,77.38,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000033
+station4/2026-11-24/task03,episode_000034,63.68,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000034
+station4/2026-11-24/task03,episode_000035,85.52,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000035
+station4/2026-11-24/task03,episode_000036,97.35,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000036
+station4/2026-11-24/task03,episode_000037,59.22,PASS,12,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task03/episode_000037
+station4/2026-11-24/task04,episode_000000,123.14,PASS,7,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000000
+station4/2026-11-24/task04,episode_000002,53.42,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000002
+station4/2026-11-24/task04,episode_000003,69.05,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000003
+station4/2026-11-24/task04,episode_000004,51.07,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000004
+station4/2026-11-24/task04,episode_000005,28.63,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000005
+station4/2026-11-24/task04,episode_000006,34.35,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000006
+station4/2026-11-24/task04,episode_000007,35.9,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000007
+station4/2026-11-24/task04,episode_000008,31.88,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000008
+station4/2026-11-24/task04,episode_000009,10.64,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000009
+station4/2026-11-24/task04,episode_000010,31.03,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000010
+station4/2026-11-24/task04,episode_000011,21.29,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000011
+station4/2026-11-24/task04,episode_000012,34.22,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000012
+station4/2026-11-24/task04,episode_000013,47.5,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000013
+station4/2026-11-24/task04,episode_000014,43.93,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000014
+station4/2026-11-24/task04,episode_000015,41.84,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000015
+station4/2026-11-24/task04,episode_000016,43.54,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000016
+station4/2026-11-24/task04,episode_000017,58.77,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000017
+station4/2026-11-24/task04,episode_000018,29.51,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.9), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000018
+station4/2026-11-24/task04,episode_000019,33.7,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000019
+station4/2026-11-24/task04,episode_000020,30.51,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000020
+station4/2026-11-24/task04,episode_000021,29.0,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000021
+station4/2026-11-24/task04,episode_000022,28.04,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000022
+station4/2026-11-24/task04,episode_000024,31.03,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000024
+station4/2026-11-24/task04,episode_000025,25.04,PASS,5,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000025
+station4/2026-11-24/task04,episode_000026,31.58,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000026
+station4/2026-11-24/task04,episode_000027,29.78,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000027
+station4/2026-11-24/task04,episode_000028,36.25,FAIL,0,vlm,"C1: 0 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000028
+station4/2026-11-24/task04,episode_000029,33.9,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000029
+station4/2026-11-24/task04,episode_000030,22.29,REVIEW,2,vlm,"C1: 2 cycles (vlm, confidence 0.75): count by hand",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000030
+station4/2026-11-24/task04,episode_000031,13.08,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000031
+station4/2026-11-24/task04,episode_000032,32.0,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000032
+station4/2026-11-24/task04,episode_000033,36.39,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000033
+station4/2026-11-24/task04,episode_000034,35.97,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000034
+station4/2026-11-24/task04,episode_000035,43.63,PASS,3,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000035
+station4/2026-11-24/task04,episode_000036,40.81,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000036
+station4/2026-11-24/task04,episode_000037,34.48,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000037
+station4/2026-11-24/task04,episode_000038,35.9,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000038
+station4/2026-11-24/task04,episode_000039,36.87,PASS,4,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000039
+station4/2026-11-24/task04,episode_000040,37.34,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000040
+station4/2026-11-24/task04,episode_000041,29.91,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000041
+station4/2026-11-24/task04,episode_000042,32.3,PASS,6,vlm,,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station4/2026-11-24/task04/episode_000042
 station5/2026-11-22/task01,episode_000000,41.34,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station5/2026-11-22/task01/episode_000000
 station5/2026-11-22/task01,episode_000001,97.06,REVIEW,2,vlm,"C1: 2 cycles (vlm, confidence 0.7): count by hand",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station5/2026-11-22/task01/episode_000001
 station5/2026-11-22/task01,episode_000002,68.72,FAIL,2,vlm,"C1: 2 cycles (vlm, confidence 0.95), 3 needed",s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/station5/2026-11-22/task01/episode_000002

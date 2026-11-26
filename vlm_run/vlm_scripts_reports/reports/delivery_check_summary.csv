@@ -2,11 +2,11 @@ level,name,recordings,hours,deliverable,deliverable_hours,review,review_hours,fa
 task,industrial_data_mp4,15,0.1,0,0.0,0,0.0,15,0.1,0.0,"D6 not a duplicate x15, C3 at least 9 s long x1",0,0.0,15,0.1,0,0.0,"C1 REVIEW x15, C2 REVIEW x15",0,0.0
 task,station1/2026-11-21/task01,91,0.705,0,0.0,0,0.0,91,0.705,0.0,"V9 left / right views not swapped (--views) x90, C3 at least 9 s long x1",75,0.616,0,0.0,16,0.089,C1 FAIL x16,0,0.0
 task,station1/2026-11-21/task02,142,0.541,0,0.0,0,0.0,142,0.541,0.0,"V9 left / right views not swapped (--views) x140, C3 at least 9 s long x37",1,0.004,0,0.0,141,0.538,C1 FAIL x141,0,0.0
-task,station1/2026-11-21/task03,158,0.377,36,0.162,0,0.0,122,0.215,22.8,"C3 at least 9 s long x122, V9 left / right views not swapped (--views) x1",1,0.014,1,0.002,156,0.361,"C1 FAIL x156, C1 REVIEW x1",1,0.014
+task,station1/2026-11-21/task03,158,0.377,36,0.162,0,0.0,122,0.215,22.8,C3 at least 9 s long x122,1,0.014,1,0.002,156,0.361,"C1 FAIL x156, C1 REVIEW x1",1,0.014
 task,station1/2026-11-21/task04,28,0.253,27,0.253,0,0.0,1,0.0,96.4,C3 at least 9 s long x1,18,0.165,0,0.0,10,0.088,C1 FAIL x10,18,0.165
 task,station1/2026-11-21/task05,16,0.121,16,0.121,0,0.0,0,0.0,100.0,,0,0.0,0,0.0,16,0.121,C1 FAIL x16,0,0.0
 task,station1/2026-11-22/task01,31,0.226,31,0.226,0,0.0,0,0.0,100.0,,23,0.168,0,0.0,8,0.058,C1 FAIL x8,23,0.168
-task,station1/2026-11-22/task02,41,0.238,40,0.238,0,0.0,1,0.0,97.6,"V9 left / right views not swapped (--views) x1, C3 at least 9 s long x1",32,0.201,0,0.0,9,0.038,C1 FAIL x9,32,0.201
+task,station1/2026-11-22/task02,41,0.238,40,0.238,0,0.0,1,0.0,97.6,C3 at least 9 s long x1,32,0.201,0,0.0,9,0.038,C1 FAIL x9,32,0.201
 task,station1/2026-11-22/task03,10,0.064,10,0.064,0,0.0,0,0.0,100.0,,8,0.054,0,0.0,2,0.01,C1 FAIL x2,8,0.054
 task,station1/2026-11-22/task04,56,0.576,56,0.576,0,0.0,0,0.0,100.0,,42,0.464,0,0.0,14,0.112,C1 FAIL x14,42,0.464
 task,station1/2026-11-22/task05,49,0.278,47,0.273,0,0.0,2,0.005,95.9,C3 at least 9 s long x2,40,0.234,0,0.0,9,0.044,C1 FAIL x9,40,0.234
@@ -14,7 +14,7 @@ task,station1/2026-11-22/task06,10,0.24,0,0.0,0,0.0,10,0.24,0.0,V9 left / right 
 task,station1/2026-11-22/task07,32,0.141,31,0.138,0,0.0,1,0.002,96.9,C3 at least 9 s long x1,13,0.064,1,0.003,18,0.074,"C1 FAIL x18, C2 REVIEW x1",13,0.064
 task,station1/2026-11-24/task01,14,0.097,12,0.076,1,0.02,1,0.001,85.7,C3 at least 9 s long x1,0,0.0,0,0.0,14,0.097,C1 FAIL x14,0,0.0
 task,station1/2026-11-24/task02,52,0.234,39,0.216,0,0.0,13,0.018,75.0,C3 at least 9 s long x13,2,0.015,1,0.005,49,0.213,"C1 FAIL x49, C1 REVIEW x1",2,0.015
-task,station1/2026-11-24/task03,32,0.229,27,0.224,0,0.0,5,0.005,84.4,"C3 at least 9 s long x5, V9 left / right views not swapped (--views) x1",6,0.093,1,0.005,25,0.131,"C1 FAIL x25, C1 REVIEW x1",6,0.093
+task,station1/2026-11-24/task03,32,0.229,27,0.224,0,0.0,5,0.005,84.4,C3 at least 9 s long x5,6,0.093,1,0.005,25,0.131,"C1 FAIL x25, C1 REVIEW x1",6,0.093
 task,station1/2026-11-24/task04,27,0.234,26,0.234,0,0.0,1,0.0,96.3,C3 at least 9 s long x1,25,0.225,0,0.0,2,0.009,C1 FAIL x2,25,0.225
 task,station1/2026-11-24/task05,23,0.353,23,0.353,0,0.0,0,0.0,100.0,,18,0.269,0,0.0,5,0.084,C1 FAIL x5,18,0.269
 task,station1/2026-11-24/task06,11,0.465,10,0.464,0,0.0,1,0.001,90.9,C3 at least 9 s long x1,8,0.364,1,0.055,2,0.046,"C1 FAIL x2, C1 REVIEW x1",8,0.364
@@ -30,40 +30,40 @@ task,station2/2026-11-22/task04,9,0.179,2,0.052,0,0.0,7,0.127,22.2,V9 left / rig
 task,station2/2026-11-22/task05,43,0.578,0,0.0,0,0.0,43,0.578,0.0,V9 left / right views not swapped (--views) x43,36,0.478,6,0.093,1,0.006,"C2 REVIEW x6, C1 FAIL x1",0,0.0
 task,station2/2026-11-22/task06,41,0.319,0,0.0,0,0.0,41,0.319,0.0,"V9 left / right views not swapped (--views) x40, C3 at least 9 s long x3",16,0.13,4,0.022,21,0.167,"C1 FAIL x21, C2 REVIEW x4",0,0.0
 task,station2/2026-11-24/task00,22,0.448,22,0.448,0,0.0,0,0.0,100.0,,18,0.368,0,0.0,4,0.08,C1 FAIL x4,18,0.368
-task,station2/2026-11-24/task01,15,0.346,14,0.346,0,0.0,1,0.001,93.3,"V9 left / right views not swapped (--views) x1, C3 at least 9 s long x1",4,0.119,8,0.191,3,0.037,"C1 REVIEW x8, C2 REVIEW x8, C1 FAIL x3",4,0.119
-task,station2/2026-11-24/task02,34,0.723,34,0.723,0,0.0,0,0.0,100.0,,0,0.0,34,0.723,0,0.0,"C1 REVIEW x34, C2 REVIEW x34",0,0.0
-task,station2/2026-11-24/task03,26,0.835,26,0.835,0,0.0,0,0.0,100.0,,0,0.0,26,0.835,0,0.0,"C1 REVIEW x26, C2 REVIEW x26",0,0.0
-task,station2/2026-11-24/task04,38,0.824,38,0.824,0,0.0,0,0.0,100.0,,0,0.0,38,0.824,0,0.0,"C1 REVIEW x38, C2 REVIEW x38",0,0.0
-task,station2/2026-11-24/task05,25,0.72,24,0.718,0,0.0,1,0.002,96.0,C3 at least 9 s long x1,0,0.0,25,0.72,0,0.0,"C1 REVIEW x25, C2 REVIEW x25",0,0.0
-task,station2/2026-11-24/task06,5,0.27,5,0.27,0,0.0,0,0.0,100.0,,0,0.0,5,0.27,0,0.0,"C1 REVIEW x5, C2 REVIEW x5",0,0.0
+task,station2/2026-11-24/task01,15,0.346,14,0.346,0,0.0,1,0.001,93.3,C3 at least 9 s long x1,9,0.22,0,0.0,6,0.126,C1 FAIL x6,9,0.22
+task,station2/2026-11-24/task02,34,0.723,34,0.723,0,0.0,0,0.0,100.0,,34,0.723,0,0.0,0,0.0,,34,0.723
+task,station2/2026-11-24/task03,26,0.835,26,0.835,0,0.0,0,0.0,100.0,,20,0.654,1,0.031,5,0.151,"C1 FAIL x5, C1 REVIEW x1",20,0.654
+task,station2/2026-11-24/task04,38,0.824,38,0.824,0,0.0,0,0.0,100.0,,24,0.553,1,0.016,13,0.255,"C1 FAIL x13, C2 REVIEW x1",24,0.553
+task,station2/2026-11-24/task05,25,0.72,24,0.718,0,0.0,1,0.002,96.0,C3 at least 9 s long x1,16,0.49,1,0.027,8,0.202,"C1 FAIL x8, C1 REVIEW x1",16,0.49
+task,station2/2026-11-24/task06,5,0.27,5,0.27,0,0.0,0,0.0,100.0,,4,0.206,1,0.064,0,0.0,C2 REVIEW x1,4,0.206
 task,station3/2026-11-21/task02,33,0.275,33,0.275,0,0.0,0,0.0,100.0,,11,0.099,1,0.009,21,0.167,"C1 FAIL x21, C1 REVIEW x1",11,0.099
 task,station3/2026-11-21/task03,87,0.59,86,0.589,0,0.0,1,0.0,98.9,C3 at least 9 s long x1,61,0.415,4,0.024,22,0.151,"C1 FAIL x22, C2 REVIEW x4",61,0.415
 task,station3/2026-11-22/task01,65,0.581,65,0.581,0,0.0,0,0.0,100.0,,28,0.261,0,0.0,37,0.321,C1 FAIL x37,28,0.261
 task,station3/2026-11-22/task04,57,0.501,56,0.498,0,0.0,1,0.002,98.2,C3 at least 9 s long x1,0,0.0,3,0.027,54,0.474,"C1 FAIL x54, C1 REVIEW x3",0,0.0
-task,station3/2026-11-24/task01,67,0.843,66,0.842,0,0.0,1,0.001,98.5,"V9 left / right views not swapped (--views) x1, C3 at least 9 s long x1",46,0.626,0,0.0,21,0.217,C1 FAIL x21,46,0.626
+task,station3/2026-11-24/task01,67,0.843,66,0.842,0,0.0,1,0.001,98.5,C3 at least 9 s long x1,46,0.626,0,0.0,21,0.217,C1 FAIL x21,46,0.626
 task,station3/2026-11-24/task02,27,0.576,27,0.576,0,0.0,0,0.0,100.0,,22,0.476,0,0.0,5,0.1,C1 FAIL x5,22,0.476
 task,station3/2026-11-24/task03,50,0.712,48,0.708,0,0.0,2,0.004,96.0,C3 at least 9 s long x2,35,0.492,2,0.023,13,0.197,"C1 FAIL x13, C2 REVIEW x2",35,0.492
 task,station3/2026-11-24/task04,35,0.729,35,0.729,0,0.0,0,0.0,100.0,,26,0.53,6,0.118,3,0.081,"C2 REVIEW x6, C1 FAIL x3",26,0.53
 task,station3/task03,26,0.419,26,0.419,0,0.0,0,0.0,100.0,,9,0.19,1,0.021,16,0.208,"C1 FAIL x16, C1 REVIEW x1",9,0.19
 task,station3/task04,31,0.273,31,0.273,0,0.0,0,0.0,100.0,,1,0.009,0,0.0,30,0.264,C1 FAIL x30,1,0.009
-task,station4/2026-11-21/task00,33,0.118,19,0.104,0,0.0,14,0.014,57.6,C3 at least 9 s long x14,0,0.0,33,0.118,0,0.0,"C1 REVIEW x33, C2 REVIEW x33",0,0.0
-task,station4/2026-11-21/task01,109,0.535,101,0.525,0,0.0,8,0.009,92.7,"C3 at least 9 s long x8, V9 left / right views not swapped (--views) x1",0,0.0,109,0.535,0,0.0,"C1 REVIEW x109, C2 REVIEW x109",0,0.0
+task,station4/2026-11-21/task00,33,0.118,19,0.104,0,0.0,14,0.014,57.6,C3 at least 9 s long x14,0,0.0,0,0.0,33,0.118,"C1 FAIL x33, C2 REVIEW x1",0,0.0
+task,station4/2026-11-21/task01,109,0.535,101,0.525,0,0.0,8,0.009,92.7,C3 at least 9 s long x8,1,0.007,0,0.0,108,0.527,C1 FAIL x108,1,0.007
 task,station4/2026-11-21/task02,16,0.065,14,0.064,0,0.0,2,0.001,87.5,C3 at least 9 s long x2,0,0.0,0,0.0,16,0.065,C1 FAIL x16,0,0.0
-task,station4/2026-11-21/task03,22,0.214,21,0.213,0,0.0,1,0.001,95.5,C3 at least 9 s long x1,0,0.0,22,0.214,0,0.0,"C1 REVIEW x22, C2 REVIEW x22",0,0.0
-task,station4/2026-11-22/task01,63,0.541,61,0.538,0,0.0,2,0.003,96.8,C3 at least 9 s long x2,0,0.0,63,0.541,0,0.0,"C1 REVIEW x63, C2 REVIEW x63",0,0.0
+task,station4/2026-11-21/task03,22,0.214,21,0.213,0,0.0,1,0.001,95.5,C3 at least 9 s long x1,4,0.128,0,0.0,18,0.086,"C1 FAIL x18, C2 REVIEW x1",4,0.128
+task,station4/2026-11-22/task01,63,0.541,61,0.538,0,0.0,2,0.003,96.8,C3 at least 9 s long x2,51,0.462,5,0.043,7,0.036,"C1 FAIL x7, C2 REVIEW x5",51,0.462
 task,station4/2026-11-22/task02,30,0.681,29,0.679,0,0.0,1,0.002,96.7,C3 at least 9 s long x1,15,0.361,1,0.022,14,0.298,"C1 FAIL x14, C1 REVIEW x1",15,0.361
-task,station4/2026-11-22/task03,39,0.259,29,0.253,0,0.0,10,0.007,74.4,"C3 at least 9 s long x10, V9 left / right views not swapped (--views) x5",0,0.0,39,0.259,0,0.0,"C1 REVIEW x39, C2 REVIEW x39",0,0.0
+task,station4/2026-11-22/task03,39,0.259,29,0.253,0,0.0,10,0.007,74.4,C3 at least 9 s long x10,1,0.022,0,0.0,38,0.238,C1 FAIL x38,1,0.022
 task,station4/2026-11-24/task01,17,0.112,17,0.112,0,0.0,0,0.0,100.0,,2,0.022,1,0.007,14,0.084,"C1 FAIL x14, C1 REVIEW x1",2,0.022
 task,station4/2026-11-24/task02,44,0.351,42,0.347,0,0.0,2,0.004,95.5,C3 at least 9 s long x2,5,0.062,2,0.018,37,0.271,"C1 FAIL x37, C1 REVIEW x2",5,0.062
-task,station4/2026-11-24/task03,38,0.642,38,0.642,0,0.0,0,0.0,100.0,,0,0.0,38,0.642,0,0.0,"C1 REVIEW x38, C2 REVIEW x38",0,0.0
-task,station4/2026-11-24/task04,43,0.426,41,0.425,0,0.0,2,0.001,95.3,C3 at least 9 s long x2,0,0.0,43,0.426,0,0.0,"C1 REVIEW x43, C2 REVIEW x43",0,0.0
+task,station4/2026-11-24/task03,38,0.642,38,0.642,0,0.0,0,0.0,100.0,,26,0.477,0,0.0,12,0.166,C1 FAIL x12,26,0.477
+task,station4/2026-11-24/task04,43,0.426,41,0.425,0,0.0,2,0.001,95.3,C3 at least 9 s long x2,34,0.358,1,0.006,8,0.061,"C1 FAIL x8, C1 REVIEW x1",34,0.358
 task,station5/2026-11-22/task01,7,0.152,7,0.152,0,0.0,0,0.0,100.0,,3,0.083,1,0.027,3,0.042,"C1 FAIL x3, C1 REVIEW x1",3,0.083
 task,station5/2026-11-24/task01,29,0.423,29,0.423,0,0.0,0,0.0,100.0,,18,0.274,2,0.031,9,0.118,"C1 FAIL x9, C2 REVIEW x2",18,0.274
 task,station5/2026-11-24/task02,22,0.32,22,0.32,0,0.0,0,0.0,100.0,,17,0.248,3,0.039,2,0.032,"C2 REVIEW x3, C1 FAIL x2",17,0.248
 station,industrial_data_mp4,15,0.1,0,0.0,0,0.0,15,0.1,0.0,"D6 not a duplicate x15, C3 at least 9 s long x1",0,0.0,15,0.1,0,0.0,"C1 REVIEW x15, C2 REVIEW x15",0,0.0
-station,station1,1000,7.098,603,5.336,1,0.02,396,1.743,60.3,"V9 left / right views not swapped (--views) x243, C3 at least 9 s long x191",417,4.323,6,0.081,577,2.695,"C1 FAIL x577, C1 REVIEW x5, C2 REVIEW x1",338,3.615
-station,station2,320,5.667,226,4.639,0,0.0,94,1.028,70.6,"V9 left / right views not swapped (--views) x91, C3 at least 9 s long x6",136,1.573,146,3.678,38,0.416,"C2 REVIEW x146, C1 REVIEW x136, C1 FAIL x38",83,0.943
-station,station3,478,5.498,473,5.49,0,0.0,5,0.008,99.0,"C3 at least 9 s long x5, V9 left / right views not swapped (--views) x1",239,3.097,17,0.221,222,2.18,"C1 FAIL x222, C2 REVIEW x12, C1 REVIEW x5",239,3.097
-station,station4,454,3.944,412,3.902,0,0.0,42,0.042,90.7,"C3 at least 9 s long x42, V9 left / right views not swapped (--views) x6",22,0.445,351,2.782,81,0.717,"C1 REVIEW x351, C2 REVIEW x347, C1 FAIL x81",22,0.445
+station,station1,1000,7.098,603,5.336,1,0.02,396,1.743,60.3,"V9 left / right views not swapped (--views) x240, C3 at least 9 s long x191",417,4.323,6,0.081,577,2.695,"C1 FAIL x577, C1 REVIEW x5, C2 REVIEW x1",338,3.615
+station,station2,320,5.667,226,4.639,0,0.0,94,1.028,70.6,"V9 left / right views not swapped (--views) x90, C3 at least 9 s long x6",239,4.3,14,0.253,67,1.113,"C1 FAIL x67, C2 REVIEW x12, C1 REVIEW x2",186,3.671
+station,station3,478,5.498,473,5.49,0,0.0,5,0.008,99.0,C3 at least 9 s long x5,239,3.097,17,0.221,222,2.18,"C1 FAIL x222, C2 REVIEW x12, C1 REVIEW x5",239,3.097
+station,station4,454,3.944,412,3.902,0,0.0,42,0.042,90.7,C3 at least 9 s long x42,139,1.898,10,0.096,305,1.95,"C1 FAIL x305, C2 REVIEW x7, C1 REVIEW x5",139,1.898
 station,station5,58,0.895,58,0.895,0,0.0,0,0.0,100.0,,38,0.605,6,0.098,14,0.192,"C1 FAIL x14, C2 REVIEW x5, C1 REVIEW x1",38,0.605
-all,ALL,2325,23.203,1772,20.263,1,0.02,552,2.92,76.2,"V9 left / right views not swapped (--views) x341, C3 at least 9 s long x245, D6 not a duplicate x15",852,10.042,541,6.96,932,6.201,"C1 FAIL x932, C2 REVIEW x526, C1 REVIEW x513",720,8.706
+all,ALL,2325,23.203,1772,20.263,1,0.02,552,2.92,76.2,"V9 left / right views not swapped (--views) x330, C3 at least 9 s long x245, D6 not a duplicate x15",1072,14.224,68,0.848,1185,8.13,"C1 FAIL x1185, C2 REVIEW x52, C1 REVIEW x33",940,12.887

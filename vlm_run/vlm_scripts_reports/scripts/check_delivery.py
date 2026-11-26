@@ -54,6 +54,7 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 from fractions import Fraction
 from pathlib import Path
 
@@ -168,13 +169,30 @@ def task_matches(task, wanted):
 
 
 # ---------------------------------------------------------------- probes
+URL = re.compile(r"(?:https?|s3)://\S+")
+
+
+def clean(msg):
+    """Error text without URLs (presigned URLs carry credentials; they must not reach the reports)."""
+    return URL.sub("<url>", str(msg))
+
+
+def run(cmd, tries=3, **kw):
+    """subprocess.run with retries: S3 reads over a presigned URL fail now and then (network, throttling)."""
+    for i in range(tries):
+        out = subprocess.run(cmd, **kw)
+        if out.returncode == 0 or i == tries - 1:
+            return out
+        time.sleep(2 * (i + 1))
+
+
 def ffprobe(url):
-    out = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries",
+    out = run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries",
                           "stream=codec_name,width,height,pix_fmt,r_frame_rate,avg_frame_rate,nb_frames,duration,bit_rate,"
                           "start_time:format=duration",
                           "-of", "json", url], capture_output=True, text=True, timeout=120)
     if out.returncode != 0:
-        raise RuntimeError(out.stderr.strip().splitlines()[-1] if out.stderr.strip() else "ffprobe failed")
+        raise RuntimeError(clean(out.stderr.strip().splitlines()[-1]) if out.stderr.strip() else "ffprobe failed")
     j = json.loads(out.stdout)
     s = (j.get("streams") or [{}])[0]
     if not s:
@@ -194,10 +212,10 @@ def ffprobe(url):
 
 def packet_times(url):
     """Every video packet's presentation time (reads the whole file): for frame count and timeline gaps."""
-    out = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "packet=pts_time",
+    out = run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "packet=pts_time",
                           "-of", "csv=p=0", url], capture_output=True, text=True, timeout=3600)
     if out.returncode != 0:
-        raise RuntimeError(out.stderr.strip()[-200:] or "ffprobe packets failed")
+        raise RuntimeError(clean(out.stderr.strip())[-200:] or "ffprobe packets failed")
     return sorted(float(x) for x in out.stdout.split() if x not in ("", "N/A"))
 
 
@@ -205,7 +223,7 @@ def decode_errors(url):
     """Full decode (CPU heavy): the decoder's error lines, empty when every frame decodes."""
     out = subprocess.run(["ffmpeg", "-v", "error", "-nostdin", "-i", url, "-map", "0:v:0", "-f", "null", "-"],
                          capture_output=True, text=True, timeout=7200)
-    return [l for l in out.stderr.splitlines() if l.strip()] + ([f"exit {out.returncode}"] if out.returncode else [])
+    return [clean(l) for l in out.stderr.splitlines() if l.strip()] + ([f"exit {out.returncode}"] if out.returncode else [])
 
 
 def read_widths(text):
@@ -236,11 +254,11 @@ def keyframes(url, size):
     """The keyframes (about one per second; only these are decoded), gray, scaled to size, and their times."""
     import numpy as np
     w, h = size
-    out = subprocess.run(["ffmpeg", "-v", "info", "-nostdin", "-threads", "2", "-skip_frame", "nokey", "-i", url,
+    out = run(["ffmpeg", "-v", "info", "-nostdin", "-threads", "2", "-skip_frame", "nokey", "-i", url,
                           "-map", "0:v:0", "-vf", f"showinfo,scale={w}:{h},format=gray", "-vsync", "passthrough",
                           "-f", "rawvideo", "-"], capture_output=True, timeout=1800)
     if out.returncode != 0:
-        raise RuntimeError(out.stderr.decode(errors="replace").strip().splitlines()[-1][:120] or "ffmpeg failed")
+        raise RuntimeError(clean(out.stderr.decode(errors="replace").strip().splitlines()[-1])[:120] or "ffmpeg failed")
     frames = np.frombuffer(out.stdout, np.uint8).reshape(-1, h, w)
     times = [float(m) for m in re.findall(r"pts_time:\s*(-?[\d.]+)", out.stderr.decode(errors="replace"))]
     return frames, times[: len(frames)]
@@ -373,7 +391,7 @@ def check(store, rec, cfg, manual):
             try:
                 probes[r] = ffprobe(store.url(files[r]))
             except Exception as ex:
-                bad.append(f"{r}: {ex}"[:120])
+                bad.append(clean(f"{r}: {ex}")[:120])
     culprits["D1"] = missing + [b.split(":")[0] for b in bad]
     put("D1", "FAIL" if missing or bad else "PASS",
         "; ".join([f"missing {', '.join(missing)}"] * bool(missing) + bad) or "head, left, right")
@@ -384,7 +402,7 @@ def check(store, rec, cfg, manual):
         try:
             meta = json.loads(store.read_text(files["meta"]))
         except Exception as ex:
-            put("D2", "FAIL", f"meta.json unreadable: {ex}"[:120])
+            put("D2", "FAIL", clean(f"meta.json unreadable: {ex}")[:120])
     if meta is None and not res["D2"][0]:
         put("D2", "FAIL", "meta.json missing")
     cams = (meta or {}).get("cameras") or {}
@@ -452,7 +470,7 @@ def check(store, rec, cfg, manual):
             texts[g] = store.read_text(key)
             fr, w = read_widths(texts[g])
         except Exception as ex:
-            gaps.append(f"{g}: unreadable ({ex})"[:80])
+            gaps.append(clean(f"{g}: unreadable ({ex})")[:80])
             continue
         n_g = (probes.get(g) or {}).get("frames") or n_ref
         if not w:
@@ -600,7 +618,7 @@ def check(store, rec, cfg, manual):
             try:
                 t = packet_times(store.url(files[r]))
             except Exception as ex:
-                msgs.append(f"{r}: {ex}"[:120])
+                msgs.append(clean(f"{r}: {ex}")[:120])
                 continue
             info[r] = t
             if got[r]["frames"] is not None and len(t) != got[r]["frames"]:
@@ -644,18 +662,53 @@ def check(store, rec, cfg, manual):
         try:
             st, val, culprits["V9"] = check_views(store, files, got, texts, cfg)
         except Exception as ex:
-            st, val = "REVIEW", f"view check failed: {ex}"[:200]
+            st, val = "REVIEW", clean(f"view check failed: {ex}")[:200]
         put("V9", st, val)
 
-    # C1-C3 cycles, W2-W5
-    vlm = {}
-    if files.get("vlm"):
-        try:
-            vlm = (json.loads(store.read_text(files["vlm"])).get("response") or {})
-        except Exception:
-            vlm = {}
+    # C1-C3 cycles, W2-W4 (C1, C2, W2-W4: the repetition checks, also redone alone by --refresh-vlm)
     dur = (got.get("head") or {}).get("duration")
-    m = manual.get((rec["task"], rec["episode"]))
+    vlm = read_vlm(store, files)
+    cres, n, src = count_checks(vlm, dur, manual.get((rec["task"], rec["episode"])), cfg)
+    res.update(cres)
+    if files.get("mosaic"):
+        try:
+            mz = ffprobe(store.url(files["mosaic"]))
+            nh = (got.get("head") or {}).get("frames")
+            ok = nh is None or mz["frames"] == nh
+            put("W5", "PASS" if ok else "WARN", f"mosaic {mz['codec']} {mz['frames']} frames"
+                + ("" if ok else f", head {nh} (review video does not match)"))
+        except Exception as ex:
+            put("W5", "WARN", clean(f"mosaic unreadable: {ex}")[:120])
+    else:
+        put("W5", "INFO", "no mosaic (optional)")
+
+    row = {"task": rec["task"], "episode": rec["episode"], "n_cycles": "" if n is None else n, "count_source": src,
+           "duration_s": "" if dur is None else round(dur, 2), "folder": rec["folder"], "_uris": rec.get("uris", {}),
+           "_culprits": culprits,
+           # for the checks across recordings (D6, W7)
+           "_grip_key": hashlib.sha1("\0".join(texts.get(g, "") for g in GRIPPERS).encode()).hexdigest()
+           if len(texts) == 2 else None,
+           "_calib": {r: tuple(str((cams.get(r) or {}).get(k)) for k in ("fx", "fy", "cx", "cy")) for r in VIDEO_ROLES}}
+    for k in CHECK_IDS:
+        row[k], row[f"{k}_value"] = res[k]
+    return set_verdict(row)
+
+
+def read_vlm(store, files):
+    """The VLM response of a recording ({} when there is none or it does not parse)."""
+    if not files.get("vlm"):
+        return {}
+    try:
+        return json.loads(store.read_text(files["vlm"])).get("response") or {}
+    except Exception:
+        return {}
+
+
+def count_checks(vlm, dur, m, cfg):
+    """C1-C3 and W2-W4 from the cycle count (manual count m first, else the VLM's) and the head duration.
+    Returns ({id: (status, value)}, n, count source)."""
+    res = {k: ("", "") for k in ("C1", "C2", "C3", "W2", "W3", "W4")}
+    put = lambda k, status, value="": res.__setitem__(k, (status, str(value)))
     if m is not None:
         n, src, conf = m, "manual", None
     elif isinstance(vlm.get("n_repetitions"), int):
@@ -697,28 +750,7 @@ def check(store, rec, cfg, manual):
         put("W2", "REVIEW", f"VLM names a setup activity: {t.get('task_text') or ct.get('task_text')}"[:150])
     else:
         put("W2", "PASS", (ct.get("task_text") or t.get("task_text") or "")[:150])
-    if files.get("mosaic"):
-        try:
-            mz = ffprobe(store.url(files["mosaic"]))
-            nh = (got.get("head") or {}).get("frames")
-            ok = nh is None or mz["frames"] == nh
-            put("W5", "PASS" if ok else "WARN", f"mosaic {mz['codec']} {mz['frames']} frames"
-                + ("" if ok else f", head {nh} (review video does not match)"))
-        except Exception as ex:
-            put("W5", "WARN", f"mosaic unreadable: {ex}"[:120])
-    else:
-        put("W5", "INFO", "no mosaic (optional)")
-
-    row = {"task": rec["task"], "episode": rec["episode"], "n_cycles": "" if n is None else n, "count_source": src,
-           "duration_s": "" if dur is None else round(dur, 2), "folder": rec["folder"], "_uris": rec.get("uris", {}),
-           "_culprits": culprits,
-           # for the checks across recordings (D6, W7)
-           "_grip_key": hashlib.sha1("\0".join(texts.get(g, "") for g in GRIPPERS).encode()).hexdigest()
-           if len(texts) == 2 else None,
-           "_calib": {r: tuple(str((cams.get(r) or {}).get(k)) for k in ("fx", "fy", "cx", "cy")) for r in VIDEO_ROLES}}
-    for k in CHECK_IDS:
-        row[k], row[f"{k}_value"] = res[k]
-    return set_verdict(row)
+    return res, n, src
 
 
 def set_verdict(row):
@@ -849,10 +881,13 @@ def main():
     ap.add_argument("--decode", action="store_true", help="V8: decode every frame (CPU heavy; use with --task/--limit)")
     ap.add_argument("--views", action="store_true",
                     help="V9: left / right views not swapped, from the gripper tags in the keyframes (on with --deep)")
+    ap.add_argument("--refresh-vlm", action="store_true",
+                    help="redo only the repetition checks (C1-C3, W2-W4) of the existing --out CSV with the VLM results and "
+                         "manual counts as they are now; the data checks are kept (no video is read)")
     a = ap.parse_args()
     cfg = json.loads(a.config.read_text())
     cfg["_deep"], cfg["_decode"], cfg["_views"] = a.deep, a.decode, a.views or a.deep
-    if not shutil.which("ffprobe"):
+    if not shutil.which("ffprobe") and not a.refresh_vlm:
         sys.exit("ffprobe not found: apt-get install ffmpeg (or brew install ffmpeg)")
     src = a.source or cfg["source"]
     store = S3(src, cfg.get("region")) if src.startswith("s3://") else Local(src)
@@ -867,7 +902,53 @@ def main():
     manual = load_manual(HERE / cfg["manual_counts"])
     print(f"{src}: {len(recs)} recordings in {len({r['task'] for r in recs})} tasks; "
           f"{len(manual)} manual counts", flush=True)
+    out = a.out or HERE / cfg["out_csv"]
+    if a.refresh_vlm:
+        rows = refresh_vlm(store, recs, out, cfg, manual)
+        for k, ck in (("_deep", "V7"), ("_decode", "V8"), ("_views", "V9")):  # what the kept run checked
+            cfg[k] = any(r.get(ck) not in ("SKIP", "", None) for r in rows)
+    else:
+        rows = run_checks(store, recs, cfg, manual)
+    write_reports(rows, out, src, cfg)
 
+
+def refresh_vlm(store, recs, out, cfg, manual):
+    """Rows of the existing CSV with the repetition checks redone from the current VLM results and manual counts."""
+    if not out.exists():
+        sys.exit(f"{out} not found: run the full check first")
+    rows = list(csv.DictReader(open(out)))
+    by = {(r["task"], r["episode"]): r for r in recs}
+    missing = [r for r in rows if (r["task"], r["episode"]) not in by]
+    new = len({(r["task"], r["episode"]) for r in recs} - {(r["task"], r["episode"]) for r in rows})
+    if missing:
+        print(f"  {len(missing)} recordings of the CSV are no longer in the source (kept as they were)")
+    if new:
+        print(f"  {new} recordings in the source are not in the CSV: run the full check for them")
+
+    def redo(row):
+        rec = by.get((row["task"], row["episode"]))
+        if rec is None or not row.get("D1"):  # gone, or the check had crashed
+            return row, None
+        row["_uris"] = rec.get("uris", {})
+        dur = float(row["duration_s"]) if row.get("duration_s") else None
+        before = row.get("n_cycles", "")
+        res, n, src = count_checks(read_vlm(store, rec["files"]), dur, manual.get((row["task"], row["episode"])), cfg)
+        for k, (st, val) in res.items():
+            if k in VLM_CHECKS:  # C3 is a data check: kept from the full run
+                row[k], row[f"{k}_value"] = st, val
+        row["n_cycles"], row["count_source"] = ("" if n is None else n), src
+        return set_verdict(row), str(before) != str(row["n_cycles"])
+
+    changed = 0
+    with cf.ThreadPoolExecutor(max_workers=cfg.get("workers", 16)) as ex:
+        for _, ch in ex.map(redo, rows):
+            changed += bool(ch)
+    print(f"  repetition checks redone for {len(rows) - len(missing)} recordings; cycle count changed for {changed}",
+          flush=True)
+    return rows
+
+
+def run_checks(store, recs, cfg, manual):
     rows = []
     with cf.ThreadPoolExecutor(max_workers=cfg.get("workers", 16)) as ex:
         futs = {ex.submit(check, store, r, cfg, manual): r for r in recs}
@@ -877,14 +958,16 @@ def main():
                 row = f.result()
             except Exception as err:
                 row = {"task": r["task"], "episode": r["episode"], "verdict": "FAIL",
-                       "reasons": f"check crashed: {err!r}"[:300], "folder": r["folder"], "_uris": r.get("uris", {})}
+                       "reasons": clean(f"check crashed: {err!r}")[:300], "folder": r["folder"], "_uris": r.get("uris", {})}
             rows.append(row)
             if i % 50 == 0 or i == len(recs):
                 print(f"  {i}/{len(recs)}", flush=True)
     rows.sort(key=lambda r: (r["task"], r["episode"]))
     cross_checks(rows)
+    return rows
 
-    out = a.out or HERE / cfg["out_csv"]
+
+def write_reports(rows, out, src, cfg):
     out.parent.mkdir(parents=True, exist_ok=True)
     cols = ["task", "episode", "verdict", "reasons", "vlm_verdict", "vlm_reasons", "n_cycles", "count_source", "duration_s"] + \
            [c for k in CHECK_IDS for c in (k, f"{k}_value")] + ["folder"]
@@ -953,10 +1036,10 @@ def main():
     tot = summ[-1]
     md = [f"# UMI delivery check: {src}", "",
           f"Checked against DataPRD1019 v1.1 (docs/UMI_delivery_checklist.md); "
-          f"{'header + every frame timestamp' if a.deep else 'header only'}{', full decode' if a.decode else ''}.",
-          *([] if a.deep else ["Not checked in this run: dropped frames inside a file (V7, run with --deep)."]),
-          *([] if cfg["_views"] else ["Not checked in this run: left / right view swap (V9, run with --views or --deep)."]),
-          *([] if a.decode else ["Not checked in this run: corrupt frames (V8, run with --decode). "
+          f"{'header + every frame timestamp' if cfg['_deep'] else 'header only'}{', full decode' if cfg['_decode'] else ''}.",
+          *([] if cfg['_deep'] else ["Not checked in this run: dropped frames inside a file (V7, run with --deep)."]),
+          *([] if cfg['_views'] else ["Not checked in this run: left / right view swap (V9, run with --views or --deep)."]),
+          *([] if cfg['_decode'] else ["Not checked in this run: corrupt frames (V8, run with --decode). "
                                  "Deliverable means: passes every check that ran."]), "",
           f"Two separate verdicts per recording. **Data checks** (files, sync, frames, length, warnings: "
           f"{', '.join(DATA_CHECKS)}) decide what is deliverable here. **Repetition checks** ({', '.join(VLM_CHECKS)}) "

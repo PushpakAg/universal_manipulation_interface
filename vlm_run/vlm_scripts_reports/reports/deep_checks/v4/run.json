@@ -1,0 +1,14 @@
+{
+  "id": "v4",
+  "label": "v4 deep check",
+  "date": "2026-11-26",
+  "command": "scripts/check_delivery.py --deep, then --refresh-vlm",
+  "notes": [
+    "Full deep check of the whole prefix: 2,325 recordings in 61 tasks (stations 1-5 and the 15 loose recordings at the prefix root); none partial or missed.",
+    "New: V9 left / right views not swapped (ArUco gripper tags in the head and wrist views); the repetition checks (VLM count) get their own verdict, apart from the data checks.",
+    "V9: 330 recordings with left / right views swapped (station1/2026-11-21 task01-02, station1/2026-11-22 task06, station2/2026-11-22 task04-06, and single episodes).",
+    "VLM results were re-uploaded to S3 during the run (04:06-04:07 UTC); repetition checks refreshed afterwards with --refresh-vlm."
+  ],
+  "source": "s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/",
+  "runtime": "about 40 min on 32 vCPUs"
+}
