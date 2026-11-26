@@ -1,0 +1,7 @@
+{
+ "_note": "Folder tasks checked by eye (user, 2026-11-26) on a few episodes each. task_map.py applies these over the LLM match: task_id, match_confidence = verified, verified_task shown in Folder_Map. Use verified_task as grounding text; never copy it verbatim into VLM fields.",
+ "station1/2026-11-22/task04": {"task_id": "IN-950", "verified_task": "Pick a wooden block and perform sanding."},
+ "station2/2026-11-24/task06": {"task_id": "IN-990", "verified_task": "Pick a screwdriver bit from the tool socket and place it on the table; pick it and place it back into the tool socket."},
+ "station3/2026-11-22/task04": {"task_id": "IN-950", "verified_task": "Grasp the PVC pipe and perform sanding."},
+ "station4/2026-11-21/task01": {"task_id": "IN-950", "verified_task": "Grasp the PVC pipe and perform sanding."}
+}

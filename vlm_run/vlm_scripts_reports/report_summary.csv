@@ -1,90 +1,88 @@
 level,group,episodes,episodes_all_4_videos,episodes_with_vlm,episodes_task_differs_from_canonical,hours,minutes,canonical_task_text
-station,station1,1000,1000,1000,914,7.0981,425.88,
-station,station2,312,312,184,175,5.4224,325.34,
-station,station3,478,478,478,460,5.4984,329.91,
-station,station4,411,411,107,100,3.519,211.14,
-station,station5,58,58,58,54,0.895,53.7,
-station/date,station1/2026-11-21,435,435,435,389,1.9982,119.89,
-station/date,station1/2026-11-22,229,229,229,214,1.7626,105.76,
-station/date,station1/2026-11-24,191,191,191,166,2.4197,145.18,
+station,station1,1000,1000,1000,947,7.0981,425.88,
+station,station2,320,320,320,319,5.6671,340.03,
+station,station3,478,478,478,473,5.4984,329.91,
+station,station4,454,454,454,434,3.9445,236.67,
+station,station5,58,58,58,58,0.895,53.7,
+station/date,station1/2026-11-21,435,435,435,392,1.9982,119.89,
+station/date,station1/2026-11-22,229,229,229,229,1.7626,105.76,
+station/date,station1/2026-11-24,191,191,191,181,2.4197,145.18,
 station/date,station1/undated,145,145,145,145,0.9176,55.05,
-station/date,station2/2026-11-22,155,155,155,149,1.5006,90.04,
-station/date,station2/2026-11-24,157,157,29,26,3.9217,235.3,
-station/date,station3/2026-11-21,120,120,120,118,0.8644,51.86,
-station/date,station3/2026-11-22,122,122,122,118,1.082,64.92,
-station/date,station3/2026-11-24,179,179,179,173,2.8595,171.57,
-station/date,station3/undated,57,57,57,51,0.6925,41.55,
-station/date,station4/2026-11-21,180,180,16,15,0.9322,55.93,
-station/date,station4/2026-11-22,132,132,30,25,1.4815,88.89,
-station/date,station4/2026-11-24,99,99,61,60,1.1053,66.32,
-station/date,station5/2026-11-22,7,7,7,5,0.1522,9.13,
-station/date,station5/2026-11-24,51,51,51,49,0.7428,44.57,
-station/date/task,station1/2026-11-21/task01,91,91,91,90,0.7054,42.32,Pick a wall anchor from the table and place it into a container.
+station/date,station2/2026-11-22,155,155,155,155,1.5006,90.04,
+station/date,station2/2026-11-24,165,165,165,164,4.1665,249.99,
+station/date,station3/2026-11-21,120,120,120,120,0.8644,51.86,
+station/date,station3/2026-11-22,122,122,122,119,1.082,64.92,
+station/date,station3/2026-11-24,179,179,179,179,2.8595,171.57,
+station/date,station3/undated,57,57,57,55,0.6925,41.55,
+station/date,station4/2026-11-21,180,180,180,180,0.9322,55.93,
+station/date,station4/2026-11-22,132,132,132,113,1.4815,88.89,
+station/date,station4/2026-11-24,142,142,142,141,1.5308,91.85,
+station/date,station5/2026-11-22,7,7,7,7,0.1522,9.13,
+station/date,station5/2026-11-24,51,51,51,51,0.7428,44.57,
+station/date/task,station1/2026-11-21/task01,91,91,91,91,0.7054,42.32,Sort dowel pins into containers.
 station/date/task,station1/2026-11-21/task02,142,142,142,110,0.5412,32.47,Insert an ethernet cable into a router port.
-station/date/task,station1/2026-11-21/task03,158,158,158,158,0.3769,22.61,Pick a tool from the table and place it into the toolbox.
-station/date/task,station1/2026-11-21/task04,28,28,28,26,0.2533,15.2,Pick a screwdriver bit holder from the table and insert it into the case.
+station/date/task,station1/2026-11-21/task03,158,158,158,158,0.3769,22.61,Place a tool into the toolbox.
+station/date/task,station1/2026-11-21/task04,28,28,28,28,0.2533,15.2,Insert a screwdriver bit holder into a tool case.
 station/date/task,station1/2026-11-21/task05,16,16,16,5,0.1214,7.29,Screw a light bulb into a socket.
-station/date/task,station1/2026-11-22/task01,31,31,31,28,0.2262,13.57,Pick a small box from the table and place it into the drawer.
-station/date/task,station1/2026-11-22/task02,41,41,41,37,0.2381,14.28,Pick a small box from the table and place it into the drawer.
-station/date/task,station1/2026-11-22/task03,10,10,10,5,0.0641,3.85,Pick a small box from the table and place it into the drawer.
-station/date/task,station1/2026-11-22/task04,56,56,56,55,0.5758,34.55,Pick a wooden block and place it on the table.
-station/date/task,station1/2026-11-22/task05,49,49,49,49,0.2775,16.65,Pick an electronic component from the table and place it into the organizer tray.
-station/date/task,station1/2026-11-22/task06,10,10,10,8,0.2403,14.42,Pick a washer from the table and insert it onto a bolt.
-station/date/task,station1/2026-11-22/task07,32,32,32,32,0.1406,8.43,Pick an electronic component from the table and place it into the organizer tray.
-station/date/task,station1/2026-11-24/task01,14,14,14,13,0.097,5.82,Pick an LED from the table and insert it into a breadboard.
-station/date/task,station1/2026-11-24/task02,52,52,52,45,0.2339,14.03,Pick an LED from the table and insert it into a breadboard.
+station/date/task,station1/2026-11-22/task01,31,31,31,31,0.2262,13.57,Place an adapter into a drawer.
+station/date/task,station1/2026-11-22/task02,41,41,41,41,0.2381,14.28,Pick up an adapter box and place it into the drawer.
+station/date/task,station1/2026-11-22/task03,10,10,10,10,0.0641,3.85,Pick up a small box and place it into a drawer.
+station/date/task,station1/2026-11-22/task04,56,56,56,56,0.5758,34.55,Pick up a wooden block and sand it using a sanding tool.
+station/date/task,station1/2026-11-22/task05,49,49,49,49,0.2775,16.65,Sort electronic components into an organizer tray.
+station/date/task,station1/2026-11-22/task06,10,10,10,10,0.2403,14.42,Insert a washer onto a bolt.
+station/date/task,station1/2026-11-22/task07,32,32,32,32,0.1406,8.43,Sort electronic components into an organizer tray.
+station/date/task,station1/2026-11-24/task01,14,14,14,13,0.097,5.82,Insert an LED into a breadboard.
+station/date/task,station1/2026-11-24/task02,52,52,52,49,0.2339,14.03,Insert an LED into a breadboard.
 station/date/task,station1/2026-11-24/task03,32,32,32,27,0.229,13.74,Insert an LED into a breadboard.
-station/date/task,station1/2026-11-24/task04,27,27,27,21,0.2342,14.05,Pick a screw from the table and place it into a plastic container.
-station/date/task,station1/2026-11-24/task05,23,23,23,22,0.3533,21.2,File a wooden block using a hand file.
-station/date/task,station1/2026-11-24/task06,11,11,11,7,0.4649,27.9,Insert an Ethernet cable into a router port.
-station/date/task,station1/2026-11-24/task07,14,14,14,14,0.5581,33.48,Weigh a wooden block on the scale and sort it into a container.
-station/date/task,station1/2026-11-24/task08,18,18,18,17,0.2493,14.96,Pick an electronic component from the table and place it into a plastic tray.
-station/date/task,station1/undated/task03,46,46,46,46,0.3059,18.36,Pick an electronic component from the table and place it into a plastic tray.
-station/date/task,station1/undated/task04,49,49,49,49,0.2843,17.06,Pick an object from the table and place it into a tray.
-station/date/task,station1/undated/task05,50,50,50,50,0.3273,19.64,Pick a PVC pipe or fitting and place it into the designated tray.
-station/date/task,station2/2026-11-22/task01,15,15,15,14,0.1,6.0,Pick a wire bundle from the table and place it into a plastic tray.
-station/date/task,station2/2026-11-22/task02,26,26,26,25,0.1777,10.66,Pick a coiled wire from the table and place it into a plastic tray.
-station/date/task,station2/2026-11-22/task03,21,21,21,20,0.1471,8.82,Pick a coiled wire from the table and place it into a plastic tray compartment.
-station/date/task,station2/2026-11-22/task04,9,9,9,7,0.1793,10.76,Insert a hex key into a hex key holder.
-station/date/task,station2/2026-11-22/task05,43,43,43,43,0.5775,34.65,Pick a wall anchor from the table and place it into a container.
-station/date/task,station2/2026-11-22/task06,41,41,41,40,0.3191,19.14,Pick an LED from the table and place it into a plastic container.
-station/date/task,station2/2026-11-24/task00,22,22,22,20,0.4477,26.86,Pick an LED from the table and place it into a plastic container.
-station/date/task,station2/2026-11-24/task01,15,15,7,6,0.3465,20.79,Press the power button to turn on the digital scale.
-station/date/task,station2/2026-11-24/task02,34,34,0,0,0.7233,43.4,
-station/date/task,station2/2026-11-24/task03,26,26,0,0,0.8351,50.11,
-station/date/task,station2/2026-11-24/task04,38,38,0,0,0.8238,49.43,
-station/date/task,station2/2026-11-24/task05,17,17,0,0,0.475,28.5,
-station/date/task,station2/2026-11-24/task06,5,5,0,0,0.2703,16.22,
-station/date/task,station3/2026-11-21/task02,33,33,33,32,0.2745,16.47,Apply paste from a container onto a strip using a paintbrush.
-station/date/task,station3/2026-11-21/task03,87,87,87,86,0.5898,35.39,Pick a screw from the table and place it into a plastic container.
+station/date/task,station1/2026-11-24/task04,27,27,27,26,0.2342,14.05,Pick a screw from the table and place it into a plastic container.
+station/date/task,station1/2026-11-24/task05,23,23,23,23,0.3533,21.2,File a wooden block with a hand file.
+station/date/task,station1/2026-11-24/task06,11,11,11,11,0.4649,27.9,Insert an Ethernet cable into a port on a router.
+station/date/task,station1/2026-11-24/task07,14,14,14,14,0.5581,33.48,Weigh a wooden block on a scale and sort it into a container.
+station/date/task,station1/2026-11-24/task08,18,18,18,18,0.2493,14.96,Pick an electronic component and place it into a plastic tray.
+station/date/task,station1/undated/task03,46,46,46,46,0.3059,18.36,Sort electronic components into an organizer tray.
+station/date/task,station1/undated/task04,49,49,49,49,0.2843,17.06,Pick an item from the table and place it into a tray.
+station/date/task,station1/undated/task05,50,50,50,50,0.3273,19.64,Sort PVC fittings into designated trays.
+station/date/task,station2/2026-11-22/task01,15,15,15,15,0.1,6.0,Sort wires into tray compartments.
+station/date/task,station2/2026-11-22/task02,26,26,26,26,0.1777,10.66,Sort wires into compartments of a tray.
+station/date/task,station2/2026-11-22/task03,21,21,21,21,0.1471,8.82,Pick a wire from the table and sort it into a tray compartment.
+station/date/task,station2/2026-11-22/task04,9,9,9,9,0.1793,10.76,Insert a hex key into a holder.
+station/date/task,station2/2026-11-22/task05,43,43,43,43,0.5775,34.65,Sort dowel pins into containers.
+station/date/task,station2/2026-11-22/task06,41,41,41,41,0.3191,19.14,Sort LEDs into plastic containers.
+station/date/task,station2/2026-11-24/task00,22,22,22,22,0.4477,26.86,Sort LEDs into containers.
+station/date/task,station2/2026-11-24/task01,15,15,15,15,0.3465,20.79,Pick a screw from the tray and place it onto the scale to weigh it.
+station/date/task,station2/2026-11-24/task02,34,34,34,34,0.7233,43.4,Place a plastic bag of components onto a digital scale to weigh it.
+station/date/task,station2/2026-11-24/task03,26,26,26,26,0.8351,50.11,Apply grease to a bearing using a brush and place it into a container.
+station/date/task,station2/2026-11-24/task04,38,38,38,38,0.8238,49.43,Pick a bolt and place it into a container.
+station/date/task,station2/2026-11-24/task05,25,25,25,24,0.7197,43.18,Screw a nut onto a bolt and place it into a container.
+station/date/task,station2/2026-11-24/task06,5,5,5,5,0.2703,16.22,Pick a screwdriver bit from a socket and insert it back into the socket.
+station/date/task,station3/2026-11-21/task02,33,33,33,33,0.2745,16.47,Apply grease to a bearing using a brush.
+station/date/task,station3/2026-11-21/task03,87,87,87,87,0.5898,35.39,Pick a bolt from the table and place it into a plastic container.
 station/date/task,station3/2026-11-22/task01,65,65,65,62,0.5814,34.89,Pick a tool from the table and place it into the toolbox.
-station/date/task,station3/2026-11-22/task04,57,57,57,56,0.5006,30.04,Grasp the bar on the table with both grippers.
-station/date/task,station3/2026-11-24/task01,67,67,67,66,0.8427,50.56,Pick a pipe fitting from the table and place it into a plastic tray.
-station/date/task,station3/2026-11-24/task02,27,27,27,26,0.576,34.56,Pick a washer from the table and insert it onto a bolt.
-station/date/task,station3/2026-11-24/task03,50,50,50,47,0.7119,42.72,Pick a washer from the table and place it into a container.
-station/date/task,station3/2026-11-24/task04,35,35,35,34,0.7288,43.73,Pick a screw from the table and place it into a plastic container.
-station/date/task,station3/undated/task03,26,26,26,21,0.4194,25.16,Screw a nut onto a bolt and place it on the table.
-station/date/task,station3/undated/task04,31,31,31,30,0.2731,16.39,Apply grease to a bearing using a paintbrush.
-station/date/task,station4/2026-11-21/task00,33,33,0,0,0.1183,7.1,
-station/date/task,station4/2026-11-21/task01,109,109,0,0,0.5346,32.07,
-station/date/task,station4/2026-11-21/task02,16,16,16,15,0.065,3.9,Pick an LED from the table and insert it into a breadboard.
-station/date/task,station4/2026-11-21/task03,22,22,0,0,0.2143,12.86,
-station/date/task,station4/2026-11-22/task01,63,63,0,0,0.5411,32.47,
+station/date/task,station3/2026-11-22/task04,57,57,57,57,0.5006,30.04,Grasp the pipe and sand it.
+station/date/task,station3/2026-11-24/task01,67,67,67,67,0.8427,50.56,Pick a pipe or pipe fitting and place it into a tray.
+station/date/task,station3/2026-11-24/task02,27,27,27,27,0.576,34.56,Slide a washer onto a bolt.
+station/date/task,station3/2026-11-24/task03,50,50,50,50,0.7119,42.72,Sort washers into a container.
+station/date/task,station3/2026-11-24/task04,35,35,35,35,0.7288,43.73,Sort hardware items from the table into containers.
+station/date/task,station3/undated/task03,26,26,26,24,0.4194,25.16,Thread a nut onto a bolt.
+station/date/task,station3/undated/task04,31,31,31,31,0.2731,16.39,Apply grease to a bearing using a brush.
+station/date/task,station4/2026-11-21/task00,33,33,33,33,0.1183,7.1,Insert documents into a plastic pouch and seal it.
+station/date/task,station4/2026-11-21/task01,109,109,109,109,0.5346,32.07,Sand the pipe using an abrasive tool.
+station/date/task,station4/2026-11-21/task02,16,16,16,16,0.065,3.9,Insert an LED into a breadboard.
+station/date/task,station4/2026-11-21/task03,22,22,22,22,0.2143,12.86,Weigh a wooden block on a scale and sort it into a bin.
+station/date/task,station4/2026-11-22/task01,63,63,63,63,0.5411,32.47,Sort hardware fasteners by placing them into containers.
 station/date/task,station4/2026-11-22/task02,30,30,30,25,0.681,40.86,Screw a nut onto a bolt.
-station/date/task,station4/2026-11-22/task03,39,39,0,0,0.2594,15.56,
-station/date/task,station4/2026-11-24/task01,17,17,17,16,0.1124,6.74,Pick a cardboard sheet from the box and place it on the table.
-station/date/task,station4/2026-11-24/task02,44,44,44,44,0.3506,21.04,Pick a cardboard sheet from a box and place it on the table.
-station/date/task,station4/2026-11-24/task03,38,38,0,0,0.6423,38.54,
-station/date/task,station5/2026-11-22/task01,7,7,7,5,0.1522,9.13,Pick a hex key from the table and insert it into the holder.
-station/date/task,station5/2026-11-24/task01,29,29,29,28,0.4231,25.39,Pick a wall anchor from the table and place it into a container.
-station/date/task,station5/2026-11-24/task02,22,22,22,21,0.3197,19.18,Pick a wall anchor from the table and place it into a plastic container.
-canonical_task_family,(no vlm result),432,432,0,0,5.6281,337.69,
-canonical_task_family,assemble,72,72,72,51,1.2218,73.31,
-canonical_task_family,grasp,57,57,57,56,0.5006,30.04,
-canonical_task_family,insert,348,348,348,289,3.0321,181.93,
-canonical_task_family,pick,153,153,153,151,1.2602,75.61,
-canonical_task_family,place,755,755,755,724,5.5877,335.26,
-canonical_task_family,push_pull,7,7,7,6,0.1559,9.35,
-canonical_task_family,sort,348,348,348,342,4.1455,248.73,
-canonical_task_family,tool_use,87,87,87,84,0.9009,54.06,
-all,all,2259,2259,1827,1703,22.4329,1345.97,
+station/date/task,station4/2026-11-22/task03,39,39,39,25,0.2594,15.56,Screw a light bulb into a socket.
+station/date/task,station4/2026-11-24/task01,17,17,17,17,0.1124,6.74,Pick a cardboard sheet from a stack and place it flat on the table.
+station/date/task,station4/2026-11-24/task02,44,44,44,44,0.3506,21.04,Pick a cardboard sheet from a stack and lay it flat on the table.
+station/date/task,station4/2026-11-24/task03,38,38,38,37,0.6423,38.54,Pick a tool from the table and place it into the toolbox.
+station/date/task,station4/2026-11-24/task04,43,43,43,43,0.4255,25.53,Sort wires into containers.
+station/date/task,station5/2026-11-22/task01,7,7,7,7,0.1522,9.13,Insert a hex key into a holder.
+station/date/task,station5/2026-11-24/task01,29,29,29,29,0.4231,25.39,Sort dowel pins into containers.
+station/date/task,station5/2026-11-24/task02,22,22,22,22,0.3197,19.18,Sort dowel pins into containers.
+canonical_task_family,assemble,163,163,163,130,2.7769,166.62,
+canonical_task_family,insert,326,326,326,285,2.7265,163.59,
+canonical_task_family,pack,33,33,33,33,0.1183,7.1,
+canonical_task_family,place,721,721,721,716,6.4367,386.2,
+canonical_task_family,sort,732,732,732,732,7.6977,461.86,
+canonical_task_family,tool_use,335,335,335,335,3.347,200.82,
+all,all,2310,2310,2310,2231,23.1031,1386.19,
