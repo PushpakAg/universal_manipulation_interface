@@ -1,0 +1,343 @@
+station,folder,task,recording,start,end,head,head_sec,left,left_sec,right,right_sec,shared_sec,mismatch_sec,note,processed
+station1,station1/industrial_data/2026-11-21/task01/raw_videos,station1/2026-11-21/task01,3,2026-11-21 10:24:31,10:34:43,GX010411.MP4,606.2,GX019293.MP4,611.2,GX019339.MP4,610.6,606.2,5.0,,True
+station1,station1/industrial_data/2026-11-21/task01/raw_videos,station1/2026-11-21/task01,4,2026-11-21 10:35:52,10:45:58,GX010412.MP4,597.6,GX019294.MP4,603.3,GX019340.MP4,604.4,597.6,6.8,,True
+station1,station1/industrial_data/2026-11-21/task01/raw_videos,station1/2026-11-21/task01,5,2026-11-21 10:49:22,10:59:26,GX010413.MP4,600.9,GX019295.MP4,600.8,GX019341.MP4,600.8,596.8,4.1,,True
+station1,station1/industrial_data/2026-11-21/task01/raw_videos,station1/2026-11-21/task01,7,2026-11-21 11:17:52,11:27:58,GX010415.MP4,601.0,GX019297.MP4,605.5,GX019343.MP4,605.2,601.0,4.5,,True
+station1,station1/industrial_data/2026-11-21/task01/raw_videos,station1/2026-11-21/task01,8,2026-11-21 11:30:07,11:40:11,GX010416.MP4,601.9,GX019298.MP4,600.8,GX019344.MP4,601.1,597.8,4.1,,True
+station1,station1/industrial_data/2026-11-21/task01/raw_videos,station1/2026-11-21/task01,9,2026-11-21 11:41:19,11:51:02,GX010417.MP4,561.4,GX019299.MP4,579.9,GX019345.MP4,580.1,558.4,21.7,,True
+station1,station1/industrial_data/2026-11-21/task02/raw_videos,station1/2026-11-21/task02,13,2026-11-21 12:31:42,12:41:35,GX010421.MP4,587.0,GX019303.MP4,592.4,GX019349.MP4,592.5,587.0,5.5,,True
+station1,station1/industrial_data/2026-11-21/task02/raw_videos,station1/2026-11-21/task02,14,2026-11-21 12:42:40,12:52:48,GX010422.MP4,601.3,GX019304.MP4,606.3,GX019350.MP4,606.7,601.3,5.4,,True
+station1,station1/industrial_data/2026-11-21/task02/raw_videos,station1/2026-11-21/task02,15,2026-11-21 12:53:52,13:03:57,GX010423.MP4,602.5,GX019305.MP4,601.2,GX019351.MP4,602.2,598.2,4.3,,True
+station1,station1/industrial_data/2026-11-21/task02/raw_videos,station1/2026-11-21/task02,16,2026-11-21 13:10:15,13:20:20,GX010424.MP4,602.8,GX019306.MP4,602.4,GX019352.MP4,602.7,599.4,3.4,,True
+station1,station1/industrial_data/2026-11-21/task02/raw_videos,station1/2026-11-21/task02,17,2026-11-21 13:22:09,13:32:18,GX010425.MP4,609.8,GX019307.MP4,606.1,GX019353.MP4,606.1,605.1,4.7,,True
+station1,station1/industrial_data/2026-11-21/task02/raw_videos,station1/2026-11-21/task02,18,2026-11-21 13:36:39,13:46:31,GX010426.MP4,592.9,GX019308.MP4,588.6,GX019354.MP4,588.7,587.6,5.3,,True
+station1,station1/industrial_data/2026-11-21/task03/raw_videos,station1/2026-11-21/task03,23,2026-11-21 15:19:36,15:29:17,GX010430.MP4,580.9,GX019312.MP4,580.6,GX019359.MP4,580.6,579.9,1.0,,True
+station1,station1/industrial_data/2026-11-21/task03/raw_videos,station1/2026-11-21/task03,24,2026-11-21 15:30:54,15:37:55,GX010431.MP4,421.7,GX019313.MP4,391.3,GX019360.MP4,418.8,391.3,30.4,left stops after 6.5 min,True
+station1,station1/industrial_data/2026-11-21/task03/raw_videos,station1/2026-11-21/task03,25,2026-11-21 15:46:47,15:56:56,GX010432.MP4,607.4,GX019314.MP4,607.9,GX019361.MP4,607.7,605.9,2.0,,True
+station1,station1/industrial_data/2026-11-21/task03/raw_videos,station1/2026-11-21/task03,27,2026-11-21 16:03:44,16:13:53,GX010434.MP4,609.7,GX019316.MP4,607.2,GX019363.MP4,607.2,607.2,2.5,,True
+station1,station1/industrial_data/2026-11-21/task03/raw_videos,station1/2026-11-21/task03,28,2026-11-21 16:20:32,16:30:40,GX010435.MP4,606.1,GX019317.MP4,606.5,GX019364.MP4,606.5,604.5,2.0,,True
+station1,station1/industrial_data/2026-11-21/task04/raw_videos,station1/2026-11-21/task04,32,2026-11-21 16:41:25,16:51:31,GX010439.MP4,604.3,GX019321.MP4,604.1,GX019368.MP4,604.1,602.3,2.0,,True
+station1,station1/industrial_data/2026-11-21/task04/raw_videos,station1/2026-11-21/task04,33,2026-11-21 16:56:50,16:58:11,GX010440.MP4,82.0,GX019322.MP4,49.9,GX019369.MP4,78.9,47.9,34.1,left stops after 0.8 min,True
+station1,station1/industrial_data/2026-11-21/task04/raw_videos,station1/2026-11-21/task04,34,2026-11-21 17:00:33,17:04:13,GX010441.MP4,218.5,GX019323.MP4,213.8,GX019370.MP4,219.1,211.8,7.3,,True
+station1,station1/industrial_data/2026-11-21/task04/raw_videos,station1/2026-11-21/task04,35,2026-11-21 17:04:48,17:15:16,GX010442.MP4,628.9,GX019324.MP4,626.3,GX019371.MP4,626.3,625.3,3.6,,True
+station1,station1/industrial_data/2026-11-21/task05/raw_videos,station1/2026-11-21/task05,39,2026-11-21 17:29:36,17:39:59,GX010445.MP4,619.7,GX019327.MP4,622.1,GX019375.MP4,621.4,618.7,3.4,,True
+station1,station1/industrial_data/2026-11-24/task01/raw_videos,station1/2026-11-24/task01,4,2026-11-24 08:54:53,09:05:02,GX010498.MP4,609.7,GX019382.MP4,606.1,GX019429.MP4,605.3,604.3,5.4,,True
+station1,station1/industrial_data/2026-11-24/task02/raw_videos,station1/2026-11-24/task02,7,2026-11-24 09:07:52,09:17:59,GX010501.MP4,606.0,GX019385.MP4,605.0,GX019432.MP4,603.1,602.1,3.9,,True
+station1,station1/industrial_data/2026-11-24/task02/raw_videos,station1/2026-11-24/task02,8,2026-11-24 09:18:05,09:28:11,GX010502.MP4,604.0,GX019386.MP4,602.2,GX019433.MP4,602.5,600.0,4.0,,True
+station1,station1/industrial_data/2026-11-24/task02/raw_videos,station1/2026-11-24/task02,11,2026-11-24 09:30:31,09:38:39,GX010505.MP4,457.4,GX019388.MP4,485.2,GX019436.MP4,485.3,454.4,30.9,head stops after 7.6 min,True
+station1,station1/industrial_data/2026-11-24/task03/raw_videos,station1/2026-11-24/task03,14,2026-11-24 09:41:57,09:58:35,GX010508.MP4,996.1,GX019391.MP4,995.4,GX019439.MP4,995.5,993.1,3.0,,True
+station1,station1/industrial_data/2026-11-24/task03/raw_videos,station1/2026-11-24/task03,15,2026-11-24 10:00:56,10:08:56,GX010509.MP4,478.5,GX019392.MP4,478.2,GX019440.MP4,478.2,476.5,2.0,,True
+station1,station1/industrial_data/2026-11-24/task04/raw_videos,station1/2026-11-24/task04,18,2026-11-24 10:26:19,10:36:30,GX010512.MP4,612.0,GX019395.MP4,609.0,GX019443.MP4,609.5,608.5,3.5,,True
+station1,station1/industrial_data/2026-11-24/task04/raw_videos,station1/2026-11-24/task04,23,2026-11-24 10:39:53,10:49:58,GX010514.MP4,601.9,GX019398.MP4,602.5,GX019445.MP4,602.2,598.9,3.6,,True
+station1,station1/industrial_data/2026-11-24/task04/raw_videos,station1/2026-11-24/task04,24,2026-11-24 10:51:19,11:01:23,GX010515.MP4,424.0,GX019399.MP4,603.0,GX019446.MP4,602.8,423.0,180.0,head stops after 7.1 min,True
+station1,station1/industrial_data/2026-11-24/task05/raw_videos,station1/2026-11-24/task05,27,2026-11-24 13:39:34,13:41:18,GX010518.MP4,104.2,GX019402.MP4,102.4,GX019449.MP4,102.3,102.3,1.9,,True
+station1,station1/industrial_data/2026-11-24/task05/raw_videos,station1/2026-11-24/task05,31,2026-11-24 14:12:59,14:15:11,GX010519.MP4,132.9,GX019406.MP4,123.8,GX019453.MP4,124.2,122.2,10.7,,True
+station1,station1/industrial_data/2026-11-24/task05/raw_videos,station1/2026-11-24/task05,32,2026-11-24 14:17:48,14:27:56,GX010520.MP4,603.6,GX019407.MP4,604.2,GX019454.MP4,604.0,599.6,4.6,,True
+station1,station1/industrial_data/2026-11-24/task05/raw_videos,station1/2026-11-24/task05,33,2026-11-24 14:28:38,14:39:09,GX010521.MP4,631.3,GX019408.MP4,624.7,GX019455.MP4,625.0,624.0,7.3,,True
+station1,station1/industrial_data/2026-11-24/task05/raw_videos,station1/2026-11-24/task05,36,2026-11-24 14:41:36,14:51:39,GX010522.MP4,598.3,GX019409.MP4,358.9,GX019458.MP4,600.6,355.9,244.7,left stops after 6.0 min,True
+station1,station1/industrial_data/2026-11-24/task06/raw_videos,station1/2026-11-24/task06,39,2026-11-24 15:36:25,15:46:31,GX010525.MP4,602.1,GX019412.MP4,602.1,GX019461.MP4,602.3,598.3,4.0,,True
+station1,station1/industrial_data/2026-11-24/task06/raw_videos,station1/2026-11-24/task06,40,2026-11-24 15:46:51,15:56:56,GX010526.MP4,598.2,GX019413.MP4,604.0,GX019462.MP4,603.8,598.2,5.8,,True
+station1,station1/industrial_data/2026-11-24/task06/raw_videos,station1/2026-11-24/task06,41,2026-11-24 15:57:25,16:07:44,GX010527.MP4,619.8,GX019414.MP4,615.2,GX019463.MP4,615.7,613.7,6.1,,True
+station1,station1/industrial_data/2026-11-24/task06/raw_videos,station1/2026-11-24/task06,42,2026-11-24 16:11:51,16:21:54,GX010528.MP4,600.7,GX019415.MP4,309.9,GX019464.MP4,601.3,307.9,293.4,left stops after 5.2 min,True
+station1,station1/industrial_data/2026-11-24/task06/raw_videos,station1/2026-11-24/task06,43,2026-11-24 16:24:13,16:34:20,GX010529.MP4,604.4,GX019416.MP4,295.8,GX019465.MP4,604.7,295.8,308.9,left stops after 4.9 min,True
+station1,station1/industrial_data/2026-11-24/task06/raw_videos,station1/2026-11-24/task06,44,2026-11-24 16:37:53,16:45:16,GX010530.MP4,440.8,GX019417.MP4,392.7,GX019466.MP4,440.6,390.7,50.1,left stops after 6.5 min,True
+station1,station1/industrial_data/2026-11-24/task07/raw_videos,station1/2026-11-24/task07,47,2026-11-24 17:04:23,17:14:28,GX010533.MP4,601.7,GX019420.MP4; GX019421.MP4,523.2,GX019469.MP4,602.7,560.9,41.8,"left: 2 files, gaps 41 s; left stops after 9.4 min",True
+station1,station1/industrial_data/2026-11-24/task07/raw_videos,station1/2026-11-24/task07,48,2026-11-24 17:19:56,17:30:01,GX010534.MP4,602.6,GX019422.MP4,603.4,GX019470.MP4,602.7,600.6,2.8,,True
+station1,station1/industrial_data/2026-11-24/task07/raw_videos,station1/2026-11-24/task07,49,2026-11-24 17:31:47,17:41:51,GX010535.MP4,601.8,GX019423.MP4,601.5,GX019471.MP4,601.6,598.8,3.0,,True
+station1,station1/industrial_data/2026-11-24/task07/raw_videos,station1/2026-11-24/task07,51,2026-11-24 17:58:46,18:08:51,GX010537.MP4,604.0,GX019425.MP4,603.1,GX019473.MP4,600.9,599.9,4.1,,True
+station1,station1/industrial_data/2026-11-24/task07/raw_videos,station1/2026-11-24/task07,52,2026-11-24 18:09:23,18:19:57,GX010538.MP4,602.5,GX019426.MP4; GX019427.MP4,602.8,GX019474.MP4,603.1,600.5,2.6,"head stops after 10.0 min; left: 2 files, gaps 30 s; right stops after 10.1 min",True
+station1,station1/industrial_data/2026-11-24/task07/raw_videos,station1/2026-11-24/task07,53,2026-11-24 18:25:47,18:35:51,GX010539.MP4,601.6,GX019428.MP4,602.8,GX019475.MP4,602.6,599.6,3.2,,True
+station1,station1/industrial_data/2026-11-24/task08/raw_videos,station1/2026-11-24/task08,57,2026-11-24 18:45:00,18:55:06,GX010543.MP4,602.7,GX019432.MP4,603.4,GX019479.MP4,603.1,599.7,3.7,,True
+station1,station1/industrial_data/2026-11-24/task08/raw_videos,station1/2026-11-24/task08,59,2026-11-24 18:55:45,19:05:52,GX010545.MP4,604.5,GX019433.MP4,604.2,GX019480.MP4,604.3,601.5,3.0,,True
+station1,station1/industrial_data/task01/raw_videos,station1/task01,3,2026-11-20 12:13:17,12:14:33,GX010369.MP4,76.7,GX019301.MP4,72.9,GX019257.MP4,73.4,72.9,3.8,,False
+station1,station1/industrial_data/task01/raw_videos,station1/task01,4,2026-11-20 12:18:11,12:19:42,GX010370.MP4,91.3,GX019302.MP4,87.8,GX019258.MP4,86.9,86.8,4.5,,False
+station1,station1/industrial_data/task01/raw_videos,station1/task01,9,2026-11-20 12:34:44,12:41:43,GX010379.MP4,419.0,GX019305.MP4,413.8,GX019261.MP4,413.7,412.7,6.3,,False
+station1,station1/industrial_data/task01/raw_videos,station1/task01,10,2026-11-20 12:46:02,12:47:48,GX010380.MP4,106.8,GX019306.MP4,100.6,GX019262.MP4,101.5,99.5,7.3,,False
+station1,station1/industrial_data/task01/raw_videos,station1/task01,11,2026-11-20 12:49:40,12:54:30,GX010381.MP4,284.5,GX019307.MP4,287.0,GX019263.MP4,99.3,94.3,192.7,right stops after 1.7 min,False
+station1,station1/industrial_data/task01/raw_videos,station1/task01,12,2026-11-20 12:56:21,13:05:48,GX010382.MP4,567.8,GX019308.MP4,561.6,GX019264.MP4,559.4,557.4,10.4,,False
+station1,station1/industrial_data/task01/raw_videos,station1/task01,14,2026-11-20 13:07:01,13:15:29,GX010383.MP4,508.4,GX019309.MP4,501.7,GX019265.MP4,501.7,499.7,8.7,,False
+station1,station1/industrial_data/task02/raw_videos,station1/task02,17,2026-11-20 13:19:40,13:30:03,GX010386.MP4,616.5,GX019312.MP4,617.1,GX019268.MP4,617.1,610.1,7.0,,False
+station1,station1/industrial_data/task02/raw_videos,station1/task02,18,2026-11-20 13:32:06,13:42:39,GX010387.MP4,241.2,GX019313.MP4,631.2,GX019269.MP4,612.2,239.2,392.0,head stops after 4.0 min,False
+station1,station1/industrial_data/task03/raw_videos,station1/task03,24,2026-11-20 14:30:32,14:31:39,GX010392.MP4,67.4,GX019320.MP4,64.7,GX019274.MP4,64.5,64.5,2.9,,True
+station1,station1/industrial_data/task03/raw_videos,station1/task03,25,2026-11-20 14:34:18,14:44:47,GX010393.MP4,629.1,GX019321.MP4,624.1,GX019275.MP4,624.3,623.3,5.8,,True
+station1,station1/industrial_data/task03/raw_videos,station1/task03,26,2026-11-20 14:48:59,14:57:19,GX010394.MP4,494.6,GX019322.MP4,499.7,GX019276.MP4,499.8,494.6,5.2,,True
+station1,station1/industrial_data/task03/raw_videos,station1/task03,27,2026-11-20 14:58:13,15:07:50,GX010395.MP4,574.3,GX019323.MP4,575.2,GX019277.MP4,574.6,572.3,2.9,,True
+station1,station1/industrial_data/task04/raw_videos,station1/task04,30,2026-11-20 15:18:18,15:19:48,GX010398.MP4,88.4,GX019326.MP4,89.5,GX019280.MP4,88.4,87.4,2.1,,True
+station1,station1/industrial_data/task04/raw_videos,station1/task04,31,2026-11-20 15:21:16,15:31:19,GX010399.MP4,593.4,GX019327.MP4,601.1,GX019281.MP4,600.4,593.4,7.7,,True
+station1,station1/industrial_data/task04/raw_videos,station1/task04,32,2026-11-20 15:32:40,15:42:48,GX010400.MP4,605.2,GX019328.MP4,605.0,GX019282.MP4,604.7,601.7,3.5,,True
+station1,station1/industrial_data/task04/raw_videos,station1/task04,33,2026-11-20 15:46:38,15:55:00,GX010401.MP4,415.3,GX019329.MP4,500.2,GX019283.MP4,489.9,415.3,84.9,head stops after 6.9 min,True
+station1,station1/industrial_data/task05/raw_videos,station1/task05,36,2026-11-20 16:11:13,16:12:40,GX010404.MP4,87.9,GX019332.MP4,85.6,GX019286.MP4,85.5,85.5,2.4,,True
+station1,station1/industrial_data/task05/raw_videos,station1/task05,37,2026-11-20 16:14:33,16:24:49,GX010405.MP4,613.8,GX019333.MP4,613.7,GX019287.MP4,613.8,610.8,3.0,,True
+station1,station1/industrial_data/task05/raw_videos,station1/task05,38,2026-11-20 16:26:30,16:36:52,GX010406.MP4,615.2,GX019334.MP4,621.5,GX019288.MP4,621.5,615.2,6.3,,True
+station1,station1/industrial_data/task05/raw_videos,station1/task05,39,2026-11-20 16:40:44,16:50:43,GX010407.MP4,599.9,GX019335.MP4,596.0,GX019289.MP4,595.4,593.4,6.5,,True
+station1,station1/industrial_data_2026-11-22/task01/raw_videos,station1/2026-11-22/task01,2,2026-11-22 03:56:05,03:57:15,GX010448.MP4,70.2,GX019330.MP4,67.8,GX019378.MP4,67.7,67.7,2.5,,True
+station1,station1/industrial_data_2026-11-22/task01/raw_videos,station1/2026-11-22/task01,3,2026-11-22 03:57:57,04:08:07,GX010449.MP4,608.6,GX019331.MP4,607.7,GX019379.MP4,607.9,605.6,3.0,,True
+station1,station1/industrial_data_2026-11-22/task01/raw_videos,station1/2026-11-22/task01,4,2026-11-22 04:09:30,04:17:57,GX010450.MP4,504.9,GX019332.MP4,312.2,GX019380.MP4,504.9,309.2,195.7,left stops after 5.2 min,True
+station1,station1/industrial_data_2026-11-22/task01/raw_videos,station1/2026-11-22/task01,5,2026-11-22 04:21:31,04:31:36,GX010451.MP4,600.9,GX019333.MP4,603.4,GX019381.MP4,602.1,598.4,5.0,,True
+station1,station1/industrial_data_2026-11-22/task02/raw_videos,station1/2026-11-22/task02,21,2026-11-22 04:54:02,05:06:09,GX010466.MP4,723.1,GX019348.MP4,724.2,GX019396.MP4,724.0,720.1,4.1,,True
+station1,station1/industrial_data_2026-11-22/task02/raw_videos,station1/2026-11-22/task02,22,2026-11-22 05:06:14,05:17:03,GX010467.MP4,623.2,GX019349.MP4,622.6,GX019397.MP4,622.5,596.2,27.0,,True
+station1,station1/industrial_data_2026-11-22/task02/raw_videos,station1/2026-11-22/task02,23,2026-11-22 05:22:35,05:32:43,GX010468.MP4,606.8,GX019350.MP4,605.5,GX019398.MP4,605.8,603.8,3.0,,True
+station1,station1/industrial_data_2026-11-22/task03/raw_videos,station1/2026-11-22/task03,25,2026-11-22 05:38:41,05:46:22,GX010470.MP4,461.2,GX019352.MP4,457.4,GX019400.MP4,456.2,456.2,5.0,,True
+station1,station1/industrial_data_2026-11-22/task04/raw_videos,station1/2026-11-22/task04,29,2026-11-22 05:57:46,06:07:18,GX010474.MP4,572.0,GX019356.MP4,566.0,GX019404.MP4,566.4,566.0,6.0,,True
+station1,station1/industrial_data_2026-11-22/task04/raw_videos,station1/2026-11-22/task04,30,2026-11-22 06:08:10,06:18:09,GX010475.MP4,594.9,GX019357.MP4,595.3,GX019405.MP4,596.7,591.9,4.8,,True
+station1,station1/industrial_data_2026-11-22/task04/raw_videos,station1/2026-11-22/task04,31,2026-11-22 06:22:30,06:32:41,GX010476.MP4,608.6,GX019358.MP4,608.2,GX019406.MP4,607.9,605.6,3.0,,True
+station1,station1/industrial_data_2026-11-22/task04/raw_videos,station1/2026-11-22/task04,32,2026-11-22 06:40:13,06:50:06,GX010477.MP4,593.9,GX019359.MP4,589.7,GX019407.MP4,588.8,588.8,5.1,,True
+station1,station1/industrial_data_2026-11-22/task04/raw_videos,station1/2026-11-22/task04,33,2026-11-22 06:53:54,07:04:04,GX010478.MP4,608.5,GX019360.MP4,607.3,GX019408.MP4,607.6,605.5,3.0,,True
+station1,station1/industrial_data_2026-11-22/task04/raw_videos,station1/2026-11-22/task04,34,2026-11-22 07:05:40,07:15:49,GX010479.MP4,606.3,GX019361.MP4,607.8,GX019409.MP4,607.7,604.3,3.5,,True
+station1,station1/industrial_data_2026-11-22/task05/raw_videos,station1/2026-11-22/task05,37,2026-11-22 07:39:37,07:42:21,GX010482.MP4,164.1,GX019364.MP4,131.8,GX019412.MP4,159.5,131.8,32.3,left stops after 2.2 min,True
+station1,station1/industrial_data_2026-11-22/task05/raw_videos,station1/2026-11-22/task05,38,2026-11-22 07:43:04,07:53:21,GX010483.MP4,615.4,GX019365.MP4,615.3,GX019413.MP4,615.3,613.4,2.0,,True
+station1,station1/industrial_data_2026-11-22/task05/raw_videos,station1/2026-11-22/task05,39,2026-11-22 07:54:30,08:04:46,GX010484.MP4,613.0,GX019366.MP4,613.6,GX019414.MP4,613.6,610.0,3.6,,True
+station1,station1/industrial_data_2026-11-22/task05/raw_videos,station1/2026-11-22/task05,40,2026-11-22 08:07:04,08:17:20,GX010485.MP4,614.4,GX019367.MP4,613.7,GX019415.MP4,613.6,611.4,3.0,,True
+station1,station1/industrial_data_2026-11-22/task06/raw_videos,station1/2026-11-22/task06,46,2026-11-22 10:23:12,10:24:17,GX010491.MP4,65.2,GX019373.MP4,56.0,GX019421.MP4,58.7,56.0,9.2,,True
+station1,station1/industrial_data_2026-11-22/task06/raw_videos,station1/2026-11-22/task06,47,2026-11-22 10:24:57,10:28:07,GX010492.MP4,191.0,GX019374.MP4,131.6,GX019422.MP4,188.1,131.6,59.4,left stops after 2.2 min,True
+station1,station1/industrial_data_2026-11-22/task06/raw_videos,station1/2026-11-22/task06,48,2026-11-22 10:29:29,10:31:28,GX010493.MP4,111.8,GX019375.MP4,97.9,GX019423.MP4,113.3,89.9,23.4,,True
+station1,station1/industrial_data_2026-11-22/task06/raw_videos,station1/2026-11-22/task06,50,2026-11-22 10:33:40,10:45:55,GX010494.MP4,735.7,GX019377.MP4,731.2,GX019424.MP4,732.3,730.2,5.5,,True
+station1,station1/industrial_data_2026-11-22/task07/raw_videos,station1/2026-11-22/task07,42,2026-11-22 08:37:32,08:47:56,GX010487.MP4,621.3,GX019369.MP4,560.6,GX019417.MP4,609.7,560.6,60.7,left stops after 9.3 min,True
+station1,station1/industrial_data_2026-11-22/task07/raw_videos,station1/2026-11-22/task07,43,2026-11-22 08:49:04,08:59:23,GX010488.MP4,618.1,GX019370.MP4,616.6,GX019418.MP4,616.5,615.1,3.0,,True
+station2,station2/industrial_data/2026-11-24/task00/raw_videos,station2/2026-11-24/task00,2,2026-11-24 09:03:30,09:16:08,GX019458.MP4,756.2,GX010362.MP4,756.7,GX010487.MP4,756.4,754.2,2.5,,True
+station2,station2/industrial_data/2026-11-24/task00/raw_videos,station2/2026-11-24/task00,4,2026-11-24 09:26:24,09:35:47,GX019460.MP4,562.5,GX010364.MP4,66.6,GX010489.MP4,562.7,66.6,496.1,left stops after 1.1 min,True
+station2,station2/industrial_data/2026-11-24/task00/raw_videos,station2/2026-11-24/task00,6,2026-11-24 09:39:32,09:48:56,GX019463.MP4,565.0,GX010365.MP4,423.6,GX010491.MP4,562.1,423.6,141.4,left stops after 7.1 min,True
+station2,station2/industrial_data/2026-11-24/task00/raw_videos,station2/2026-11-24/task00,7,2026-11-24 09:50:19,10:02:05,GX019464.MP4,699.3,GX010366.MP4,659.8,GX010492.MP4,703.0,652.8,50.2,left stops after 11.0 min,True
+station2,station2/industrial_data/2026-11-24/task00/raw_videos,station2/2026-11-24/task00,8,2026-11-24 10:02:47,10:14:33,GX019465.MP4,703.8,GX010367.MP4,704.8,GX010493.MP4,704.5,701.8,3.0,,True
+station2,station2/industrial_data/2026-11-24/task01/raw_videos,station2/2026-11-24/task01,13,2026-11-24 10:29:00,10:31:43,GX019469.MP4,163.6,GX010370.MP4,159.0,GX010497.MP4,160.5,158.5,5.1,,True
+station2,station2/industrial_data/2026-11-24/task01/raw_videos,station2/2026-11-24/task01,15,2026-11-24 10:32:29,10:36:08,GX019471.MP4,219.8,GX010371.MP4,179.5,GX010498.MP4,215.9,179.5,40.3,left stops after 3.0 min,True
+station2,station2/industrial_data/2026-11-24/task01/raw_videos,station2/2026-11-24/task01,16,2026-11-24 10:37:48,10:48:44,GX019472.MP4,656.2,GX010372.MP4,616.0,GX010499.MP4,650.4,616.0,40.2,left stops after 10.3 min,True
+station2,station2/industrial_data/2026-11-24/task01/raw_videos,station2/2026-11-24/task01,17,2026-11-24 10:50:39,10:57:50,GX019473.MP4,431.1,GX010373.MP4,414.8,GX010500.MP4,414.5,413.5,17.6,,True
+station2,station2/industrial_data/2026-11-24/task01/raw_videos,station2/2026-11-24/task01,18,2026-11-24 10:58:32,11:05:47,GX019474.MP4,435.4,GX010374.MP4,357.5,GX010501.MP4,432.5,357.5,77.9,left stops after 6.0 min,True
+station2,station2/industrial_data/2026-11-24/task01/raw_videos,station2/2026-11-24/task01,19,2026-11-24 11:06:58,11:09:25,GX019475.MP4,147.4,GX010375.MP4,114.4,GX010502.MP4,144.2,114.4,33.0,left stops after 1.9 min,True
+station2,station2/industrial_data/2026-11-24/task02/raw_videos,station2/2026-11-24/task02,23,2026-11-24 12:35:28,12:45:33,GX019478.MP4,603.0,GX010379.MP4,602.6,GX010505.MP4,602.7,600.0,3.0,,True
+station2,station2/industrial_data/2026-11-24/task02/raw_videos,station2/2026-11-24/task02,24,2026-11-24 12:45:51,12:55:56,GX019479.MP4,602.9,GX010380.MP4,602.6,GX010506.MP4,602.9,599.9,3.0,,True
+station2,station2/industrial_data/2026-11-24/task02/raw_videos,station2/2026-11-24/task02,25,2026-11-24 12:57:48,13:07:55,GX019480.MP4,603.0,GX010381.MP4,604.1,GX010507.MP4,604.1,600.0,4.1,,True
+station2,station2/industrial_data/2026-11-24/task02/raw_videos,station2/2026-11-24/task02,27,2026-11-24 13:36:56,13:47:03,GX019482.MP4,603.1,GX010383.MP4,604.2,GX010509.MP4,603.9,600.1,4.1,,True
+station2,station2/industrial_data/2026-11-24/task02/raw_videos,station2/2026-11-24/task02,28,2026-11-24 13:47:16,13:57:25,GX019483.MP4,607.8,GX010384.MP4; GX010385.MP4,567.0,GX010510.MP4,607.3,603.8,4.0,"left: 2 files, gaps 38 s",True
+station2,station2/industrial_data/2026-11-24/task02/raw_videos,station2/2026-11-24/task02,29,2026-11-24 13:57:53,14:07:58,GX019484.MP4,603.0,GX010386.MP4,602.2,GX010511.MP4,602.6,600.0,3.0,,True
+station2,station2/industrial_data/2026-11-24/task03/raw_videos,station2/2026-11-24/task03,32,2026-11-24 14:24:15,14:34:21,GX019487.MP4,603.9,GX010389.MP4,603.7,GX010514.MP4,603.7,600.9,3.0,,True
+station2,station2/industrial_data/2026-11-24/task03/raw_videos,station2/2026-11-24/task03,33,2026-11-24 14:34:39,14:44:44,GX019488.MP4,602.8,GX010390.MP4,602.7,GX010515.MP4,602.2,599.8,3.0,,True
+station2,station2/industrial_data/2026-11-24/task03/raw_videos,station2/2026-11-24/task03,34,2026-11-24 14:47:28,14:57:33,GX019489.MP4,603.0,GX010391.MP4,602.3,GX010516.MP4,602.6,600.0,3.0,,True
+station2,station2/industrial_data/2026-11-24/task03/raw_videos,station2/2026-11-24/task03,36,2026-11-24 15:09:35,15:19:43,GX019491.MP4,605.8,GX010393.MP4,605.7,GX010518.MP4,606.0,602.8,3.2,,True
+station2,station2/industrial_data/2026-11-24/task03/raw_videos,station2/2026-11-24/task03,37,2026-11-24 15:22:37,15:32:43,GX019492.MP4,603.8,GX010394.MP4,602.4,GX010519.MP4,603.0,599.8,4.0,,True
+station2,station2/industrial_data/2026-11-24/task03/raw_videos,station2/2026-11-24/task03,38,2026-11-24 15:40:03,15:50:10,GX019493.MP4,604.5,GX010395.MP4,603.3,GX010520.MP4,603.3,600.5,4.0,,True
+station2,station2/industrial_data/2026-11-24/task04/raw_videos,station2/2026-11-24/task04,41,2026-11-24 15:56:05,16:06:11,GX019496.MP4,602.9,GX010398.MP4,603.1,GX010523.MP4,603.1,599.9,3.2,,True
+station2,station2/industrial_data/2026-11-24/task04/raw_videos,station2/2026-11-24/task04,42,2026-11-24 16:06:48,16:16:54,GX019497.MP4,604.1,GX010399.MP4,604.1,GX010524.MP4,604.2,602.1,2.1,,True
+station2,station2/industrial_data/2026-11-24/task04/raw_videos,station2/2026-11-24/task04,43,2026-11-24 16:17:11,16:27:26,GX019498.MP4,613.7,GX010400.MP4,613.7,GX010525.MP4,613.8,611.7,2.1,,True
+station2,station2/industrial_data/2026-11-24/task04/raw_videos,station2/2026-11-24/task04,45,2026-11-24 16:28:34,16:38:40,GX019500.MP4,603.8,GX010402.MP4,602.5,GX010527.MP4,602.9,599.8,4.0,,True
+station2,station2/industrial_data/2026-11-24/task04/raw_videos,station2/2026-11-24/task04,47,2026-11-24 16:47:07,16:57:12,GX019502.MP4,603.3,GX010403.MP4,602.8,GX010528.MP4,602.7,600.3,3.0,,True
+station2,station2/industrial_data/2026-11-24/task04/raw_videos,station2/2026-11-24/task04,48,2026-11-24 16:59:01,17:09:07,GX019503.MP4,603.6,GX010404.MP4,603.4,GX010529.MP4,603.6,600.6,3.0,,True
+station2,station2/industrial_data/2026-11-24/task05/raw_videos,station2/2026-11-24/task05,51,2026-11-24 17:19:45,17:29:58,GX019506.MP4,610.3,GX010407.MP4,610.1,GX010532.MP4,610.0,607.3,3.0,,True
+station2,station2/industrial_data/2026-11-24/task05/raw_videos,station2/2026-11-24/task05,52,2026-11-24 17:30:35,17:40:56,GX019507.MP4; GX019508.MP4,617.0,GX010408.MP4,619.7,GX010533.MP4,619.7,617.6,2.1,"head: 2 files, gaps 3 s",True
+station2,station2/industrial_data/2026-11-24/task05/raw_videos,station2/2026-11-24/task05,53,2026-11-24 17:42:00,17:52:18,GX019509.MP4,616.4,GX010409.MP4,616.4,GX010534.MP4,616.4,614.4,2.0,,True
+station2,station2/industrial_data/2026-11-24/task05/raw_videos,station2/2026-11-24/task05,55,2026-11-24 17:58:21,18:08:25,GX019511.MP4,603.2,GX010411.MP4,602.9,GX010536.MP4,602.9,601.2,2.0,,True
+station2,station2/industrial_data/2026-11-24/task05/raw_videos,station2/2026-11-24/task05,56,2026-11-24 18:08:42,18:18:46,GX019512.MP4,602.3,GX010412.MP4,602.9,GX010537.MP4,602.7,600.3,2.6,,True
+station2,station2/industrial_data/2026-11-24/task05/raw_videos,station2/2026-11-24/task05,57,2026-11-24 18:19:14,18:29:18,GX019513.MP4,602.7,GX010413.MP4,602.7,GX010538.MP4,602.7,600.7,2.0,,True
+station2,station2/industrial_data/2026-11-24/task06/raw_videos,station2/2026-11-24/task06,60,2026-11-24 18:35:31,18:45:37,GX019516.MP4,604.2,GX010416.MP4,601.9,GX010541.MP4,602.1,599.2,5.0,,True
+station2,station2/industrial_data/2026-11-24/task06/raw_videos,station2/2026-11-24/task06,61,2026-11-24 18:46:16,18:56:23,GX019517.MP4,604.6,GX010417.MP4,604.4,GX010542.MP4,604.3,601.6,3.0,,True
+station2,station2/industrial_data/task01/raw_videos,station2/task01,2,2026-11-20 12:32:42,12:35:08,GX019312.MP4,146.8,GX010348.MP4,143.8,GX010221.MP4,142.4,142.4,4.4,,False
+station2,station2/industrial_data/task01/raw_videos,station2/task01,3,2026-11-20 12:37:07,12:38:18,GX019313.MP4,71.4,GX010349.MP4,55.1,GX010222.MP4,55.3,54.3,17.1,,False
+station2,station2/industrial_data/task01/raw_videos,station2/task01,5,2026-11-20 12:39:17,12:43:27,GX019315.MP4,250.5,GX010351.MP4,148.2,GX010224.MP4,240.8,148.2,102.3,left stops after 2.5 min,False
+station2,station2/industrial_data/task01/raw_videos,station2/task01,6,2026-11-20 12:43:45,12:46:54,GX019316.MP4,189.5,GX010352.MP4,147.1,GX010225.MP4,186.3,147.1,42.4,left stops after 2.5 min,False
+station2,station2/industrial_data/task01/raw_videos,station2/task01,7,2026-11-20 12:47:24,12:49:18,GX019317.MP4,114.2,GX010353.MP4,107.6,GX010226.MP4,110.7,107.6,6.6,,False
+station2,station2/industrial_data/task02/raw_videos,station2/task02,10,2026-11-20 12:51:28,12:53:18,GX019320.MP4,108.2,GX010356.MP4,109.9,GX010229.MP4,108.8,107.2,2.7,,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,13,2026-11-20 12:56:59,12:58:30,GX019323.MP4,89.4,GX010359.MP4,90.9,GX010232.MP4,90.5,88.4,2.5,,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,14,2026-11-20 13:00:26,13:03:10,GX019324.MP4,162.9,GX010360.MP4,162.9,GX010233.MP4,162.9,160.9,2.0,,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,15,2026-11-20 13:03:35,13:05:34,GX019325.MP4,117.6,GX010361.MP4,117.9,GX010234.MP4,117.7,115.6,2.3,,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,16,2026-11-20 13:05:56,13:07:48,GX019326.MP4,108.8,GX010362.MP4,109.2,GX010235.MP4,109.0,105.8,3.4,,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,17,2026-11-20 13:08:16,13:10:19,GX019327.MP4,120.6,GX010363.MP4,120.6,GX010236.MP4,120.7,117.6,3.1,,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,18,2026-11-20 13:11:14,13:12:43,GX019328.MP4,86.7,GX010364.MP4,87.3,GX010237.MP4,86.9,84.7,2.6,,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,19,2026-11-20 13:13:09,13:15:00,GX019329.MP4,109.4,GX010365.MP4,109.3,GX010238.MP4,109.3,107.4,2.0,,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,21,2026-11-20 13:17:22,13:19:14,GX019331.MP4,110.9,GX010367.MP4,111.1,GX010240.MP4,111.0,108.9,2.2,,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,22,2026-11-20 13:19:48,13:21:53,GX019332.MP4,123.9,GX010368.MP4,50.3,GX010241.MP4,123.8,49.3,74.6,left stops after 0.8 min,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,23,2026-11-20 13:23:05,13:25:05,GX019333.MP4,119.8,GX010369.MP4,119.6,GX010242.MP4,119.7,118.6,1.2,,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,24,2026-11-20 13:25:42,13:27:32,GX019334.MP4,108.8,GX010370.MP4,108.9,GX010243.MP4,108.6,106.8,2.1,,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,25,2026-11-20 13:28:08,13:30:00,GX019335.MP4,110.8,GX010371.MP4,110.7,GX010244.MP4,110.6,108.8,2.0,,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,26,2026-11-20 13:30:29,13:32:17,GX019336.MP4,107.1,GX010372.MP4,106.9,GX010245.MP4,107.0,105.1,2.0,,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,27,2026-11-20 13:32:53,13:35:09,GX019337.MP4,134.8,GX010373.MP4,134.7,GX010246.MP4,134.8,132.8,2.0,,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,28,2026-11-20 13:35:40,13:37:57,GX019338.MP4,137.1,GX010374.MP4,135.9,GX010247.MP4,136.8,135.9,1.2,,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,29,2026-11-20 13:38:27,13:40:30,GX019339.MP4,123.0,GX010375.MP4,122.5,GX010248.MP4,122.8,122.0,1.0,,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,30,2026-11-20 13:41:35,13:43:31,GX019340.MP4,114.9,GX010376.MP4,114.8,GX010249.MP4,114.9,112.9,2.0,,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,31,2026-11-20 13:44:06,13:45:51,GX019341.MP4,103.5,GX010377.MP4,102.7,GX010250.MP4,103.1,101.5,2.0,,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,32,2026-11-20 13:46:49,13:48:34,GX019342.MP4,103.4,GX010378.MP4,102.9,GX010251.MP4,103.1,101.4,2.0,,False
+station2,station2/industrial_data/task03/raw_videos,station2/task03,33,2026-11-20 13:49:08,13:50:52,GX019343.MP4,93.4,GX010379.MP4,103.4,GX010252.MP4,103.5,92.4,11.1,,False
+station2,station2/industrial_data/task04/raw_videos,station2/task04,36,2026-11-20 14:40:28,14:41:44,GX019346.MP4,75.1,GX010382.MP4,71.7,GX010255.MP4,74.3,71.7,3.4,,False
+station2,station2/industrial_data/task04/raw_videos,station2/task04,37,2026-11-20 14:42:31,14:52:04,GX019347.MP4,574.0,GX010383.MP4,568.9,GX010256.MP4,567.7,567.7,6.3,,False
+station2,station2/industrial_data/task04/raw_videos,station2/task04,38,2026-11-20 14:55:38,14:58:34,GX019348.MP4,176.0,GX010384.MP4,146.9,GX010257.MP4,171.3,146.9,29.1,,False
+station2,station2/industrial_data/task04/raw_videos,station2/task04,39,2026-11-20 14:59:40,15:09:52,GX019349.MP4,610.7,GX010385.MP4,609.7,GX010258.MP4,610.8,608.7,2.1,,False
+station2,station2/industrial_data/task04/raw_videos,station2/task04,40,2026-11-20 15:12:48,15:21:55,GX019350.MP4,547.6,GX010386.MP4,540.6,GX010259.MP4,522.3,522.3,25.3,,False
+station2,station2/industrial_data/task05/raw_videos,station2/task05,45,2026-11-20 16:18:18,16:27:46,GX019355.MP4,568.8,GX010390.MP4,563.8,GX010263.MP4,563.7,563.7,5.1,,False
+station2,station2/industrial_data/task05/raw_videos,station2/task05,46,2026-11-20 16:28:45,16:38:17,GX019356.MP4,572.3,GX010391.MP4,567.7,GX010264.MP4,567.6,567.6,4.7,,False
+station2,station2/industrial_data/task05/raw_videos,station2/task05,47,2026-11-20 16:39:51,16:48:53,GX019357.MP4,540.2,GX010392.MP4,540.0,GX010265.MP4,539.8,538.2,2.0,,False
+station2,station2/industrial_data/task05/raw_videos,station2/task05,49,2026-11-20 17:00:40,17:02:36,GX019359.MP4,116.5,GX010394.MP4,113.9,GX010267.MP4,113.6,112.9,3.6,,False
+station2,station2/industrial_data/task05/raw_videos,station2/task05,50,2026-11-20 17:05:24,17:14:59,GX019360.MP4,573.9,GX010395.MP4,574.0,GX010268.MP4,574.0,572.0,2.0,,False
+station2,station2/industrial_data/task05/raw_videos,station2/task05,52,2026-11-20 17:25:12,17:35:33,GX019362.MP4,616.1,GX010396.MP4,594.6,GX010269.MP4,597.1,592.1,24.0,,False
+station2,station2/industrial_data_2026-11-22/task01/raw_videos,station2/2026-11-22/task01,2,2026-11-22 04:04:29,04:05:33,GX019422.MP4,64.0,GX010453.MP4,61.1,GX010327.MP4,61.1,61.1,2.9,,True
+station2,station2/industrial_data_2026-11-22/task01/raw_videos,station2/2026-11-22/task01,3,2026-11-22 04:08:02,04:18:26,GX019423.MP4,622.1,GX010454.MP4,621.3,GX010328.MP4,618.0,617.1,5.0,,True
+station2,station2/industrial_data_2026-11-22/task02/raw_videos,station2/2026-11-22/task02,5,2026-11-22 04:20:20,04:30:34,GX019425.MP4,612.1,GX010455.MP4,612.4,GX010330.MP4,611.4,609.1,3.3,,True
+station2,station2/industrial_data_2026-11-22/task02/raw_videos,station2/2026-11-22/task02,6,2026-11-22 04:30:59,04:41:24,GX019426.MP4,623.3,GX010456.MP4,622.2,GX010331.MP4,623.2,620.3,3.0,,True
+station2,station2/industrial_data_2026-11-22/task03/raw_videos,station2/2026-11-22/task03,10,2026-11-22 04:56:16,05:06:41,GX019430.MP4,620.4,GX010459.MP4,620.7,GX010334.MP4,623.7,618.4,5.3,,True
+station2,station2/industrial_data_2026-11-22/task03/raw_videos,station2/2026-11-22/task03,11,2026-11-22 05:07:10,05:16:41,GX019431.MP4,571.0,GX010460.MP4,476.3,GX010335.MP4,567.0,475.3,95.7,left stops after 7.9 min,True
+station2,station2/industrial_data_2026-11-22/task04/raw_videos,station2/2026-11-22/task04,17,2026-11-22 05:42:56,05:52:59,GX019436.MP4,600.0,GX010464.MP4,602.2,GX010339.MP4; GX010340.MP4,483.2,596.7,5.5,"right: 2 files, gaps 117 s",True
+station2,station2/industrial_data_2026-11-22/task04/raw_videos,station2/2026-11-22/task04,18,2026-11-22 05:53:52,05:57:23,GX019437.MP4,209.1,GX010465.MP4,209.4,GX010341.MP4,209.5,207.1,2.4,,True
+station2,station2/industrial_data_2026-11-22/task04/raw_videos,station2/2026-11-22/task04,19,2026-11-22 05:58:08,06:01:12,GX019438.MP4,181.5,GX010466.MP4,183.8,GX010342.MP4,183.9,180.5,3.4,,True
+station2,station2/industrial_data_2026-11-22/task04/raw_videos,station2/2026-11-22/task04,20,2026-11-22 06:01:42,06:11:50,GX019439.MP4,608.8,GX010467.MP4; GX010468.MP4,492.5,GX010343.MP4,604.6,603.3,5.5,"left: 2 files, gaps 112 s",True
+station2,station2/industrial_data_2026-11-22/task05/raw_videos,station2/2026-11-22/task05,23,2026-11-22 07:39:21,07:49:38,GX019442.MP4,616.0,GX010471.MP4,614.9,GX010346.MP4,614.9,613.0,3.0,,True
+station2,station2/industrial_data_2026-11-22/task05/raw_videos,station2/2026-11-22/task05,24,2026-11-22 07:50:09,08:00:28,GX019443.MP4,615.5,GX010472.MP4,619.1,GX010347.MP4,619.9,615.5,4.4,,True
+station2,station2/industrial_data_2026-11-22/task05/raw_videos,station2/2026-11-22/task05,25,2026-11-22 08:01:02,08:11:14,GX019444.MP4,608.0,GX010473.MP4,611.7,GX010348.MP4,612.1,608.0,4.1,,True
+station2,station2/industrial_data_2026-11-22/task05/raw_videos,station2/2026-11-22/task05,26,2026-11-22 08:11:31,08:21:43,GX019445.MP4,610.3,GX010474.MP4,610.8,GX010349.MP4,609.9,608.8,2.0,,True
+station2,station2/industrial_data_2026-11-22/task05/raw_videos,station2/2026-11-22/task05,27,2026-11-22 08:22:18,08:32:31,GX019446.MP4,611.4,GX010475.MP4,609.5,GX010350.MP4,609.5,607.5,3.9,,True
+station2,station2/industrial_data_2026-11-22/task06/raw_videos,station2/2026-11-22/task06,32,2026-11-22 10:01:42,10:11:55,GX019450.MP4,613.6,GX010479.MP4,611.2,GX010354.MP4,611.3,611.2,2.4,,True
+station2,station2/industrial_data_2026-11-22/task06/raw_videos,station2/2026-11-22/task06,33,2026-11-22 10:25:04,10:26:41,GX019451.MP4,97.5,GX010480.MP4,94.9,GX010355.MP4,94.0,93.9,3.6,,True
+station2,station2/industrial_data_2026-11-22/task06/raw_videos,station2/2026-11-22/task06,34,2026-11-22 10:34:26,10:36:46,GX019452.MP4,137.0,GX010481.MP4,137.3,GX010356.MP4,136.7,133.0,4.3,,True
+station2,station2/industrial_data_2026-11-22/task06/raw_videos,station2/2026-11-22/task06,35,2026-11-22 10:40:51,10:48:08,GX019453.MP4,437.4,GX010482.MP4,434.8,GX010357.MP4,434.9,434.8,2.6,,True
+station2,station2/industrial_data_2026-11-22/task06/raw_videos,station2/2026-11-22/task06,36,2026-11-22 10:59:19,11:06:41,GX019454.MP4,441.3,GX010483.MP4,441.8,GX010358.MP4,441.5,440.3,1.5,,True
+station3,station3/industrial_data/2026-11-21/task01/raw_videos,station3/2026-11-21/task01,8,2026-11-21 10:08:18,10:18:25,GX010189.MP4,607.1,GX019334.MP4,603.5,GX010164.MP4,602.1,602.1,5.0,,False
+station3,station3/industrial_data/2026-11-21/task01/raw_videos,station3/2026-11-21/task01,9,2026-11-21 10:21:05,10:31:15,GX010190.MP4,610.7,GX019335.MP4,607.6,GX010165.MP4,607.1,606.1,4.6,,False
+station3,station3/industrial_data/2026-11-21/task01/raw_videos,station3/2026-11-21/task01,10,2026-11-21 10:33:38,10:43:50,GX010191.MP4,612.3,GX019336.MP4,607.8,GX010166.MP4,608.8,606.8,5.5,,False
+station3,station3/industrial_data/2026-11-21/task02/raw_videos,station3/2026-11-21/task02,13,2026-11-21 10:50:27,11:00:35,GX010194.MP4,160.7,GX019339.MP4,606.1,GX010169.MP4,605.0,158.7,447.4,head stops after 2.7 min,True
+station3,station3/industrial_data/2026-11-21/task02/raw_videos,station3/2026-11-21/task02,14,2026-11-21 11:16:47,11:26:53,GX010195.MP4,604.6,GX019340.MP4,603.8,GX010170.MP4,603.8,601.8,2.8,,True
+station3,station3/industrial_data/2026-11-21/task02/raw_videos,station3/2026-11-21/task02,15,2026-11-21 11:30:33,11:40:56,GX010196.MP4,623.3,GX019341.MP4,620.8,GX010171.MP4,620.1,619.1,4.2,,True
+station3,station3/industrial_data/2026-11-21/task03/raw_videos,station3/2026-11-21/task03,18,2026-11-21 12:05:56,12:16:00,GX010199.MP4,604.7,GX019344.MP4,600.9,GX010174.MP4,600.9,600.9,3.8,,True
+station3,station3/industrial_data/2026-11-21/task03/raw_videos,station3/2026-11-21/task03,19,2026-11-21 12:22:53,12:27:09,GX010200.MP4,253.5,GX019345.MP4,241.5,GX010175.MP4,254.2,241.5,12.7,,True
+station3,station3/industrial_data/2026-11-21/task03/raw_videos,station3/2026-11-21/task03,20,2026-11-21 12:27:49,12:38:26,GX010201.MP4,637.8,GX019346.MP4,634.5,GX010176.MP4,634.0,633.5,4.3,,True
+station3,station3/industrial_data/2026-11-21/task03/raw_videos,station3/2026-11-21/task03,22,2026-11-21 12:50:57,13:00:18,GX010203.MP4,561.5,GX019348.MP4,551.6,GX010178.MP4,553.2,551.6,9.9,,True
+station3,station3/industrial_data/2026-11-21/task03/raw_videos,station3/2026-11-21/task03,23,2026-11-21 13:00:49,13:11:14,GX010204.MP4,625.2,GX019349.MP4,616.3,GX010179.MP4,619.5,616.3,8.9,,True
+station3,station3/industrial_data/2026-11-21/task03/raw_videos,station3/2026-11-21/task03,24,2026-11-21 13:12:51,13:22:37,GX010205.MP4,586.7,GX019350.MP4,577.1,GX010180.MP4,578.2,575.2,11.5,,True
+station3,station3/industrial_data/2026-11-21/task04/raw_videos,station3/2026-11-21/task04,28,2026-11-21 13:30:43,13:44:38,GX010209.MP4,49.7,GX019354.MP4,834.2,GX010184.MP4,47.2,46.2,788.0,head stops after 0.8 min; right stops after 0.8 min,False
+station3,station3/industrial_data/2026-11-21/task04/raw_videos,station3/2026-11-21/task04,29,2026-11-21 13:50:03,14:00:30,GX010210.MP4,625.4,GX019355.MP4,618.6,GX010185.MP4,619.3,617.4,8.0,,False
+station3,station3/industrial_data/2026-11-21/task04/raw_videos,station3/2026-11-21/task04,30,2026-11-21 14:00:53,14:11:02,GX010211.MP4,607.4,GX019356.MP4,607.7,GX010186.MP4,606.8,605.4,2.3,,False
+station3,station3/industrial_data/2026-11-21/task04/raw_videos,station3/2026-11-21/task04,31,2026-11-21 14:12:48,14:22:56,GX010212.MP4,609.0,GX019357.MP4,605.3,GX010187.MP4,605.3,605.3,3.7,,False
+station3,station3/industrial_data/2026-11-21/task04/raw_videos,station3/2026-11-21/task04,33,2026-11-21 14:39:10,14:49:13,GX010214.MP4,602.4,GX019359.MP4,547.5,GX010189.MP4,602.5,547.5,55.0,left stops after 9.1 min,False
+station3,station3/industrial_data/2026-11-21/task04/raw_videos,station3/2026-11-21/task04,34,2026-11-21 14:50:07,15:00:19,GX010215.MP4,612.8,GX019360.MP4,609.6,GX010190.MP4,609.1,609.1,3.7,,False
+station3,station3/industrial_data/2026-11-22/task01/raw_videos,station3/2026-11-22/task01,3,2026-11-22 04:26:11,04:29:07,GX010220.MP4,164.3,GX019365.MP4; GX019366.MP4,167.6,GX010195.MP4,173.4,161.4,12.0,"left: 2 files, gaps 7 s",True
+station3,station3/industrial_data/2026-11-22/task01/raw_videos,station3/2026-11-22/task01,4,2026-11-22 04:31:52,04:34:47,GX010221.MP4,175.8,GX019367.MP4,64.9,GX010196.MP4,164.0,64.9,110.9,left stops after 1.1 min,True
+station3,station3/industrial_data/2026-11-22/task01/raw_videos,station3/2026-11-22/task01,5,2026-11-22 04:43:37,04:44:47,GX010222.MP4,70.6,GX019368.MP4,62.5,GX010197.MP4,62.4,61.5,9.1,,True
+station3,station3/industrial_data/2026-11-22/task01/raw_videos,station3/2026-11-22/task01,6,2026-11-22 04:45:30,04:47:16,GX010223.MP4,106.0,GX019369.MP4,96.3,GX010198.MP4,90.9,90.9,15.1,,True
+station3,station3/industrial_data/2026-11-22/task01/raw_videos,station3/2026-11-22/task01,7,2026-11-22 04:47:20,04:50:36,GX010224.MP4,196.3,GX019370.MP4,129.2,GX010199.MP4,185.7,129.2,67.1,left stops after 2.2 min,True
+station3,station3/industrial_data/2026-11-22/task01/raw_videos,station3/2026-11-22/task01,8,2026-11-22 04:51:49,04:53:28,GX010225.MP4,99.8,GX019371.MP4,93.8,GX010200.MP4,89.6,89.6,10.2,,True
+station3,station3/industrial_data/2026-11-22/task01/raw_videos,station3/2026-11-22/task01,9,2026-11-22 04:53:38,04:57:30,GX010226.MP4,229.7,GX019372.MP4,231.3,GX010201.MP4,228.7,226.7,4.6,,True
+station3,station3/industrial_data/2026-11-22/task01/raw_videos,station3/2026-11-22/task01,10,2026-11-22 04:57:59,05:06:58,GX010227.MP4,439.0,GX019373.MP4,537.8,GX010202.MP4,539.6,439.0,100.6,head stops after 7.3 min,True
+station3,station3/industrial_data/2026-11-22/task01/raw_videos,station3/2026-11-22/task01,11,2026-11-22 05:07:28,05:23:09,GX010228.MP4,935.2,GX019374.MP4,934.6,GX010203.MP4,936.2,930.2,6.0,,True
+station3,station3/industrial_data/2026-11-22/task01/raw_videos,station3/2026-11-22/task01,12,2026-11-22 05:23:26,05:34:12,GX010229.MP4,642.3,GX019375.MP4,644.0,GX010204.MP4,636.7,635.7,8.3,,True
+station3,station3/industrial_data/2026-11-22/task01/raw_videos,station3/2026-11-22/task01,13,2026-11-22 05:48:22,05:58:49,GX010230.MP4,624.4,GX019376.MP4,622.7,GX010205.MP4,621.8,619.4,5.0,,True
+station3,station3/industrial_data/2026-11-22/task01/raw_videos,station3/2026-11-22/task01,15,2026-11-22 06:00:38,06:11:53,GX010232.MP4,670.1,GX019378.MP4,672.5,GX010207.MP4,668.9,667.1,5.4,,True
+station3,station3/industrial_data/2026-11-22/task02/raw_videos,station3/2026-11-22/task02,18,2026-11-22 06:47:17,06:58:00,GX010235.MP4,638.8,GX019381.MP4,637.7,GX010210.MP4,639.0,632.8,6.2,,False
+station3,station3/industrial_data/2026-11-22/task02/raw_videos,station3/2026-11-22/task02,19,2026-11-22 06:58:36,07:09:15,GX010236.MP4,634.7,GX019382.MP4,635.2,GX010211.MP4,634.8,630.7,4.5,,False
+station3,station3/industrial_data/2026-11-22/task02/raw_videos,station3/2026-11-22/task02,20,2026-11-22 07:15:30,07:25:55,GX010237.MP4,619.4,GX019383.MP4,622.5,GX010212.MP4,619.3,616.4,6.1,,False
+station3,station3/industrial_data/2026-11-22/task03/raw_videos,station3/2026-11-22/task03,22,2026-11-22 07:28:17,07:39:02,GX010239.MP4,643.2,GX019385.MP4,641.3,GX010214.MP4,638.8,636.8,6.4,,False
+station3,station3/industrial_data/2026-11-22/task03/raw_videos,station3/2026-11-22/task03,23,2026-11-22 07:40:05,07:50:27,GX010240.MP4,618.2,GX019386.MP4,618.9,GX010215.MP4,617.7,614.2,4.7,,False
+station3,station3/industrial_data/2026-11-22/task03/raw_videos,station3/2026-11-22/task03,25,2026-11-22 07:53:04,08:03:28,GX010242.MP4,621.5,GX019387.MP4,620.6,GX010216.MP4,621.0,617.5,4.0,,False
+station3,station3/industrial_data/2026-11-22/task03/raw_videos,station3/2026-11-22/task03,26,2026-11-22 08:04:46,08:06:09,GX010243.MP4,63.3,GX019388.MP4,76.5,GX010217.MP4,72.0,55.0,21.5,,False
+station3,station3/industrial_data/2026-11-22/task04/raw_videos,station3/2026-11-22/task04,29,2026-11-22 08:35:39,08:46:22,GX010246.MP4,640.2,GX019391.MP4,636.1,GX010220.MP4,639.4,633.2,7.0,,True
+station3,station3/industrial_data/2026-11-22/task04/raw_videos,station3/2026-11-22/task04,30,2026-11-22 08:49:09,08:59:25,GX010247.MP4,613.9,GX019392.MP4,613.1,GX010221.MP4,613.2,610.9,3.0,,True
+station3,station3/industrial_data/2026-11-22/task04/raw_videos,station3/2026-11-22/task04,31,2026-11-22 09:00:49,09:12:32,GX010248.MP4,624.5,GX019393.MP4,701.2,GX010222.MP4,619.6,619.6,81.6,head stops after 10.4 min; right stops after 10.3 min,True
+station3,station3/industrial_data/2026-11-22/task04/raw_videos,station3/2026-11-22/task04,32,2026-11-22 09:12:50,09:23:00,GX010249.MP4,608.6,GX019394.MP4,608.2,GX010223.MP4,608.7,606.6,2.1,,True
+station3,station3/industrial_data/2026-11-22/task04/raw_videos,station3/2026-11-22/task04,33,2026-11-22 09:23:38,09:33:49,GX010250.MP4,606.4,GX019395.MP4,611.8,GX010224.MP4,611.2,606.4,5.4,,True
+station3,station3/industrial_data/2026-11-22/task04/raw_videos,station3/2026-11-22/task04,34,2026-11-22 09:34:37,09:44:56,GX010251.MP4,618.5,GX019396.MP4,617.8,GX010225.MP4,617.8,616.5,2.0,,True
+station3,station3/industrial_data/2026-11-24/task01/raw_videos,station3/2026-11-24/task01,3,2026-11-24 10:45:45,10:50:52,GX010255.MP4,307.4,GX019400.MP4; GX019401.MP4; GX019402.MP4; GX019403.MP4,229.2,GX010229.MP4; GX010230.MP4; GX010231.MP4,235.0,291.9,15.5,"left: 4 files, gaps 46, 5, 12 s; right: 3 files, gaps 45, 13 s",True
+station3,station3/industrial_data/2026-11-24/task01/raw_videos,station3/2026-11-24/task01,4,2026-11-24 10:51:03,11:04:12,GX010256.MP4,789.2,GX019404.MP4,781.4,GX010232.MP4,783.3,781.4,7.8,,True
+station3,station3/industrial_data/2026-11-24/task01/raw_videos,station3/2026-11-24/task01,5,2026-11-24 11:05:43,11:16:25,GX010257.MP4,638.1,GX019405.MP4,636.3,GX010233.MP4,635.5,631.5,6.6,,True
+station3,station3/industrial_data/2026-11-24/task01/raw_videos,station3/2026-11-24/task01,8,2026-11-24 11:18:15,11:28:52,GX010258.MP4,633.9,GX019407.MP4,632.9,GX010235.MP4,631.4,627.4,6.5,,True
+station3,station3/industrial_data/2026-11-24/task01/raw_videos,station3/2026-11-24/task01,10,2026-11-24 11:38:30,11:48:36,GX010260.MP4,604.9,GX019409.MP4,603.8,GX010237.MP4,604.0,601.9,3.0,,True
+station3,station3/industrial_data/2026-11-24/task01/raw_videos,station3/2026-11-24/task01,11,2026-11-24 11:55:06,12:05:14,GX010261.MP4,606.6,GX019410.MP4,605.0,GX010238.MP4,605.0,602.6,4.0,,True
+station3,station3/industrial_data/2026-11-24/task01/raw_videos,station3/2026-11-24/task01,12,2026-11-24 12:07:12,12:17:21,GX010262.MP4,606.2,GX019411.MP4,604.3,GX010239.MP4,604.7,601.2,5.0,,True
+station3,station3/industrial_data/2026-11-24/task01/raw_videos,station3/2026-11-24/task01,14,2026-11-24 12:19:31,12:29:46,GX010264.MP4,612.1,GX019413.MP4,611.3,GX010241.MP4,610.9,608.1,4.0,,True
+station3,station3/industrial_data/2026-11-24/task02/raw_videos,station3/2026-11-24/task02,18,2026-11-24 13:08:31,13:18:40,GX010268.MP4,606.1,GX019417.MP4,602.3,GX010245.MP4,605.5,600.3,5.8,,True
+station3,station3/industrial_data/2026-11-24/task02/raw_videos,station3/2026-11-24/task02,19,2026-11-24 13:19:49,13:29:59,GX010269.MP4,605.2,GX019418.MP4,602.2,GX010246.MP4,606.8,599.2,7.6,,True
+station3,station3/industrial_data/2026-11-24/task02/raw_videos,station3/2026-11-24/task02,20,2026-11-24 13:30:50,13:42:03,GX010270.MP4,669.6,GX019419.MP4,667.9,GX010247.MP4,671.0,664.9,6.1,,True
+station3,station3/industrial_data/2026-11-24/task02/raw_videos,station3/2026-11-24/task02,22,2026-11-24 13:45:51,13:55:59,GX010272.MP4,604.2,GX019421.MP4,602.2,GX010249.MP4,606.4,600.2,6.2,,True
+station3,station3/industrial_data/2026-11-24/task02/raw_videos,station3/2026-11-24/task02,23,2026-11-24 13:57:57,14:08:03,GX010273.MP4,603.0,GX019422.MP4,602.8,GX010250.MP4,602.8,598.8,4.2,,True
+station3,station3/industrial_data/2026-11-24/task02/raw_videos,station3/2026-11-24/task02,24,2026-11-24 14:08:37,14:18:45,GX010274.MP4,604.1,GX019423.MP4,601.6,GX010251.MP4,604.9,599.6,5.3,,True
+station3,station3/industrial_data/2026-11-24/task03/raw_videos,station3/2026-11-24/task03,27,2026-11-24 14:56:22,15:07:17,GX010277.MP4,650.9,GX019426.MP4,652.0,GX010254.MP4,651.8,647.0,5.0,,True
+station3,station3/industrial_data/2026-11-24/task03/raw_videos,station3/2026-11-24/task03,28,2026-11-24 15:08:42,15:18:56,GX010278.MP4,608.9,GX019427.MP4,608.5,GX010255.MP4,612.2,604.5,7.7,,True
+station3,station3/industrial_data/2026-11-24/task03/raw_videos,station3/2026-11-24/task03,29,2026-11-24 15:20:18,15:30:50,GX010279.MP4,627.1,GX019428.MP4,628.0,GX010256.MP4,629.0,623.0,6.0,,True
+station3,station3/industrial_data/2026-11-24/task03/raw_videos,station3/2026-11-24/task03,31,2026-11-24 15:41:37,15:51:26,GX010281.MP4,587.9,GX019430.MP4,588.5,GX010258.MP4,588.4,586.9,1.6,,True
+station3,station3/industrial_data/2026-11-24/task03/raw_videos,station3/2026-11-24/task03,32,2026-11-24 16:15:06,16:25:29,GX010282.MP4,623.7,GX019431.MP4,620.6,GX010259.MP4,620.6,619.6,4.1,,True
+station3,station3/industrial_data/2026-11-24/task03/raw_videos,station3/2026-11-24/task03,33,2026-11-24 16:32:05,16:42:09,GX010283.MP4,604.2,GX019432.MP4,602.2,GX010260.MP4,602.1,602.1,2.1,,True
+station3,station3/industrial_data/2026-11-24/task04/raw_videos,station3/2026-11-24/task04,36,2026-11-24 17:21:59,17:32:55,GX010286.MP4,656.4,GX019435.MP4,653.3,GX010263.MP4,653.3,653.3,3.1,,True
+station3,station3/industrial_data/2026-11-24/task04/raw_videos,station3/2026-11-24/task04,37,2026-11-24 17:41:06,17:50:40,GX010287.MP4,573.3,GX019436.MP4,572.3,GX010264.MP4,570.6,570.6,2.7,,True
+station3,station3/industrial_data/2026-11-24/task04/raw_videos,station3/2026-11-24/task04,38,2026-11-24 18:18:45,18:29:09,GX010288.MP4,624.3,GX019437.MP4,623.8,GX010265.MP4,623.7,623.3,1.0,,True
+station3,station3/industrial_data/2026-11-24/task04/raw_videos,station3/2026-11-24/task04,40,2026-11-24 18:45:40,18:55:31,GX010290.MP4,590.4,GX019439.MP4,590.6,GX010267.MP4,589.6,589.4,1.2,,True
+station3,station3/industrial_data/2026-11-24/task04/raw_videos,station3/2026-11-24/task04,42,2026-11-24 19:14:27,19:24:40,GX010292.MP4,604.8,GX019441.MP4,612.2,GX010269.MP4,612.1,604.8,7.4,,True
+station3,station3/industrial_data/task01/raw_videos,station3/task01,3,2026-11-20 13:01:30,13:02:21,GX010164.MP4,49.3,GX019308.MP4,30.3,GX010138.MP4,30.4,28.3,21.0,,False
+station3,station3/industrial_data/task01/raw_videos,station3/task01,4,2026-11-20 13:03:01,13:03:35,GX010165.MP4,31.4,GX019309.MP4,32.9,GX010139.MP4,32.9,29.4,3.5,,False
+station3,station3/industrial_data/task01/raw_videos,station3/task01,6,2026-11-20 13:07:32,13:24:00,GX010167.MP4,988.7,GX019310.MP4,979.1,GX010140.MP4,868.5,868.5,120.2,right stops after 14.5 min,False
+station3,station3/industrial_data/task01/raw_videos,station3/task01,7,2026-11-20 13:27:20,13:31:42,GX010168.MP4,258.0,GX019311.MP4,258.4,GX010141.MP4,113.0,109.0,149.4,right stops after 1.9 min,False
+station3,station3/industrial_data/task01/raw_videos,station3/task01,8,2026-11-20 13:32:24,13:46:13,GX010169.MP4,827.9,GX019312.MP4,823.2,GX010142.MP4,821.1,817.1,10.8,,False
+station3,station3/industrial_data/task02/raw_videos,station3/task02,11,2026-11-20 15:07:56,15:18:09,GX010172.MP4,613.9,GX019316.MP4,510.6,GX010146.MP4,510.5,510.5,103.4,left stops after 8.5 min; right stops after 8.5 min,False
+station3,station3/industrial_data/task02/raw_videos,station3/task02,12,2026-11-20 15:19:23,15:28:48,GX010173.MP4,563.5,GX019317.MP4,562.6,GX010147.MP4,563.0,560.6,2.9,,False
+station3,station3/industrial_data/task02/raw_videos,station3/task02,13,2026-11-20 15:29:55,15:40:13,GX010174.MP4,619.0,GX019318.MP4,615.3,GX010148.MP4,614.9,614.9,4.1,,False
+station3,station3/industrial_data/task03/raw_videos,station3/task03,16,2026-11-20 16:20:00,16:20:59,GX010177.MP4,59.6,GX019321.MP4,57.2,GX010151.MP4,57.2,57.2,2.4,,True
+station3,station3/industrial_data/task03/raw_videos,station3/task03,17,2026-11-20 16:21:32,16:32:15,GX010178.MP4,643.8,GX019322.MP4,638.3,GX010152.MP4,637.3,637.3,6.5,,True
+station3,station3/industrial_data/task03/raw_videos,station3/task03,18,2026-11-20 16:33:22,16:43:56,GX010179.MP4,630.8,GX019323.MP4,630.5,GX010153.MP4,628.7,626.8,4.0,,True
+station3,station3/industrial_data/task03/raw_videos,station3/task03,19,2026-11-20 16:44:42,16:55:06,GX010180.MP4,621.8,GX019324.MP4,621.7,GX010154.MP4,620.7,618.8,3.0,,True
+station3,station3/industrial_data/task04/raw_videos,station3/task04,22,2026-11-20 17:09:45,17:11:01,GX010183.MP4,75.1,GX019327.MP4,75.0,GX010157.MP4,72.7,71.7,3.4,,True
+station3,station3/industrial_data/task04/raw_videos,station3/task04,23,2026-11-20 17:14:20,17:24:35,GX010184.MP4,615.3,GX019328.MP4,610.9,GX010158.MP4,610.5,610.5,4.8,,True
+station3,station3/industrial_data/task04/raw_videos,station3/task04,24,2026-11-20 17:26:42,17:37:45,GX010185.MP4,663.1,GX019329.MP4,658.5,GX010159.MP4,658.5,657.5,5.6,,True
+station4,station4/industrial_data/2026-11-21/task00/raw_videos,station4/2026-11-21/task00,1,2026-11-21 07:25:44,07:28:09,GX010932.MP4,142.4,GX011223.MP4,141.0,GX010908.MP4,141.6,138.4,4.0,,True
+station4,station4/industrial_data/2026-11-21/task00/raw_videos,station4/2026-11-21/task00,2,2026-11-21 07:28:30,07:36:35,GX010933.MP4,485.6,GX011224.MP4,479.7,GX010909.MP4,411.8,409.8,75.8,right stops after 6.9 min,True
+station4,station4/industrial_data/2026-11-21/task00/raw_videos,station4/2026-11-21/task00,8,2026-11-21 08:20:24,08:30:32,GX010939.MP4; GX010928.MP4; GX010929.MP4; GX010930.MP4,688.6,GX011231.MP4,606.8,GX010916.MP4,606.6,603.3,85.3,"head: 4 files, gaps -339, 8, 3 s",True
+station4,station4/industrial_data/2026-11-21/task00/raw_videos,station4/2026-11-21/task00,15,2026-11-21 08:37:42,08:53:23,GX010940.MP4; GX010941.MP4; GX010942.MP4,563.3,GX011232.MP4,582.5,GX010910.MP4; GX010917.MP4; GX010911.MP4; GX010912.MP4,1212.0,578.3,633.7,"head: 3 files, gaps 5, 11 s; head stops after 9.7 min; left stops after 9.7 min; right: 4 files, gaps -262, -219, 105 s",True
+station4,station4/industrial_data/2026-11-21/task00/raw_videos,station4/2026-11-21/task00,18,2026-11-21 09:07:18,09:17:58,GX010943.MP4,636.3,GX011233.MP4,636.4,GX010918.MP4,636.5,632.3,4.2,,True
+station4,station4/industrial_data/2026-11-21/task01/raw_videos,station4/2026-11-21/task01,22,2026-11-21 15:25:40,15:35:53,GX010947.MP4,610.0,GX011237.MP4,611.2,GX010922.MP4,609.9,608.0,3.2,,True
+station4,station4/industrial_data/2026-11-21/task01/raw_videos,station4/2026-11-21/task01,23,2026-11-21 15:36:28,15:46:19,GX010948.MP4,591.8,GX011238.MP4,586.8,GX010923.MP4,586.4,585.4,6.4,,True
+station4,station4/industrial_data/2026-11-21/task01/raw_videos,station4/2026-11-21/task01,24,2026-11-21 15:47:14,15:56:53,GX010949.MP4,575.5,GX011239.MP4,574.3,GX010924.MP4,573.9,569.9,5.6,,True
+station4,station4/industrial_data/2026-11-21/task01/raw_videos,station4/2026-11-21/task01,25,2026-11-21 16:04:43,16:14:49,GX010950.MP4,606.1,GX011240.MP4,601.1,GX010925.MP4,601.2,600.2,5.9,,True
+station4,station4/industrial_data/2026-11-21/task01/raw_videos,station4/2026-11-21/task01,29,2026-11-21 16:35:14,16:45:20,GX010953.MP4,606.8,GX011244.MP4,602.9,GX010929.MP4,602.7,600.7,6.1,,True
+station4,station4/industrial_data/2026-11-21/task01/raw_videos,station4/2026-11-21/task01,30,2026-11-21 16:49:09,16:59:00,GX010954.MP4,590.9,GX011245.MP4,590.5,GX010930.MP4,590.1,589.1,1.8,,True
+station4,station4/industrial_data/2026-11-21/task02/raw_videos,station4/2026-11-21/task02,32,2026-11-21 17:02:37,17:12:38,GX010956.MP4,596.0,GX011247.MP4,600.9,GX010932.MP4,600.5,595.0,5.9,,True
+station4,station4/industrial_data/2026-11-21/task03/raw_videos,station4/2026-11-21/task03,35,2026-11-21 17:18:29,17:27:33,GX010959.MP4,542.1,GX011250.MP4,542.8,GX010935.MP4,542.6,540.1,2.7,,True
+station4,station4/industrial_data/2026-11-21/task03/raw_videos,station4/2026-11-21/task03,37,2026-11-21 17:40:53,17:51:01,GX010961.MP4,606.6,GX011252.MP4,606.8,GX010937.MP4,606.9,604.9,2.0,,True
+station4,station4/industrial_data/2026-11-22/task01/raw_videos,station4/2026-11-22/task01,3,2026-11-22 04:18:57,04:25:36,GX010965.MP4,389.8,GX011256.MP4,131.9,GX010941.MP4,399.1,121.9,277.2,left stops after 2.2 min,True
+station4,station4/industrial_data/2026-11-22/task01/raw_videos,station4/2026-11-22/task01,5,2026-11-22 04:26:38,04:29:51,GX010967.MP4,193.3,GX011257.MP4,149.7,GX010942.MP4,175.5,149.7,43.6,left stops after 2.5 min,True
+station4,station4/industrial_data/2026-11-22/task01/raw_videos,station4/2026-11-22/task01,8,2026-11-22 04:44:38,04:54:43,GX010969.MP4,602.9,GX011259.MP4,601.8,GX010944.MP4,602.1,599.1,3.8,,True
+station4,station4/industrial_data/2026-11-22/task01/raw_videos,station4/2026-11-22/task01,9,2026-11-22 04:55:03,05:05:28,GX010970.MP4,625.1,GX011260.MP4,604.7,GX010945.MP4,605.3,603.3,21.8,,True
+station4,station4/industrial_data/2026-11-22/task01/raw_videos,station4/2026-11-22/task01,11,2026-11-22 05:08:32,05:18:40,GX010972.MP4,605.1,GX011262.MP4,604.8,GX010947.MP4,605.0,602.0,3.1,,True
+station4,station4/industrial_data/2026-11-22/task01/raw_videos,station4/2026-11-22/task01,12,2026-11-22 05:19:48,05:29:54,GX010973.MP4,602.3,GX011263.MP4,602.3,GX010948.MP4,602.5,598.5,4.0,,True
+station4,station4/industrial_data/2026-11-22/task01/raw_videos,station4/2026-11-22/task01,13,2026-11-22 05:30:38,05:41:07,GX010974.MP4,626.2,GX011264.MP4,621.0,GX010949.MP4,598.2,595.2,31.0,right stops after 10.0 min,True
+station4,station4/industrial_data/2026-11-22/task02/raw_videos,station4/2026-11-22/task02,18,2026-11-22 05:58:10,06:08:52,GX010978.MP4,642.1,GX011269.MP4,635.5,GX010954.MP4,634.7,633.7,8.4,,True
+station4,station4/industrial_data/2026-11-22/task02/raw_videos,station4/2026-11-22/task02,20,2026-11-22 06:18:39,06:28:49,GX010979.MP4,610.1,GX011271.MP4,604.0,GX010956.MP4,604.3,603.3,6.8,,True
+station4,station4/industrial_data/2026-11-22/task02/raw_videos,station4/2026-11-22/task02,21,2026-11-22 06:29:40,06:39:53,GX010980.MP4,609.1,GX011272.MP4,609.9,GX010957.MP4,610.0,605.1,4.9,,True
+station4,station4/industrial_data/2026-11-22/task02/raw_videos,station4/2026-11-22/task02,23,2026-11-22 06:42:24,06:49:43,GX010982.MP4,439.4,GX011274.MP4,376.3,GX010959.MP4,436.8,376.3,63.1,left stops after 6.3 min,True
+station4,station4/industrial_data/2026-11-22/task02/raw_videos,station4/2026-11-22/task02,24,2026-11-22 06:51:04,07:04:56,GX010983.MP4,829.7,GX011275.MP4,829.7,GX010960.MP4,752.4,749.4,80.3,right stops after 12.5 min,True
+station4,station4/industrial_data/2026-11-22/task02/raw_videos,station4/2026-11-22/task02,25,2026-11-22 07:06:10,07:15:47,GX010984.MP4,436.9,GX011276.MP4,573.9,GX010961.MP4,537.5,432.9,141.0,head stops after 7.3 min; right stops after 9.0 min,True
+station4,station4/industrial_data/2026-11-22/task03/raw_videos,station4/2026-11-22/task03,28,2026-11-22 07:29:59,07:46:44,GX010987.MP4; GX010988.MP4,953.6,GX011279.MP4; GX011280.MP4,951.5,GX010964.MP4; GX010965.MP4,885.6,962.0,-8.4,"head: 2 files, gaps 49 s; left: 2 files, gaps 50 s; right: 2 files, gaps 77 s; right stops after 16.0 min",True
+station4,station4/industrial_data/2026-11-22/task03/raw_videos,station4/2026-11-22/task03,30,2026-11-22 07:59:24,08:09:30,GX010990.MP4,604.1,GX011282.MP4,604.1,GX010967.MP4,604.1,602.1,2.0,,True
+station4,station4/industrial_data/2026-11-22/task03/raw_videos,station4/2026-11-22/task03,32,2026-11-22 08:12:29,08:22:35,GX010992.MP4,601.8,GX011284.MP4,606.9,GX010969.MP4,606.6,601.8,5.1,,True
+station4,station4/industrial_data/2026-11-22/task03/raw_videos,station4/2026-11-22/task03,33,2026-11-22 08:23:47,08:33:51,GX010993.MP4,602.1,GX011285.MP4,602.0,GX010970.MP4,602.0,600.0,2.1,,True
+station4,station4/industrial_data/2026-11-22/task03/raw_videos,station4/2026-11-22/task03,35,2026-11-22 08:35:52,08:45:18,GX010994.MP4,564.2,GX011287.MP4,555.3,GX010972.MP4,519.6,517.6,46.6,right stops after 8.7 min,True
+station4,station4/industrial_data/2026-11-22/task03/raw_videos,station4/2026-11-22/task03,36,2026-11-22 08:46:14,08:48:18,GX010995.MP4,122.5,GX011288.MP4,122.0,GX010973.MP4,121.8,119.8,2.7,,True
+station4,station4/industrial_data/2026-11-24/task01/raw_videos,station4/2026-11-24/task01,9,2026-11-24 09:54:27,09:59:17,GX011003.MP4,290.8,GX011295.MP4,231.5,GX010980.MP4,286.7,230.5,60.3,left stops after 3.9 min,True
+station4,station4/industrial_data/2026-11-24/task01/raw_videos,station4/2026-11-24/task01,10,2026-11-24 10:00:10,10:10:32,GX011004.MP4,622.7,GX011296.MP4,616.8,GX010981.MP4,616.7,615.8,6.9,,True
+station4,station4/industrial_data/2026-11-24/task02/raw_videos,station4/2026-11-24/task02,13,2026-11-24 10:12:04,10:23:04,GX011007.MP4,655.1,GX011299.MP4,656.0,GX010984.MP4,655.3,651.1,4.9,,True
+station4,station4/industrial_data/2026-11-24/task02/raw_videos,station4/2026-11-24/task02,15,2026-11-24 10:23:58,10:32:52,GX011009.MP4,534.8,GX011301.MP4,529.5,GX010986.MP4,482.8,480.8,54.0,right stops after 8.0 min,True
+station4,station4/industrial_data/2026-11-24/task02/raw_videos,station4/2026-11-24/task02,16,2026-11-24 10:34:44,10:36:05,GX011010.MP4,79.8,GX011302.MP4,72.6,GX010987.MP4,67.4,66.4,13.4,,True
+station4,station4/industrial_data/2026-11-24/task02/raw_videos,station4/2026-11-24/task02,17,2026-11-24 10:38:29,10:48:49,GX011011.MP4,616.2,GX011303.MP4,617.7,GX010988.MP4,617.7,613.2,4.5,,True
+station4,station4/industrial_data/2026-11-24/task02/raw_videos,station4/2026-11-24/task02,18,2026-11-24 10:49:10,10:59:20,GX011012.MP4,610.3,GX011304.MP4,601.6,GX010989.MP4,605.9,601.6,8.7,,True
+station4,station4/industrial_data/2026-11-24/task03/raw_videos,station4/2026-11-24/task03,21,2026-11-24 12:30:33,12:40:42,GX011015.MP4,609.1,GX011307.MP4,603.3,GX010992.MP4,603.8,601.8,7.3,,True
+station4,station4/industrial_data/2026-11-24/task03/raw_videos,station4/2026-11-24/task03,22,2026-11-24 12:41:21,12:43:57,GX011016.MP4,156.4,GX011308.MP4,98.1,GX010993.MP4,152.3,98.1,58.3,left stops after 1.6 min,True
+station4,station4/industrial_data/2026-11-24/task03/raw_videos,station4/2026-11-24/task03,23,2026-11-24 12:44:53,12:55:22,GX011017.MP4,629.1,GX011309.MP4,623.3,GX010994.MP4,623.8,621.8,7.3,,True
+station4,station4/industrial_data/2026-11-24/task03/raw_videos,station4/2026-11-24/task03,24,2026-11-24 12:56:24,13:06:08,GX011018.MP4,584.9,GX011310.MP4,577.6,GX010995.MP4,578.0,576.0,8.9,,True
+station4,station4/industrial_data/2026-11-24/task03/raw_videos,station4/2026-11-24/task03,25,2026-11-24 13:07:02,13:17:14,GX011019.MP4,608.8,GX011311.MP4,608.3,GX010996.MP4,608.4,604.8,4.0,,True
+station4,station4/industrial_data/2026-11-24/task03/raw_videos,station4/2026-11-24/task03,28,2026-11-24 13:22:36,13:32:49,GX011022.MP4,613.7,GX011314.MP4,608.1,GX010999.MP4,608.4,607.4,6.3,,True
+station4,station4/industrial_data/2026-11-24/task03/raw_videos,station4/2026-11-24/task03,30,2026-11-24 13:35:13,13:45:31,GX011024.MP4,618.4,GX011316.MP4,614.3,GX011001.MP4,614.9,612.9,5.5,,True
+station4,station4/industrial_data/2026-11-24/task04/raw_videos,station4/2026-11-24/task04,34,2026-11-24 16:09:28,16:19:40,GX011028.MP4,612.8,GX011320.MP4,444.0,GX011005.MP4,603.2,444.0,168.8,left stops after 7.4 min,True
+station4,station4/industrial_data/2026-11-24/task04/raw_videos,station4/2026-11-24/task04,37,2026-11-24 16:32:03,16:43:56,GX011031.MP4,713.2,GX011326.MP4; GX011327.MP4,684.3,GX011007.MP4; GX011008.MP4,646.7,707.1,6.1,"left: 2 files, gaps 24 s; right: 2 files, gaps 61 s",True
+station4,station4/industrial_data/2026-11-24/task04/raw_videos,station4/2026-11-24/task04,38,2026-11-24 17:03:02,17:11:45,GX011032.MP4,513.8,GX011328.MP4,486.8,GX011039.MP4,520.5,478.8,41.7,left stops after 8.1 min,True
+station4,station4/industrial_data/2026-11-24/task04/raw_videos,station4/2026-11-24/task04,39,2026-11-24 17:14:52,17:27:07,GX011033.MP4,732.3,GX011329.MP4,732.9,GX011040.MP4; GX011041.MP4,730.7,729.3,3.6,"right: 2 files, gaps 2 s",True
+station4,station4/industrial_data/2026-11-24/task04/raw_videos,station4/2026-11-24/task04,40,2026-11-24 17:50:47,17:51:58,GX011034.MP4,71.7,GX011330.MP4,65.2,GX011042.MP4,66.6,65.2,6.5,,True
+station4,station4/industrial_data/2026-11-24/task04/raw_videos,station4/2026-11-24/task04,41,2026-11-24 17:53:58,18:04:10,GX011035.MP4,612.7,GX011331.MP4,608.3,GX011043.MP4,606.9,606.9,5.8,,True
+station4,station4/industrial_data/2026-11-24/task04/raw_videos,station4/2026-11-24/task04,42,2026-11-24 18:10:44,18:21:09,GX011036.MP4,601.9,GX011332.MP4,604.7,GX011044.MP4,615.7,591.7,24.0,,True
+station5,station5/industrial_data/2026-11-22/task01/raw_videos,station5/2026-11-22/task01,4,2026-11-22 04:37:40,04:38:45,GX010608.MP4,65.1,GX010352.MP4,62.1,GX010176.MP4,62.6,62.1,3.0,,True
+station5,station5/industrial_data/2026-11-22/task01/raw_videos,station5/2026-11-22/task01,5,2026-11-22 04:40:15,04:43:37,GX010609.MP4,202.2,GX010353.MP4,193.6,GX010177.MP4,193.6,192.6,9.6,,True
+station5,station5/industrial_data/2026-11-22/task01/raw_videos,station5/2026-11-22/task01,6,2026-11-22 04:44:59,04:53:33,GX010610.MP4; GX010611.MP4,412.4,GX010354.MP4,173.6,GX010178.MP4; GX010179.MP4; GX010180.MP4; GX010181.MP4; GX010182.MP4,394.8,173.6,238.8,"head: 2 files, gaps 98 s; left stops after 2.9 min; right: 5 files, gaps 8, 14, 6, 89 s",True
+station5,station5/industrial_data/2026-11-22/task01/raw_videos,station5/2026-11-22/task01,7,2026-11-22 04:53:48,05:01:50,GX010612.MP4,479.5,GX010355.MP4,479.4,GX010183.MP4; GX010184.MP4; GX010185.MP4,466.2,476.5,3.0,"right: 3 files, gaps 3, 9 s",True
+station5,station5/industrial_data/2026-11-22/task02/raw_videos,station5/2026-11-22/task02,10,2026-11-22 06:36:50,06:38:18,GX010615.MP4,83.3,GX010358.MP4,81.9,GX010188.MP4; GX010189.MP4,77.8,78.3,5.0,"right: 2 files, gaps 5 s",False
+station5,station5/industrial_data/2026-11-22/task02/raw_videos,station5/2026-11-22/task02,11,2026-11-22 06:38:25,06:49:04,GX010616.MP4,635.6,GX010359.MP4,633.8,GX010190.MP4; GX010191.MP4; GX010192.MP4,621.8,629.6,6.0,"right: 3 files, gaps 10, 3 s",False
+station5,station5/industrial_data/2026-11-22/task02/raw_videos,station5/2026-11-22/task02,12,2026-11-22 06:50:13,07:00:34,GX010617.MP4,616.9,GX010360.MP4,621.2,GX010193.MP4,621.6,616.9,4.7,,False
+station5,station5/industrial_data/2026-11-22/task02/raw_videos,station5/2026-11-22/task02,13,2026-11-22 07:01:47,07:12:11,GX010618.MP4,617.1,GX010361.MP4,614.4,GX010194.MP4,618.9,611.9,7.0,,False
+station5,station5/industrial_data/2026-11-22/task02/raw_videos,station5/2026-11-22/task02,18,2026-11-22 07:16:05,07:26:24,GX010619.MP4,617.5,GX010362.MP4,617.0,GX010199.MP4,617.4,615.0,2.5,,False
+station5,station5/industrial_data/2026-11-24/task01/raw_videos,station5/2026-11-24/task01,1,2026-11-24 11:10:46,11:21:35,GX010623.MP4,649.2,GX010366.MP4,643.1,GX010203.MP4,644.2,642.2,7.0,,True
+station5,station5/industrial_data/2026-11-24/task01/raw_videos,station5/2026-11-24/task01,2,2026-11-24 11:21:52,11:31:50,GX010624.MP4,598.1,GX010367.MP4,592.3,GX010204.MP4,592.2,590.2,7.9,,True
+station5,station5/industrial_data/2026-11-24/task01/raw_videos,station5/2026-11-24/task01,3,2026-11-24 11:32:18,11:41:59,GX010625.MP4,578.3,GX010368.MP4,577.7,GX010205.MP4,578.2,574.3,4.0,,True
+station5,station5/industrial_data/2026-11-24/task01/raw_videos,station5/2026-11-24/task01,4,2026-11-24 11:42:43,11:46:54,GX010626.MP4,250.1,GX010369.MP4,210.7,GX010206.MP4,249.5,210.7,39.4,left stops after 3.5 min,True
+station5,station5/industrial_data/2026-11-24/task02/raw_videos,station5/2026-11-24/task02,6,2026-11-24 12:03:16,12:13:39,GX010628.MP4,623.7,GX010371.MP4,619.1,GX010208.MP4,618.7,617.7,6.0,,True
+station5,station5/industrial_data/2026-11-24/task02/raw_videos,station5/2026-11-24/task02,7,2026-11-24 12:14:49,12:24:58,GX010629.MP4,602.1,GX010372.MP4,608.7,GX010209.MP4,608.0,602.1,6.6,,True
+station5,station5/industrial_data/2026-11-24/task02/raw_videos,station5/2026-11-24/task02,8,2026-11-24 12:26:20,12:36:31,GX010630.MP4,611.6,GX010373.MP4,602.9,GX010210.MP4,606.6,602.9,8.7,,True

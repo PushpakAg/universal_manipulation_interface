@@ -1,0 +1,201 @@
+<title>UMI Ingestion Funnel</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* VOICE work: an ops report for the data team
+   IDEA a plant's throughput board: raw footage in at the top, deliverable hours out at the bottom, every loss metered
+   PICTURE the funnel itself: one long strip per stage, width = hours, the loss to the next stage marked in red
+   COLOUR steel panel, black ink, white cards, alarm red for losses; night #16191c
+   TYPE Inter Tight 600 + Inter
+   LAYOUT laptop: dominant readout left (40%), stage strips right; phone: readout, then strips */
+:root{color-scheme:light dark;--bg:light-dark(#d5dbe0,#16191c);--panel:light-dark(#ffffff,#1f2428);--ink:light-dark(#0b0d0f,#eef1f3);--mute:light-dark(#4f5a63,#9aa6af);--line:light-dark(#b9c2c9,#333b42);--bar:light-dark(#0b0d0f,#e6eaed);--soft:light-dark(#e9edf0,#2a3036);--red:#e8251a;--redsoft:light-dark(#fbd9d6,#4a1f1c)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
+.band{padding-block:clamp(24px,3.5vw,48px);padding-left:max(5vw,16px,env(safe-area-inset-left,0px));padding-right:max(5vw,16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1240px;margin:0 auto}
+h1,h2,h3{font-family:"Inter Tight",Inter,sans-serif;font-weight:600;letter-spacing:-.02em;line-height:1.08;margin:0}
+h1{font-size:clamp(30px,4vw,46px);max-width:24ch}
+h2{font-size:clamp(22px,2.4vw,28px);margin-bottom:6px}
+p{margin:0}
+.lede{color:var(--mute);max-width:70ch;margin-top:10px}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.first{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,6fr);gap:20px;margin-top:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:20px}
+.readout .big{font-family:"Inter Tight",sans-serif;font-weight:700;font-size:clamp(56px,8vw,96px);line-height:1;letter-spacing:-.03em}
+.readout .unit{font-size:.4em;font-weight:600;margin-left:4px}
+.readout .of{margin-top:8px;font-size:17px}
+.kv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 18px;margin-top:22px;border-top:1px solid var(--line);padding-top:16px}
+.kv b{display:block;font-family:"Inter Tight",sans-serif;font-size:24px;font-weight:600}
+.kv span{color:var(--mute);font-size:14px}
+.seg{display:inline-flex;border:1px solid var(--ink);border-radius:6px;overflow:hidden;margin-bottom:16px;flex-wrap:wrap}
+.seg button{font:500 14px Inter,sans-serif;padding:8px 14px;min-height:40px;border:0;background:transparent;color:var(--ink);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--panel)}
+.seg button:focus-visible{outline:2px solid var(--red);outline-offset:-2px}
+.stage{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding:7px 0}
+.stage .lbl{font-size:15px}
+.stage .val{font-size:15px;text-align:right}
+.stage .val small{color:var(--mute);margin-left:6px}
+.track{grid-column:1/3;height:16px;background:var(--soft);border-radius:2px;position:relative;overflow:hidden}
+.track i{position:absolute;inset:0 auto 0 0;background:var(--bar);transition:width .35s}
+.loss{grid-column:1/3;font-size:13px;color:var(--red);padding-left:2px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(15em,1fr));gap:14px;margin-top:16px}
+.loss-card{border-left:4px solid var(--red);background:var(--panel);padding:14px 16px;border-radius:0 6px 6px 0}
+.loss-card b{font-family:"Inter Tight",sans-serif;font-size:26px;font-weight:600;display:block}
+.loss-card p{font-size:14px;color:var(--mute);margin-top:4px}
+.scroll{overflow-x:auto;margin-top:14px;border:1px solid var(--line);border-radius:6px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font-weight:600;font-size:13px;color:var(--mute);background:var(--soft)}
+td.r,th.r{text-align:right}
+tr:last-child td{border-bottom:0}
+.mini{height:8px;background:var(--soft);border-radius:2px;position:relative;min-width:80px}
+.mini i{position:absolute;inset:0 auto 0 0;background:var(--bar)}
+.mini em{position:absolute;inset:0 auto 0 0;background:var(--red)}
+.low td{background:var(--redsoft)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px}
+details{margin-top:12px}
+summary{cursor:pointer;font-weight:500}
+ul{margin:10px 0 0;padding-left:20px}
+li{margin:4px 0}
+.foot{color:var(--mute);font-size:14px}
+code{font-size:13px;overflow-wrap:anywhere}
+@media(max-width:900px){.first,.two{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){table{font-size:13px}th,td{padding:6px 5px}.hide-s{display:none}}
+@media(prefers-reduced-motion:reduce){.track i{transition:none}}
+</style>
+
+<section class="band"><div class="wrap">
+  <h1 id="h1">Ingestion funnel</h1>
+  <p class="lede" id="lede"></p>
+  <div class="first">
+    <div class="card readout">
+      <div class="big num" id="big"></div>
+      <p class="of" id="of"></p>
+      <div class="kv" id="kv"></div>
+    </div>
+    <div class="card">
+      <div class="seg" role="group" aria-label="Scope">
+        <button id="sc-production" type="button" aria-pressed="true">Production only</button>
+        <button id="sc-all" type="button" aria-pressed="false">With pilot + Set_2/3</button>
+      </div>
+      <div id="funnel"></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="band" style="padding-top:0"><div class="wrap">
+  <h2>Where the hours go</h2>
+  <p class="lede">Each loss between ingestion and a deliverable MP4, in recording hours (one view).</p>
+  <div class="cols" id="losses"></div>
+</div></section>
+
+<section class="band" style="padding-top:0"><div class="wrap">
+  <h2>Yield holds at 50–75% of take time; two days fall to 16–18% on swapped views</h2>
+  <p class="lede">Episode yield = episode hours / shared take hours (time between cycles is cut). Deliverable yield also drops episodes that fail the data checks. Red rows are below 30% deliverable.</p>
+  <div class="scroll"><table id="yield"></table></div>
+</div></section>
+
+<section class="band" style="padding-top:0"><div class="wrap two">
+  <div>
+    <h2>Paired but never processed</h2>
+    <p class="lede" id="unproc-lede"></p>
+    <div class="scroll"><table id="unproc"></table></div>
+  </div>
+  <div>
+    <h2>Cameras that stop early</h2>
+    <p class="lede" id="drift-lede"></p>
+    <div class="scroll"><table id="notes"></table></div>
+  </div>
+</div></section>
+
+<section class="band" style="padding-top:0"><div class="wrap">
+  <h2 id="left-h">Left-out raw videos by session</h2>
+  <p class="lede">Files in a production camera dump that no pairs.csv lists. Most are clips under 30 s around the takes; two sessions have no task folders at all.</p>
+  <div class="scroll"><table id="sessions"></table></div>
+  <details><summary id="long-sum"></summary><div class="scroll"><table id="long"></table></div></details>
+</div></section>
+
+<section class="band" style="padding-top:0"><div class="wrap">
+  <h2>Pairing problems</h2>
+  <ul id="problems"></ul>
+  <p class="foot" style="margin-top:20px" id="foot"></p>
+</div></section>
+
+<script>
+{
+const D = {"run":"v4","status":{"set":{"n":171,"h":21.01},"pilot":{"n":85,"h":21.84},"left_out":{"n":773,"h":27.2},"support":{"n":203,"h":1.1},"take":{"n":1062,"h":139.59},"in_task_unlisted":{"n":2,"h":0.05},"calibration":{"n":22,"h":0.3}},"ingested":{"production":56.08,"all":70.36,"files_production":2062,"files_all":2318},"stages":[["Paired into takes (head file)",342,46.74],["Shared window of the 3 cameras",342,45.08],["In task folders that were processed",267,38.09],["Cut into episodes (processed MP4s)",2310,23.1],["Deliverable (data checks pass)",1772,20.26],["Also pass the VLM repetition checks",null,12.89]],"mismatch_h":2.53,"mismatch_takes":77,"noted_takes":67,"notes":[["left camera stops early",36],["right camera stops early",14],["head camera stops early",11],["right camera split over files (gaps)",10],["left camera split over files (gaps)",8],["head camera split over files (gaps)",5]],"unproc":[["station1/industrial_data/task01","2026-11-20",7,0.51],["station1/industrial_data/task02","2026-11-20",2,0.24],["station2/industrial_data/task01","2026-11-20",5,0.17],["station2/industrial_data/task02","2026-11-20",1,0.03],["station2/industrial_data/task03","2026-11-20",20,0.6],["station2/industrial_data/task04","2026-11-20",5,0.53],["station2/industrial_data/task05","2026-11-20",6,0.82],["station3/industrial_data/2026-11-21/task01","2026-11-21",3,0.5],["station3/industrial_data/2026-11-21/task04","2026-11-21",6,0.84],["station3/industrial_data/2026-11-22/task02","2026-11-22",3,0.52],["station3/industrial_data/2026-11-22/task03","2026-11-22",4,0.53],["station3/industrial_data/task01","2026-11-20",5,0.52],["station3/industrial_data/task02","2026-11-20",3,0.47],["station5/industrial_data/2026-11-22/task02","2026-11-22",5,0.71]],"yield":[["station1","2026-11-20",3,12,1.49,145,0.92,0.91],["station1","2026-11-21",5,22,3.34,435,2.0,0.54],["station1","2026-11-22",7,24,3.24,229,1.76,1.52],["station1","2026-11-24",8,28,4.09,191,2.42,2.37],["station2","2026-11-22",6,20,2.6,155,1.5,0.48],["station2","2026-11-24",7,37,5.58,165,4.17,4.16],["station3","2026-11-20",2,7,0.91,57,0.69,0.69],["station3","2026-11-21",2,9,1.28,120,0.86,0.86],["station3","2026-11-22",2,18,2.17,122,1.08,1.08],["station3","2026-11-24",4,25,4.2,179,2.86,2.85],["station4","2026-11-21",4,14,2.13,180,0.93,0.91],["station4","2026-11-22",3,19,2.8,132,1.48,1.47],["station4","2026-11-24",4,21,2.95,142,1.53,1.53],["station5","2026-11-22",1,4,0.25,7,0.15,0.15],["station5","2026-11-24",2,7,1.07,51,0.74,0.74]],"sessions":[["station1","2026-11-20",21,32,0.18,28,4,0,0],["station1","2026-11-21",22,37,0.23,29,8,0,0],["station1","2026-11-22",24,58,0.3,56,2,0,0],["station1","2026-11-24",28,55,1.12,39,10,2,4],["station2","2026-11-19",0,3,0.04,0,3,0,0],["station2","2026-11-20",37,32,0.32,15,16,1,0],["station2","2026-11-21",0,163,11.49,70,15,18,60],["station2","2026-11-22",20,27,1.29,19,1,0,7],["station2","2026-11-24",37,49,0.54,39,7,3,0],["station3","2026-11-19",0,3,0.04,0,3,0,0],["station3","2026-11-20",15,14,0.13,10,4,0,0],["station3","2026-11-21",18,31,0.15,27,4,0,0],["station3","2026-11-22",25,18,0.12,15,3,0,0],["station3","2026-11-24",25,38,0.2,32,6,0,0],["station4","2026-11-21",14,41,1.39,21,12,3,5],["station4","2026-11-22",19,37,1.22,26,2,4,5],["station4","2026-11-24",21,43,0.96,27,13,2,1],["station5","2026-11-21",0,71,6.93,21,7,9,34],["station5","2026-11-22",9,16,0.06,16,0,0,0],["station5","2026-11-24",7,7,0.55,4,0,0,3]],"long_left":[["station1","2026-11-24","left","GX019404.MP4",10.1],["station1","2026-11-24","left","GX019405.MP4",10.1],["station1","2026-11-24","right","GX019451.MP4",10.1],["station1","2026-11-24","right","GX019452.MP4",10.0],["station2","2026-11-21","head","GX019367.MP4",9.6],["station2","2026-11-21","head","GX019368.MP4",9.7],["station2","2026-11-21","head","GX019369.MP4",9.3],["station2","2026-11-21","head","GX019371.MP4",10.2],["station2","2026-11-21","head","GX019372.MP4",9.5],["station2","2026-11-21","head","GX019374.MP4",9.8],["station2","2026-11-21","head","GX019379.MP4",10.6],["station2","2026-11-21","head","GX019380.MP4",9.6],["station2","2026-11-21","head","GX019381.MP4",10.1],["station2","2026-11-21","head","GX019382.MP4",8.7],["station2","2026-11-21","head","GX019385.MP4",10.3],["station2","2026-11-21","head","GX019387.MP4",9.7],["station2","2026-11-21","head","GX019392.MP4",10.2],["station2","2026-11-21","head","GX019393.MP4",9.2],["station2","2026-11-21","head","GX019394.MP4",9.9],["station2","2026-11-21","head","GX019397.MP4",10.2],["station2","2026-11-21","head","GX019403.MP4",9.8],["station2","2026-11-21","head","GX019404.MP4",9.6],["station2","2026-11-21","head","GX019405.MP4",9.6],["station2","2026-11-21","head","GX019409.MP4",9.9],["station2","2026-11-21","left","GX010399.MP4",9.6],["station2","2026-11-21","left","GX010400.MP4",9.7],["station2","2026-11-21","left","GX010401.MP4",9.3],["station2","2026-11-21","left","GX010403.MP4",9.8],["station2","2026-11-21","left","GX010404.MP4",9.5],["station2","2026-11-21","left","GX010406.MP4",9.8],["station2","2026-11-21","left","GX010411.MP4",10.4],["station2","2026-11-21","left","GX010412.MP4",9.7],["station2","2026-11-21","left","GX010413.MP4",10.1],["station2","2026-11-21","left","GX010414.MP4",8.4],["station2","2026-11-21","left","GX010417.MP4",10.3],["station2","2026-11-21","left","GX010418.MP4",9.8],["station2","2026-11-21","left","GX010423.MP4",10.1],["station2","2026-11-21","left","GX010424.MP4",9.2],["station2","2026-11-21","left","GX010425.MP4",9.9],["station2","2026-11-21","left","GX010428.MP4",10.1],["station2","2026-11-21","left","GX010434.MP4",9.6],["station2","2026-11-21","left","GX010435.MP4",9.5],["station2","2026-11-21","left","GX010436.MP4",9.5],["station2","2026-11-21","left","GX010440.MP4",9.8],["station2","2026-11-21","right","GX010273.MP4",9.6],["station2","2026-11-21","right","GX010274.MP4",9.7],["station2","2026-11-21","right","GX010275.MP4",9.3],["station2","2026-11-21","right","GX010277.MP4",9.7],["station2","2026-11-21","right","GX010278.MP4",9.5],["station2","2026-11-21","right","GX010280.MP4",9.8],["station2","2026-11-21","right","GX010285.MP4",10.4],["station2","2026-11-21","right","GX010286.MP4",9.8],["station2","2026-11-21","right","GX010287.MP4",10.1],["station2","2026-11-21","right","GX010288.MP4",8.7],["station2","2026-11-21","right","GX010291.MP4",10.3],["station2","2026-11-21","right","GX010292.MP4",9.7],["station2","2026-11-21","right","GX010297.MP4",10.1],["station2","2026-11-21","right","GX010298.MP4",9.2],["station2","2026-11-21","right","GX010299.MP4",9.9],["station2","2026-11-21","right","GX010302.MP4",10.1],["station2","2026-11-21","right","GX010308.MP4",9.7],["station2","2026-11-21","right","GX010309.MP4",9.5],["station2","2026-11-21","right","GX010310.MP4",9.5],["station2","2026-11-21","right","GX010314.MP4",9.8],["station2","2026-11-22","head","GX019429.MP4",10.2],["station2","2026-11-22","left","GX010458.MP4",10.2],["station2","2026-11-22","left","GX010463.MP4",10.1],["station2","2026-11-22","left","GX010476.MP4",10.2],["station2","2026-11-22","right","GX010333.MP4",10.2],["station2","2026-11-22","right","GX010338.MP4",10.1],["station2","2026-11-22","right","GX010351.MP4",10.2],["station4","2026-11-21","head","GX010934.MP4",10.4],["station4","2026-11-21","head","GX010937.MP4",11.2],["station4","2026-11-21","left","GX011225.MP4",10.3],["station4","2026-11-21","left","GX011229.MP4",11.2],["station4","2026-11-21","right","GX010914.MP4",11.2],["station4","2026-11-22","head","GX010989.MP4",10.2],["station4","2026-11-22","left","GX011258.MP4",10.4],["station4","2026-11-22","left","GX011281.MP4",10.2],["station4","2026-11-22","right","GX010943.MP4",10.4],["station4","2026-11-22","right","GX010966.MP4",10.2],["station4","2026-11-24","right","GX010977.MP4",25.2],["station5","2026-11-21","head","GX010584.MP4",10.4],["station5","2026-11-21","head","GX010585.MP4",10.0],["station5","2026-11-21","head","GX010587.MP4",9.9],["station5","2026-11-21","head","GX010589.MP4",10.1],["station5","2026-11-21","head","GX010590.MP4",10.1],["station5","2026-11-21","head","GX010593.MP4",10.1],["station5","2026-11-21","head","GX010597.MP4",10.1],["station5","2026-11-21","head","GX010598.MP4",10.1],["station5","2026-11-21","head","GX010599.MP4",10.1],["station5","2026-11-21","head","GX010601.MP4",10.1],["station5","2026-11-21","head","GX010602.MP4",10.1],["station5","2026-11-21","head","GX010603.MP4",10.1],["station5","2026-11-21","left","GX010326.MP4",10.4],["station5","2026-11-21","left","GX010327.MP4",10.0],["station5","2026-11-21","left","GX010329.MP4",10.1],["station5","2026-11-21","left","GX010331.MP4",10.1],["station5","2026-11-21","left","GX010332.MP4",10.1],["station5","2026-11-21","left","GX010335.MP4",10.1],["station5","2026-11-21","left","GX010341.MP4",10.1],["station5","2026-11-21","left","GX010342.MP4",10.1],["station5","2026-11-21","left","GX010344.MP4",10.1],["station5","2026-11-21","left","GX010345.MP4",10.1],["station5","2026-11-21","right","GX010268.MP4",10.4],["station5","2026-11-21","right","GX010269.MP4",10.0],["station5","2026-11-21","right","GX010271.MP4",10.1],["station5","2026-11-21","right","GX010273.MP4",10.1],["station5","2026-11-21","right","GX010274.MP4",10.1],["station5","2026-11-21","right","GX010277.MP4",10.1],["station5","2026-11-21","right","GX010281.MP4",10.1],["station5","2026-11-21","right","GX010282.MP4",10.0],["station5","2026-11-21","right","GX010283.MP4",10.1],["station5","2026-11-21","right","GX010285.MP4",10.1],["station5","2026-11-21","right","GX010286.MP4",10.0],["station5","2026-11-21","right","GX010287.MP4",10.0],["station5","2026-11-24","head","GX010622.MP4",10.5],["station5","2026-11-24","left","GX010365.MP4",10.4],["station5","2026-11-24","right","GX010202.MP4",10.4]],"problems":["station2/industrial_data_2026-11-22/task01/raw_videos: take 2 left = GX010453.MP4, but that file is in the right dump (2026-11-22)","station2/industrial_data_2026-11-22/task01/raw_videos: take 3 left = GX010454.MP4, but that file is in the right dump (2026-11-22)","station2/industrial_data_2026-11-22/task02/raw_videos: take 5 left = GX010455.MP4, but that file is in the right dump (2026-11-22)","station2/industrial_data_2026-11-22/task02/raw_videos: take 6 left = GX010456.MP4, but that file is in the right dump (2026-11-22)"]};
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const h = x => Number(x).toFixed(2);
+const pct = (a, b) => b ? (100 * a / b).toFixed(1) + "%" : "–";
+const st = D.status, stages = D.stages;
+const deliv = stages[4][2], eps = stages[3][2];
+let scope = "production";
+try { scope = localStorage.getItem("funnel-scope") || scope; } catch (e) {}
+
+function render() {
+  const base = D.ingested[scope], files = D.ingested["files_" + scope];
+  $("#sc-production").setAttribute("aria-pressed", scope === "production");
+  $("#sc-all").setAttribute("aria-pressed", scope === "all");
+  $("#h1").textContent = `${h(deliv)} h deliverable from ${h(base)} h recorded (${pct(deliv, base)})`;
+  $("#lede").textContent = scope === "production"
+    ? `Production stations only: camera dumps, production task folders and calibration. Including the pilot folders and Set_2/3 the yield is ${pct(deliv, D.ingested.all)}.`
+    : `Everything ingested, with the 23 pilot / test folders (${st.pilot.n} files) and the Set_2/3 dumps (${st.set.n} files) that have no task folders. Production only: ${pct(deliv, D.ingested.production)}.`;
+  $("#big").innerHTML = `${pct(deliv, base).replace("%", "")}<span class="unit">%</span>`;
+  $("#of").innerHTML = `of recorded time is deliverable: <b class="num">${h(deliv)} h</b> in ${stages[4][1].toLocaleString()} episodes`;
+  $("#kv").innerHTML = [
+    [files.toLocaleString(), "raw video files ingested"],
+    [h(base) + " h", "recorded, per view"],
+    [stages[0][1], "paired takes"],
+    [h(eps) + " h", "cut into " + stages[3][1].toLocaleString() + " episodes"],
+  ].map(([b, s]) => `<div><b class="num">${esc(b)}</b><span>${esc(s)}</span></div>`).join("");
+  const rows = [["Recorded (raw videos, per view)", files, base], ...stages];
+  $("#funnel").innerHTML = rows.map((r, i) => {
+    const next = rows[i + 1];
+    const loss = next ? r[2] - next[2] : 0;
+    return `<div class="stage"><span class="lbl">${esc(r[0])}</span><span class="val num">${h(r[2])} h<small>${pct(r[2], base)}</small></span>` +
+      `<div class="track"><i style="width:${(100 * r[2] / base).toFixed(2)}%"></i></div>` +
+      (next && loss > 0.005 ? `<span class="loss num">− ${h(loss)} h</span>` : "") + `</div>`;
+  }).join("");
+  try { localStorage.setItem("funnel-scope", scope); } catch (e) {}
+}
+$("#sc-production").onclick = () => { scope = "production"; render(); };
+$("#sc-all").onclick = () => { scope = "all"; render(); };
+render();
+
+const unprocH = D.unproc.reduce((a, r) => a + r[3], 0);
+const leftH = D.sessions.reduce((a, r) => a + r[4], 0) / 3;
+const losses = [
+  [leftH, "never paired", `${st.left_out.n} raw files in production dumps are in no pairs.csv (${h(st.left_out.h)} h over all cameras); ${D.sessions.filter(r => !r[2]).length} sessions had no task folder at all.`],
+  [stages[0][2] - stages[1][2], "camera mismatch", `Longest camera minus the shared window of all three, ${D.mismatch_takes} takes off by more than 10 s.`],
+  [unprocH, "paired, not processed", `${D.unproc.length} task folders with a pairs.csv have no MP4 output.`],
+  [stages[2][2] - stages[3][2], "between episodes", `Take time outside any episode: idle, setup and resets cut by the segmentation (${pct(stages[2][2] - stages[3][2], stages[2][2])} of processed take time).`],
+  [stages[3][2] - stages[4][2], "fail the data checks", `${stages[3][1] - stages[4][1]} episodes: left / right views swapped, shorter than 9 s, duplicates.`],
+  [stages[4][2] - stages[5][2], "fail VLM repetitions", "Deliverable on the data checks, but the VLM count says too few cycles or asks for review. Guidance only until counted by hand."],
+];
+$("#losses").innerHTML = losses.map(([v, t, p]) => `<div class="loss-card"><b class="num">${h(v)} h</b><span>${esc(t)}</span><p>${esc(p)}</p></div>`).join("");
+
+$("#yield").innerHTML = `<thead><tr><th>Station</th><th>Date</th><th class="r hide-s">Folders</th><th class="r">Takes</th><th class="r">Take h</th><th class="r hide-s">Episodes</th><th class="r">Episode yield</th><th class="r">Deliv. h</th><th class="r">Deliv. yield</th><th class="hide-s">Yield</th></tr></thead><tbody>` +
+  D.yield.map(([s, d, nf, nt, sh, ne, eh, dh]) => `<tr class="${dh / sh < .3 ? "low" : ""}"><td>${esc(s)}</td><td class="num">${esc(d)}</td><td class="r num hide-s">${nf}</td><td class="r num">${nt}</td><td class="r num">${h(sh)}</td><td class="r num hide-s">${ne}</td><td class="r num">${pct(eh, sh)}</td><td class="r num">${h(dh)}</td><td class="r num">${pct(dh, sh)}</td>` +
+    `<td class="hide-s"><div class="mini"><i style="width:${(100 * eh / sh).toFixed(1)}%"></i><em style="width:${(100 * dh / sh).toFixed(1)}%;opacity:.0"></em></div></td></tr>`).join("") + `</tbody>`;
+// red inner bar = deliverable share; shown only where it falls short of the episode bar
+document.querySelectorAll("#yield .mini").forEach((m, i) => { const [,,,, sh, , eh, dh] = D.yield[i]; if (eh - dh > 0.05) { const e = m.querySelector("em"); e.style.left = (100 * dh / sh).toFixed(1) + "%"; e.style.width = (100 * (eh - dh) / sh).toFixed(1) + "%"; e.style.opacity = 1; } });
+
+$("#unproc-lede").textContent = `${D.unproc.length} folders, ${D.unproc.reduce((a, r) => a + r[2], 0)} takes, ${h(unprocH)} h of shared take time. Mostly the first, date-less upload of 2026-11-20.`;
+$("#unproc").innerHTML = `<thead><tr><th>Task folder</th><th>Date</th><th class="r">Takes</th><th class="r">Hours</th></tr></thead><tbody>` +
+  D.unproc.map(r => `<tr><td><code>${esc(r[0])}</code></td><td class="num">${esc(r[1])}</td><td class="r num">${r[2]}</td><td class="r num">${h(r[3])}</td></tr>`).join("") + `</tbody>`;
+
+$("#drift-lede").textContent = `${D.noted_takes} of ${stages[0][1]} takes have a camera that stops before the others or is split over files; together the takes lose ${h(stages[0][2] - stages[1][2])} h to the shared window (${D.mismatch_takes} takes by more than 10 s). The exported episodes show no sync drift: all three views start on the same frame with equal frame counts and an unbroken timeline (V2, V4, V5, V7 pass on every recording).`;
+$("#notes").innerHTML = `<thead><tr><th>pairs.csv note, by kind</th><th class="r">Takes</th></tr></thead><tbody>` +
+  D.notes.map(([n, c]) => `<tr><td>${esc(n)}</td><td class="r num">${c}</td></tr>`).join("") + `</tbody>`;
+
+$("#sessions").innerHTML = `<thead><tr><th>Station</th><th>Date</th><th class="r">Takes paired</th><th class="r">Files</th><th class="r">Hours, all cams</th><th class="r">&lt; 30 s</th><th class="r hide-s">30 s–2 min</th><th class="r hide-s">2–8 min</th><th class="r">≥ 8 min</th></tr></thead><tbody>` +
+  D.sessions.map(([s, d, tp, n, hh, a, b, c, e]) => `<tr class="${tp ? "" : "low"}"><td>${esc(s)}</td><td class="num">${esc(d)}</td><td class="r num">${tp || "none"}</td><td class="r num">${n}</td><td class="r num">${h(hh)}</td><td class="r num">${a}</td><td class="r num hide-s">${b}</td><td class="r num hide-s">${c}</td><td class="r num">${e}</td></tr>`).join("") + `</tbody>`;
+$("#long-sum").textContent = `The ${D.long_left.length} left-out files of 8 minutes or more (full-length takes that were never paired)`;
+$("#long").innerHTML = `<thead><tr><th>Station</th><th>Date</th><th>Camera</th><th>File</th><th class="r">Minutes</th></tr></thead><tbody>` +
+  D.long_left.map(r => `<tr><td>${esc(r[0])}</td><td class="num">${esc(r[1])}</td><td>${esc(r[2])}</td><td class="num">${esc(r[3])}</td><td class="r num">${r[4]}</td></tr>`).join("") + `</tbody>`;
+$("#problems").innerHTML = D.problems.length ? D.problems.map(p => `<li>${esc(p)}</li>`).join("") : "<li>None.</li>";
+$("#foot").innerHTML = `Ingestion: <code>s3://prod-mono-pipeline-v2-data/upload_ingestion/GoPro/UMI_Collection/</code> (74 pairs.csv). Processed: <code>umi_data/industrial_data_mp4/</code>, deep check run ${esc(D.run)}. Raw video lengths are read from each file's header. Per-file detail: <code>reports/ingestion/videos.csv</code>, <code>takes.csv</code>, <code>tasks.csv</code>.`;
+}
+</script>
