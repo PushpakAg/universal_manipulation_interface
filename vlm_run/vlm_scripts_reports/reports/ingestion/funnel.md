@@ -16,28 +16,39 @@ Ingestion `s3://prod-mono-pipeline-v2-data/upload_ingestion/GoPro/UMI_Collection
 | **total production** | | **2062** | **168.23** | 674 | 55.51 |
 | **total all** | | **2318** | **211.08** | 729 | 62.51 |
 
-## Funnel (recording hours = head camera)
+## Funnel (recording hours, one view; recorded = all camera hours / 3)
 
-| Stage | Count | Hours | % of production head hours | % of all head hours |
+| Stage | Count | Hours | % of recorded, production only | % of recorded, with pilot + Set_2/3 |
 |---|---|---|---|---|
-| Ingested head videos, all (incl. pilot, Set_2/3) | 729 | 62.51 | 112.6% | 100.0% |
-| Ingested head videos, production | 674 | 55.51 | 100.0% | 88.8% |
-| Paired takes (head file length) | 342 | 46.74 | 84.2% | 74.8% |
-| Paired takes, shared window of the 3 cameras | 342 | 45.08 | 81.2% | 72.1% |
-| ... in task folders that were processed | 267 | 38.10 | 68.6% | 60.9% |
-| Episodes cut (processed MP4s, excl. 15 loose copies) | 2310 | 23.10 | 41.6% | 37.0% |
-| Deliverable episodes (data checks PASS) | 1772 | 20.26 | 36.5% | 32.4% |
-| Deliverable + repetition checks PASS (VLM) |  | 12.89 | 23.2% | 20.6% |
+| Recorded, with pilot + Set_2/3 | 2318 files | 70.36 | | 100.0% |
+| Recorded, production only | 2062 files | 56.08 | 100.0% | 79.7% |
+| Paired takes (head file length) | 342 | 46.74 | 83.4% | 66.4% |
+| Paired takes, shared window of the 3 cameras | 342 | 45.08 | 80.4% | 64.1% |
+| ... in task folders that were processed | 267 | 38.10 | 67.9% | 54.1% |
+| Episodes cut (processed MP4s, excl. 15 loose copies) | 2310 | 23.10 | 41.2% | 32.8% |
+| Deliverable episodes (data checks PASS) | 1772 | 20.26 | 36.1% | 28.8% |
+| Deliverable + repetition checks PASS (VLM) |  | 12.89 | 23.0% | 18.3% |
 
 Loose recordings at the root of industrial_data_mp4 (copies, D6): 15, 0.10 h (not counted above).
 
 ## Deltas
 
-- Head videos never paired (production): 324 files, 8.77 h (support clips, calibration and left-out; split in the table above).
-- Camera length mismatch inside takes (longest camera minus shared window): 2.53 h over 77 takes with > 10 s; 67 takes carry a note (a camera stopped early, split files).
+- Never paired (production): 775 files, 9.08 h per view (all cameras / 3); sessions without any task folder: see the left-out table.
+- Drift inside takes: 55 takes have a camera that stops early, 17 a camera split over files with gaps (67 takes with a note). Lost to the shared window: 1.66 h vs the head file, 2.53 h vs the longest camera (77 takes off by > 10 s). Exported episodes have no sync drift (V2, V4, V5, V7 pass on every recording).
 - Paired but not processed: 14 task folders, 75 takes, 6.99 h shared.
 - Processed take time not in any episode (cut out between episodes): 14.99 h (39.4% of processed take time).
 - Episodes failing the data checks: 538, 2.84 h.
+
+## Camera drift inside takes (pairs.csv notes, takes per camera and kind)
+
+| Camera | Kind | Takes |
+|---|---|---|
+| left | stops early | 36 |
+| right | stops early | 14 |
+| head | stops early | 11 |
+| right | split over files | 10 |
+| left | split over files | 8 |
+| head | split over files | 5 |
 
 ## Yield by station and date (processed task folders)
 

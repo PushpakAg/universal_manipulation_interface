@@ -62,6 +62,10 @@ def main():
         "mismatch_h": S(tasks, "mismatch_h"),
         "mismatch_takes": sum(1 for t in takes if f(t["mismatch_sec"]) > 10),
         "noted_takes": sum(1 for t in takes if t["note"]),
+        "stop_takes": sum(1 for t in takes if "stops" in t["note"]),
+        "split_takes": sum(1 for t in takes if "files" in t["note"]),
+        "all_left": [[v["station"], v["date"], v["cam"], v["name"], round(f(v["duration"]) / 60, 1), v["status"]]
+                     for v in vids if v["status"] in ("left_out", "in_task_unlisted")],
         "notes": collections.Counter(c for t in takes for c in note_kinds(t["note"])).most_common(),
         "unproc": [[t["folder"].replace("/raw_videos", ""), t["date"], int(f(t["takes"])), round(f(t["shared_h"]), 2)]
                    for t in unproc],

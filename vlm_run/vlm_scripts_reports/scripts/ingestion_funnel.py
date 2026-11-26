@@ -283,14 +283,15 @@ def main():
     proc = [x for x in tk if x["processed"]]
     unproc = [x for x in tk if not x["processed"]]
     S = lambda xs, k: sum(x[k] or 0 for x in xs)
-    hours_all_head = H([v for v in scopes["all"] if v["cam"] == "head"])
-    hours_prod_head = H([v for v in scopes["production"] if v["cam"] == "head"])
-    md += ["", "## Funnel (recording hours = head camera)", "",
-           "| Stage | Count | Hours | % of production head hours | % of all head hours |", "|---|---|---|---|---|"]
+    # recorded hours per view = all camera hours / 3 (pilot files sit outside the camera folders: no head hours)
+    base = {k: H(vs) / 3 for k, vs in scopes.items()}
+    md += ["", "## Funnel (recording hours, one view; recorded = all camera hours / 3)", "",
+           "| Stage | Count | Hours | % of recorded, production only | % of recorded, with pilot + Set_2/3 |",
+           "|---|---|---|---|---|"]
     def stage(lbl, cnt, h):
-        md.append(f"| {lbl} | {cnt} | {h:.2f} | {100 * h / hours_prod_head:.1f}% | {100 * h / hours_all_head:.1f}% |")
-    stage("Ingested head videos, all (incl. pilot, Set_2/3)", sum(v["cam"] == "head" for v in scopes["all"]), hours_all_head)
-    stage("Ingested head videos, production", sum(v["cam"] == "head" for v in scopes["production"]), hours_prod_head)
+        md.append(f"| {lbl} | {cnt} | {h:.2f} | {100 * h / base['production']:.1f}% | {100 * h / base['all']:.1f}% |")
+    md.append(f"| Recorded, with pilot + Set_2/3 | {len(scopes['all'])} files | {base['all']:.2f} | | 100.0% |")
+    stage("Recorded, production only", f"{len(scopes['production'])} files", base["production"])
     stage("Paired takes (head file length)", len(takes), S(tk, "take_h_head"))
     stage("Paired takes, shared window of the 3 cameras", len(takes), S(tk, "shared_h"))
     stage("... in task folders that were processed", S(proc, "takes"), S(proc, "shared_h"))
@@ -301,13 +302,15 @@ def main():
            f"{sum(num(r['duration_s']) or 0 for r in loose) / 3600:.2f} h (not counted above).", ""]
 
     md += ["## Deltas", "",
-           f"- Head videos never paired (production): "
-           f"{sum(v['cam'] == 'head' and v['status'] not in ('take',) for v in scopes['production'])} files, "
-           f"{H([v for v in scopes['production'] if v['cam'] == 'head' and v['status'] != 'take']):.2f} h "
-           f"(support clips, calibration and left-out; split in the table above).",
-           f"- Camera length mismatch inside takes (longest camera minus shared window): {S(tk, 'mismatch_h'):.2f} h "
-           f"over {sum(1 for t in takes if (t['mismatch_sec'] or 0) > 10)} takes with > 10 s; "
-           f"{sum(1 for t in takes if t['note'])} takes carry a note (a camera stopped early, split files).",
+           f"- Never paired (production): {sum(v['status'] in ('left_out', 'in_task_unlisted') for v in allv)} files, "
+           f"{H([v for v in allv if v['status'] in ('left_out', 'in_task_unlisted')]) / 3:.2f} h per view (all cameras / 3); "
+           f"sessions without any task folder: see the left-out table.",
+           f"- Drift inside takes: {sum(1 for t in takes if 'stops' in t['note'])} takes have a camera that stops early, "
+           f"{sum(1 for t in takes if 'files' in t['note'])} a camera split over files with gaps "
+           f"({sum(1 for t in takes if t['note'])} takes with a note). Lost to the shared window: "
+           f"{S(tk, 'take_h_head') - S(tk, 'shared_h'):.2f} h vs the head file, {S(tk, 'mismatch_h'):.2f} h vs the longest "
+           f"camera ({sum(1 for t in takes if (t['mismatch_sec'] or 0) > 10)} takes off by > 10 s). Exported episodes have "
+           f"no sync drift (V2, V4, V5, V7 pass on every recording).",
            f"- Paired but not processed: {len(unproc)} task folders, {S(unproc, 'takes')} takes, "
            f"{S(unproc, 'shared_h'):.2f} h shared.",
            f"- Processed take time not in any episode (cut out between episodes): "
@@ -316,6 +319,12 @@ def main():
            f"- Episodes failing the data checks: {S(proc, 'episodes') - S(proc, 'deliverable')}, "
            f"{S(proc, 'episode_h') - S(proc, 'deliverable_h'):.2f} h.", ""]
 
+    kinds = collections.Counter()
+    for t in takes:
+        for part in filter(None, (p.strip() for p in (t["note"] or "").split(";"))):
+            kinds[(part.split(":")[0].split(" ")[0], "stops early" if "stops" in part else "split over files")] += 1
+    md += ["## Camera drift inside takes (pairs.csv notes, takes per camera and kind)", "",
+           "| Camera | Kind | Takes |", "|---|---|---|"] + [f"| {c} | {k} | {n} |" for (c, k), n in kinds.most_common()] + [""]
     md += ["## Yield by station and date (processed task folders)", "",
            "| Station | Date | Task folders | Takes | Shared h | Episodes | Episode h | Episode yield | Deliverable h | Deliverable yield |",
            "|---|---|---|---|---|---|---|---|---|---|"]

@@ -85,6 +85,12 @@ code{font-size:13px;overflow-wrap:anywhere}
 </div></section>
 
 <section class="band" style="padding-top:0"><div class="wrap">
+  <h2>Every raw video, by what became of it</h2>
+  <p class="lede">Unique raw files (station, name, size); copies in task folders are matched to their camera dump file. Hours add up all three cameras.</p>
+  <div class="scroll"><table id="status"></table></div>
+</div></section>
+
+<section class="band" style="padding-top:0"><div class="wrap">
   <h2>Where the hours go</h2>
   <p class="lede">Each loss between ingestion and a deliverable MP4, in recording hours (one view).</p>
   <div class="cols" id="losses"></div>
@@ -114,6 +120,7 @@ code{font-size:13px;overflow-wrap:anywhere}
   <p class="lede">Files in a production camera dump that no pairs.csv lists. Most are clips under 30 s around the takes; two sessions have no task folders at all.</p>
   <div class="scroll"><table id="sessions"></table></div>
   <details><summary id="long-sum"></summary><div class="scroll"><table id="long"></table></div></details>
+  <details><summary id="all-sum"></summary><div class="scroll" style="max-height:520px"><table id="all-left"></table></div></details>
 </div></section>
 
 <section class="band" style="padding-top:0"><div class="wrap">
@@ -186,8 +193,8 @@ $("#unproc-lede").textContent = `${D.unproc.length} folders, ${D.unproc.reduce((
 $("#unproc").innerHTML = `<thead><tr><th>Task folder</th><th>Date</th><th class="r">Takes</th><th class="r">Hours</th></tr></thead><tbody>` +
   D.unproc.map(r => `<tr><td><code>${esc(r[0])}</code></td><td class="num">${esc(r[1])}</td><td class="r num">${r[2]}</td><td class="r num">${h(r[3])}</td></tr>`).join("") + `</tbody>`;
 
-$("#drift-lede").textContent = `${D.noted_takes} of ${stages[0][1]} takes have a camera that stops before the others or is split over files; together the takes lose ${h(stages[0][2] - stages[1][2])} h to the shared window (${D.mismatch_takes} takes by more than 10 s). The exported episodes show no sync drift: all three views start on the same frame with equal frame counts and an unbroken timeline (V2, V4, V5, V7 pass on every recording).`;
-$("#notes").innerHTML = `<thead><tr><th>pairs.csv note, by kind</th><th class="r">Takes</th></tr></thead><tbody>` +
+$("#drift-lede").textContent = `${D.stop_takes} of ${stages[0][1]} takes have a camera that stops before the others and ${D.split_takes} have one split over files with gaps (${D.noted_takes} takes in all; the table counts each camera). Together the takes lose ${h(stages[0][2] - stages[1][2])} h to the shared window (${D.mismatch_takes} takes by more than 10 s). The exported episodes show no sync drift: all three views start on the same frame with equal frame counts and an unbroken timeline (V2, V4, V5, V7 pass on every recording).`;
+$("#notes").innerHTML = `<thead><tr><th>pairs.csv note, per camera</th><th class="r">Takes</th></tr></thead><tbody>` +
   D.notes.map(([n, c]) => `<tr><td>${esc(n)}</td><td class="r num">${c}</td></tr>`).join("") + `</tbody>`;
 
 $("#sessions").innerHTML = `<thead><tr><th>Station</th><th>Date</th><th class="r">Takes paired</th><th class="r">Files</th><th class="r">Hours, all cams</th><th class="r">&lt; 30 s</th><th class="r hide-s">30 s–2 min</th><th class="r hide-s">2–8 min</th><th class="r">≥ 8 min</th></tr></thead><tbody>` +
@@ -195,6 +202,15 @@ $("#sessions").innerHTML = `<thead><tr><th>Station</th><th>Date</th><th class="r
 $("#long-sum").textContent = `The ${D.long_left.length} left-out files of 8 minutes or more (full-length takes that were never paired)`;
 $("#long").innerHTML = `<thead><tr><th>Station</th><th>Date</th><th>Camera</th><th>File</th><th class="r">Minutes</th></tr></thead><tbody>` +
   D.long_left.map(r => `<tr><td>${esc(r[0])}</td><td class="num">${esc(r[1])}</td><td>${esc(r[2])}</td><td class="num">${esc(r[3])}</td><td class="r num">${r[4]}</td></tr>`).join("") + `</tbody>`;
+const SL = {take: ["In a take", "listed as head, left or right of a take in a pairs.csv", "production"], support: ["Support clip", "gripper calibration or head mapping in a pairs.csv", "production"], calibration: ["Calibration", "station calibration/ folder", "production"], in_task_unlisted: ["In a task folder, unlisted", "copied into a task folder but not in its pairs.csv", "production"], left_out: ["Left out", "in a production camera dump, in no task folder", "production"], pilot: ["Pilot / test", "only in the 23 pilot / test folders (no pairs.csv)", "with pilot"], set: ["Set_2 / Set_3", "camera dumps of 2026-11-18 without task folders", "with pilot"]};
+const order = ["take", "support", "calibration", "in_task_unlisted", "left_out", "pilot", "set"].filter(k => st[k]);
+const tot = order.reduce((a, k) => [a[0] + st[k].n, a[1] + st[k].h], [0, 0]);
+$("#status").innerHTML = `<thead><tr><th>Status</th><th class="hide-s">Meaning</th><th>Scope</th><th class="r">Files</th><th class="r">Hours, all cams</th><th class="r">Share of hours</th></tr></thead><tbody>` +
+  order.map(k => `<tr><td>${esc(SL[k][0])}</td><td class="hide-s">${esc(SL[k][1])}</td><td>${esc(SL[k][2])}</td><td class="r num">${st[k].n}</td><td class="r num">${h(st[k].h)}</td><td class="r num">${pct(st[k].h, tot[1])}</td></tr>`).join("") +
+  `<tr><td><b>Total</b></td><td class="hide-s"></td><td></td><td class="r num"><b>${tot[0]}</b></td><td class="r num"><b>${h(tot[1])}</b></td><td class="r num">100%</td></tr></tbody>`;
+$("#all-sum").textContent = `All ${D.all_left.length} left-out files`;
+$("#all-left").innerHTML = `<thead><tr><th>Station</th><th>Date</th><th>Camera</th><th>File</th><th class="r">Minutes</th></tr></thead><tbody>` +
+  D.all_left.map(r => `<tr><td>${esc(r[0])}</td><td class="num">${esc(r[1])}</td><td>${esc(r[2])}</td><td class="num">${esc(r[3])}${r[5] === "in_task_unlisted" ? " (in a task folder)" : ""}</td><td class="r num">${r[4]}</td></tr>`).join("") + `</tbody>`;
 $("#problems").innerHTML = D.problems.length ? D.problems.map(p => `<li>${esc(p)}</li>`).join("") : "<li>None.</li>";
 $("#foot").innerHTML = `Ingestion: <code>s3://prod-mono-pipeline-v2-data/upload_ingestion/GoPro/UMI_Collection/</code> (74 pairs.csv). Processed: <code>umi_data/industrial_data_mp4/</code>, deep check run ${esc(D.run)}. Raw video lengths are read from each file's header. Per-file detail: <code>reports/ingestion/videos.csv</code>, <code>takes.csv</code>, <code>tasks.csv</code>.`;
 }
