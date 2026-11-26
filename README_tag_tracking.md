@@ -613,9 +613,10 @@ python scripts_tag_tracking/15_export_episode_videos.py -i <session> -c <config>
 
 When the grippers were in the other hands than the config said, the exported episodes (7. or 8.) are
 fixed in place, without reprocessing: left / right mp4s and gripper CSVs swapped by name, the camera
-records in meta.json swapped and marked `left_right_swapped`, the mosaic rendered again, checked and
-written back (meta.json last). The list has one path per line, an episode folder or any file in it
-(e.g. the mosaic URLs); marked episodes are skipped, so a list can be run again:
+records in meta.json swapped (no key added), the mosaic rendered again, checked and written back
+(meta.json last). The list has one path per line, an episode folder or any file in it (e.g. the mosaic
+URLs). Swapped episodes are listed in `<workdir>/swapped.txt` and skipped when the list is run again:
+keep the same `-w` (the episodes do not show that they were swapped).
 
 ```
 python scripts_tag_tracking/swap_left_right.py left_right_switch.csv -w ~/swap_work -j 4 --dry_run

@@ -1,8 +1,8 @@
 """
 scripts_tag_tracking/swap_left_right.py on an episode exported by 15_export_episode_videos.py (local
-output): left / right mp4s and gripper CSVs swapped, meta.json camera records swapped and marked, the
-mosaic rendered again and passing the export check; a second run skips it; the list reading (header,
-several files of one episode, episode folder).
+output): left / right mp4s and gripper CSVs swapped, meta.json camera records swapped (no key added),
+other files kept, the mosaic rendered again and passing the export check; a second run skips it
+(swapped.txt in the work folder); the list reading (header, several files of one episode, episode folder).
 
 python tests/test_swap_left_right.py
 """
@@ -53,6 +53,8 @@ def test_swap():
         folder = out.joinpath('station1', '2026-11-21', 'task01', 'episode_000000')
         rec = '2026-11-21_task01_episode_000000'
         mosaic_before = folder.joinpath(f"{rec}_mosaic.mp4").read_bytes()
+        keys_before = set(json.loads(folder.joinpath(f"{rec}_meta.json").read_text()))
+        folder.joinpath(f"{rec}_vlm_result.json").write_text('{"x": 1}')
         p = pathlib.Path(tmp, 'list.csv')
         p.write_text(f"left_right_switch\n{folder.joinpath(rec + '_mosaic.mp4')}\n")
 
@@ -65,7 +67,9 @@ def test_swap():
         assert left[1] == ['0', '0.05000'], left[:2]          # the former right gripper's widths
         meta = json.loads(folder.joinpath(f"{rec}_meta.json").read_text())
         assert meta['cameras']['right']['fx'] == '1111.0' and meta['cameras']['left']['fx'] == '1200.0', meta['cameras']
-        assert meta['left_right_swapped']['note'] == swap.NOTE
+        assert set(meta) == keys_before, set(meta) ^ keys_before
+        assert folder.joinpath(f"{rec}_vlm_result.json").read_text() == '{"x": 1}'
+        assert pathlib.Path(tmp, 'work', 'swapped.txt').read_text().split() == [str(folder)]
         assert folder.joinpath(f"{rec}_mosaic.mp4").read_bytes() != mosaic_before
         assert not list(pathlib.Path(tmp, 'work').rglob('*.mp4'))
         # again: skipped, nothing changed

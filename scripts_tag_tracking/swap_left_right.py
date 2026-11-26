@@ -2,12 +2,13 @@
 Swap left and right in exported episodes (14_export_rhoda.py / 15_export_episode_videos.py layout) whose
 grippers were in the other hands than the config said: per episode folder
   <rec>_left.mp4 <-> <rec>_right.mp4, <rec>_left_gripper.csv <-> <rec>_right_gripper.csv (renamed, the
-  files themselves unchanged), meta.json: the left / right camera records swapped and
-  "left_right_swapped" added (date, what was done), <rec>_mosaic.mp4 rendered again (left wrist bottom
-  left) if the episode had one. Then checked as an export (14_export_rhoda.check_outputs) and written
-  back: S3 uploaded with meta.json last, sizes checked; a local folder replaced file by file.
-An episode whose meta.json has "left_right_swapped" is skipped, so a list can be run again. An episode
-prepared in -w but not uploaded (stopped run) is uploaded from there on the next run, not swapped twice.
+  files themselves unchanged), meta.json: the left / right camera records swapped (nothing added),
+  <rec>_mosaic.mp4 rendered again (left wrist bottom left) if the episode had one; other files (e.g.
+  vlm_result.json) written back unchanged. Then checked as an export (14_export_rhoda.check_outputs) and
+  written back: S3 uploaded with meta.json last, sizes checked; a local folder replaced file by file.
+Swapped episodes are listed in <workdir>/swapped.txt and skipped on the next run, so a list can be run
+again: keep -w (the episodes themselves do not show that they were swapped). An episode prepared in -w
+but not written back (stopped run) is written back from there on the next run, not swapped twice.
 
 LIST: a text / CSV file with one path per line, an episode folder or any file in it (s3:// or local,
 e.g. the episodes' mosaic URLs); other lines (a header) are ignored. Several files of one episode count once.
@@ -31,12 +32,13 @@ import pathlib
 import re
 import shutil
 import subprocess
+import threading
 from fractions import Fraction
 import click
 
 rhoda = importlib.import_module('14_export_rhoda')
 EPISODE = re.compile(r'^(.*/episode_\d+)(/.*)?$')
-NOTE = 'hands were swapped while recording: left / right mp4s, gripper CSVs and camera records swapped, mosaic rendered again'
+SWAPPED_LOCK = threading.Lock()
 
 
 def episode_folders(list_path: str) -> list:
@@ -58,12 +60,6 @@ def list_names(folder: str) -> list:
         return [line.split()[-1] for line in out.stdout.splitlines() if line.strip() and not line.strip().startswith('PRE')]
     p = pathlib.Path(os.path.expanduser(folder))
     return sorted(x.name for x in p.iterdir() if x.is_file()) if p.is_dir() else []
-
-
-def read_text(path: str) -> str:
-    if path.startswith('s3://'):
-        return subprocess.run(['aws', 's3', 'cp', path, '-'], check=True, capture_output=True, text=True).stdout
-    return pathlib.Path(os.path.expanduser(path)).read_text()
 
 
 def fetch(folder: str, names: list, local: pathlib.Path):
@@ -112,7 +108,6 @@ def swap_local(local: pathlib.Path, rec: str, encoder: str, threads: int) -> dic
         tmp.rename(local.joinpath(b))
     if meta.get('cameras') and 'left' in meta['cameras'] and 'right' in meta['cameras']:
         meta['cameras']['left'], meta['cameras']['right'] = meta['cameras']['right'], meta['cameras']['left']
-    meta['left_right_swapped'] = {'date': datetime.date.today().isoformat(), 'note': NOTE}
     meta_path.write_text(json.dumps(meta, indent=2))
 
     head = probe(local.joinpath(meta['files']['head']))
@@ -125,8 +120,15 @@ def swap_local(local: pathlib.Path, rec: str, encoder: str, threads: int) -> dic
     return {'frames': n, 'mosaic': with_mosaic}
 
 
+def swapped_list(workdir: pathlib.Path) -> set:
+    path = workdir.joinpath('swapped.txt')
+    return set(path.read_text().split()) if path.is_file() else set()
+
+
 def swap_episode(folder: str, workdir: pathlib.Path, encoder: str, threads: int, dry_run: bool) -> dict:
     entry = {'episode': folder}
+    if folder in swapped_list(workdir):
+        return {**entry, 'status': 'skipped', 'detail': f"already swapped ({workdir.joinpath('swapped.txt')})"}
     key = re.sub(r'^s3://[^/]+/', '', folder).lstrip('/~')
     local = workdir.joinpath(key)
     prepared = workdir.joinpath(key + '.prepared')
@@ -137,8 +139,6 @@ def swap_episode(folder: str, workdir: pathlib.Path, encoder: str, threads: int,
         if len(metas) != 1:
             return {**entry, 'status': 'failed', 'detail': f"{len(metas)} meta.json files ({len(names)} files)"}
         rec = metas[0][:-len('_meta.json')]
-        if json.loads(read_text(f"{folder}/{metas[0]}")).get('left_right_swapped'):
-            return {**entry, 'status': 'skipped', 'detail': 'already swapped'}
         if dry_run:
             return {**entry, 'status': 'would swap', 'detail': ', '.join(names)}
         if prepared.is_file() and local.is_dir():
@@ -153,6 +153,8 @@ def swap_episode(folder: str, workdir: pathlib.Path, encoder: str, threads: int,
             prepared.write_text(json.dumps(result))
         stage = 'upload'
         put(local, folder)
+        with SWAPPED_LOCK, workdir.joinpath('swapped.txt').open('a') as f:
+            f.write(folder + '\n')
         shutil.rmtree(local)
         prepared.unlink()
         return {**entry, 'status': 'swapped', **result}
