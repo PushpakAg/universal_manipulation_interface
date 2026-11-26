@@ -948,7 +948,8 @@ def main():
     todo = [e for e in eps if a.force or not is_done(a, e)]
     print(f"{len(eps) - len(todo)} already done, {len(todo)} to run")
     if not todo:
-        finish_run(a, client, tasks)
+        if not a.dry_run:  # a dry run never consolidates or writes to S3
+            finish_run(a, client, tasks)
         return
 
     if a.input == "video":
