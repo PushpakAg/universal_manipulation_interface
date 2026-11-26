@@ -1,0 +1,60 @@
+section,metric,episodes,hours,source,note
+funnel,Ingested head videos (production),674,55.51,ingestion/funnel.md,
+funnel,"Paired takes, 3-camera shared window",342,45.08,ingestion/funnel.md,
+funnel,Paired takes in processed task folders,267,38.1,ingestion/funnel.md,
+funnel,Episodes cut (processed MP4s),2310,23.1,delivery_check.csv (deep check v4),
+funnel,Data checks PASS,1772,20.26,delivery_check.csv (deep check v4),
+funnel,Data checks + VLM repetitions both PASS,940,12.89,delivery_check.csv (deep check v4),
+funnel,Data FAIL only on V9 left/right swap (fixable),294,2.45,delivery_check.csv (deep check v4),
+funnel,Data FAIL other checks (mostly C3 under 9 s),244,0.39,delivery_check.csv (deep check v4),
+hitl_split,HITL phase 1 reviewed,1226,8.73,hitl_mosaics-2.xlsx tab hitl_data_day1,
+hitl_split,HITL pending (not in phase 1),1084,14.38,All (presigned) minus phase 1,
+phase1,Before HITL: data checks PASS,778,5.99,delivery_check.csv (deep check v4),
+phase1,Before HITL: data PASS + VLM reps PASS,415,3.28,delivery_check.csv (deep check v4),
+phase1,"HITL accepted (grippers visible, completed, human reps >= 3)",583,4.99,hitl_mosaics-2.xlsx tab hitl_data_day1,
+phase1,Rejected: under 3 repetitions,461,2.22,hitl_mosaics-2.xlsx tab hitl_data_day1,
+phase1,Rejected: task not completed,61,0.66,hitl_mosaics-2.xlsx tab hitl_data_day1,
+phase1,Rejected: grippers not visible,1,0.01,hitl_mosaics-2.xlsx tab hitl_data_day1,
+phase1,Not answered,109,0.74,hitl_mosaics-2.xlsx tab hitl_data_day1,
+phase1,Partially answered,11,0.11,hitl_mosaics-2.xlsx tab hitl_data_day1,
+phase1,DELIVERABLE NOW: HITL accept + data PASS,406,3.24,hitl_mosaics-2.xlsx tab hitl_data_day1 + delivery_check.csv (deep check v4),
+phase1,After L/R swap fix: HITL accept + fails only V9,173,1.74,hitl_mosaics-2.xlsx tab hitl_data_day1 + delivery_check.csv (deep check v4),not deliverable until views are swapped
+phase1,HITL accept but fails another check,4,0.01,delivery_check.csv (deep check v4),
+phase1,Deliverable now that need task relabel,239,2.09,hitl_mosaics-2.xlsx tab hitl_data_day1,
+phase1,HITL yield: accepted / reviewed hours (%),,57.16,hitl_mosaics-2.xlsx tab hitl_data_day1,
+phase1,Deliverable now / reviewed hours (%),,37.13,hitl_mosaics-2.xlsx tab hitl_data_day1,
+phase1,HITL accept rate on data-PASS hours (%),,62.12,hitl_mosaics-2.xlsx tab hitl_data_day1,
+sheet_check,"HITL accepted, sheet Duration column",583,4.33,hitl_mosaics-2.xlsx tab hitl_data_day1,"sheet durations stale for 53 episodes (station2/2026-11-22/task05, station1/2026-11-22/task06)"
+sheet_check,"HITL accepted, deep-check durations",583,4.99,delivery_check.csv (deep check v4),
+phase1_by_station_date,station1 2026-11-20,144,0.92,hitl_mosaics-2.xlsx tab hitl_data_day1,data_pass_h=0.91; hitl_accept_h=0.49; deliverable_now_h=0.49 (71 eps); after_swap_h=0.00
+phase1_by_station_date,station1 2026-11-21,420,1.99,hitl_mosaics-2.xlsx tab hitl_data_day1,data_pass_h=0.54; hitl_accept_h=0.92; deliverable_now_h=0.25 (26 eps); after_swap_h=0.68
+phase1_by_station_date,station1 2026-11-22,211,1.68,hitl_mosaics-2.xlsx tab hitl_data_day1,data_pass_h=1.44; hitl_accept_h=1.45; deliverable_now_h=1.22 (167 eps); after_swap_h=0.23
+phase1_by_station_date,station2 2026-11-22,153,1.5,hitl_mosaics-2.xlsx tab hitl_data_day1,data_pass_h=0.47; hitl_accept_h=1.26; deliverable_now_h=0.41 (60 eps); after_swap_h=0.84
+phase1_by_station_date,station3 2026-11-20,57,0.69,hitl_mosaics-2.xlsx tab hitl_data_day1,data_pass_h=0.69; hitl_accept_h=0.25; deliverable_now_h=0.25 (14 eps); after_swap_h=0.00
+phase1_by_station_date,station3 2026-11-21,119,0.86,hitl_mosaics-2.xlsx tab hitl_data_day1,data_pass_h=0.86; hitl_accept_h=0.16; deliverable_now_h=0.16 (17 eps); after_swap_h=0.00
+phase1_by_station_date,station3 2026-11-22,122,1.08,hitl_mosaics-2.xlsx tab hitl_data_day1,data_pass_h=1.08; hitl_accept_h=0.47; deliverable_now_h=0.46 (51 eps); after_swap_h=0.00
+reps_human_vs_vlm,"Human 3+, VLM 3+",441,,hitl_mosaics-2.xlsx tab hitl_data_day1 vs delivery_check.csv (deep check v4),
+reps_human_vs_vlm,"Human 3+, VLM under 3",185,,hitl_mosaics-2.xlsx tab hitl_data_day1 vs delivery_check.csv (deep check v4),
+reps_human_vs_vlm,"Human under 3, VLM 3+",35,,hitl_mosaics-2.xlsx tab hitl_data_day1 vs delivery_check.csv (deep check v4),
+reps_human_vs_vlm,"Human under 3, VLM under 3",450,,hitl_mosaics-2.xlsx tab hitl_data_day1 vs delivery_check.csv (deep check v4),
+reps_human_vs_vlm,Exact count match,616,,,of 1111
+pending,Data PASS (review these),994,14.27,delivery_check.csv (deep check v4),
+pending,Fails only V9,1,0.02,delivery_check.csv (deep check v4),
+pending,Fails C3 under 9 s (skip),89,0.09,delivery_check.csv (deep check v4),
+pending,VLM reps also PASS,525,9.61,delivery_check.csv (deep check v4),
+pending,Phase 1 rows unanswered/partial (carry over),120,0.85,hitl_mosaics-2.xlsx tab hitl_data_day1,
+pending,Estimated deliverable (flat phase-1 rate on data-PASS hours),,8.86,projection,62%
+pending,Estimated deliverable (rates by VLM verdict 84% / 39%),,9.9,projection,
+pending_by_station_date,station1 2026-11-20,1,0.0,delivery_check.csv (deep check v4),data_pass_h=0.00; fail_h=0.00; vlm_both_h=0.00
+pending_by_station_date,station1 2026-11-21,15,0.01,delivery_check.csv (deep check v4),data_pass_h=0.00; fail_h=0.01; vlm_both_h=0.00
+pending_by_station_date,station1 2026-11-22,18,0.08,delivery_check.csv (deep check v4),data_pass_h=0.08; fail_h=0.00; vlm_both_h=0.03
+pending_by_station_date,station1 2026-11-24,191,2.42,delivery_check.csv (deep check v4),data_pass_h=2.37; fail_h=0.03; vlm_both_h=1.74
+pending_by_station_date,station2 2026-11-22,2,0.0,delivery_check.csv (deep check v4),data_pass_h=0.00; fail_h=0.00; vlm_both_h=0.00
+pending_by_station_date,station2 2026-11-24,165,4.17,delivery_check.csv (deep check v4),data_pass_h=4.16; fail_h=0.00; vlm_both_h=3.21
+pending_by_station_date,station3 2026-11-21,1,0.0,delivery_check.csv (deep check v4),data_pass_h=0.00; fail_h=0.00; vlm_both_h=0.00
+pending_by_station_date,station3 2026-11-24,179,2.86,delivery_check.csv (deep check v4),data_pass_h=2.85; fail_h=0.01; vlm_both_h=2.12
+pending_by_station_date,station4 2026-11-21,180,0.93,delivery_check.csv (deep check v4),data_pass_h=0.91; fail_h=0.03; vlm_both_h=0.14
+pending_by_station_date,station4 2026-11-22,132,1.48,delivery_check.csv (deep check v4),data_pass_h=1.47; fail_h=0.01; vlm_both_h=0.84
+pending_by_station_date,station4 2026-11-24,142,1.53,delivery_check.csv (deep check v4),data_pass_h=1.53; fail_h=0.00; vlm_both_h=0.92
+pending_by_station_date,station5 2026-11-22,7,0.15,delivery_check.csv (deep check v4),data_pass_h=0.15; fail_h=0.00; vlm_both_h=0.08
+pending_by_station_date,station5 2026-11-24,51,0.74,delivery_check.csv (deep check v4),data_pass_h=0.74; fail_h=0.00; vlm_both_h=0.52

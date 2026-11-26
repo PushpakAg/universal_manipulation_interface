@@ -1,0 +1,242 @@
+<title>HITL Delivery Status</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE work: a delivery status report for the data team
+   IDEA engineering datasheet: one funnel from camera hours to delivered hours, HITL as the last gate
+   PICTURE horizontal funnel of hours, ingestion to deliverable, with the HITL split done/pending
+   COLOUR white ground, black ink, cobalt lead, emerald for deliverable, pale green for after-fix, amber for pending, grey for loss
+   TYPE Space Grotesk 600 + Inter
+   LAYOUT cobalt title strip with key figures; funnel full width; then panels in a two-column grid, stacking under 760px */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0a0d18);--ink:light-dark(#0b0f1a,#e8ecf8);--mute:light-dark(#5a6275,#9aa3b8);--line:light-dark(#dfe4f0,#232a40);--zone:light-dark(#eef2ff,#121a33);--cob:light-dark(#1240e0,#5b7dff);--ok:light-dark(#0a8a55,#2fc489);--fix:light-dark(#7cc7a4,#1f7a55);--wait:light-dark(#d98a00,#f0a92a);--loss:light-dark(#c9cfdd,#39415a);--bad:light-dark(#c2410c,#f07a45)}
+:root[data-theme=light]{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;margin:0;overflow-x:clip}
+h1,h2,h3,.num,.big{font-family:"Space Grotesk",Inter,sans-serif;letter-spacing:-.02em}
+.band{padding-block:clamp(24px,3.5vw,48px);padding-left:max(5vw,16px,env(safe-area-inset-left,0px));padding-right:max(5vw,16px,env(safe-area-inset-right,0px))}
+.band.np{padding-top:0}
+.wrap{max-width:1240px;margin:0 auto}
+.strip{background:var(--cob);color:#fff;margin-top:calc(-1*env(safe-area-inset-top,0px));padding-top:calc(env(safe-area-inset-top,0px) + 32px)}
+.strip h1{font-size:clamp(30px,4.2vw,48px);line-height:1.05;margin:0 0 10px;font-weight:600;max-width:24ch}
+.strip p{margin:0;max-width:75ch;opacity:.92}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(11em,1fr));gap:1px;background:rgba(255,255,255,.25);margin-top:24px;border:1px solid rgba(255,255,255,.25)}
+.kpi{background:var(--cob);padding:14px 16px}
+.kpi .num{font-size:clamp(28px,3.4vw,40px);font-weight:600;line-height:1.1;white-space:nowrap}
+.kpi .lab{font-size:14px;opacity:.9}
+.kpi.main{background:#fff;color:#0b0f1a}
+h2{font-size:26px;line-height:1.15;margin:0 0 6px;font-weight:600}
+h3{font-size:18px;margin:0 0 8px;font-weight:600}
+.lede{color:var(--mute);margin:0 0 18px;max-width:78ch}
+.funnel{display:grid;gap:6px}
+.fr{display:grid;grid-template-columns:minmax(0,15em) minmax(0,1fr) 5.5em;gap:12px;align-items:center;font-size:14px}
+.fr .bar{height:26px;display:flex;background:var(--zone)}
+.fr .bar span{display:block;height:100%}
+.fr .v{font-family:"Space Grotesk";font-weight:600;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.fr .t small{display:block;color:var(--mute);font-size:13px}
+.fr.split .t{font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;margin-top:12px;color:var(--mute)}
+.legend i{display:inline-block;width:12px;height:12px;margin-right:6px;vertical-align:-1px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.panel{border:1px solid var(--line);padding:18px 20px;background:var(--bg)}
+.panel.z{background:var(--zone);border-color:transparent}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th{font-weight:600;color:var(--mute);font-size:13px}
+th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}
+td{font-variant-numeric:tabular-nums}
+td.w{text-align:left;white-space:normal}
+tr.tot td{font-weight:600;border-top:2px solid var(--ink)}
+tr.hl td{background:color-mix(in srgb,var(--ok) 14%,transparent);font-weight:600}
+.stk{display:flex;height:34px;margin:6px 0 10px}
+.stk span{height:100%}
+.rows{display:grid;gap:4px;font-size:14px}
+.rows div{display:grid;grid-template-columns:14px minmax(0,1fr) auto auto;gap:10px;align-items:center}
+.rows i{width:12px;height:12px}
+.rows b{font-family:"Space Grotesk";font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.rows em{font-style:normal;color:var(--mute);text-align:right;white-space:nowrap}
+.rows .sum{border-top:1px solid var(--ink);padding-top:4px;font-weight:600}
+.cm{display:grid;grid-template-columns:auto 1fr 1fr;gap:4px;font-size:14px;max-width:420px}
+.cm div{padding:10px;text-align:center}
+.cm .h{color:var(--mute);font-size:13px}
+.cm .a{background:color-mix(in srgb,var(--ok) 22%,transparent)}
+.cm .d{background:color-mix(in srgb,var(--bad) 18%,transparent)}
+.cm b{display:block;font-family:"Space Grotesk";font-size:22px}
+ul{padding-left:1.2em;margin:8px 0}
+li{margin:4px 0}
+.note{font-size:14px;color:var(--mute)}
+.big{font-size:clamp(34px,4vw,46px);font-weight:600;line-height:1}
+code{font-size:13px;overflow-wrap:anywhere}
+@media(max-width:760px){.grid{grid-template-columns:minmax(0,1fr)}.fr{grid-template-columns:minmax(0,1fr) 4.5em}.fr .bar{grid-column:1/-1;grid-row:2}}
+@media(max-width:600px){table{font-size:13px}th,td{padding:6px 4px}}
+</style>
+
+<header class="band strip"><div class="wrap">
+<h1>3.24 h deliverable now from phase 1 HITL, 14.38 h waiting for HITL today</h1>
+<p>Phase 1 HITL (tab <code style="color:#fff">hitl_data_day1</code>) reviewed 1,226 episodes, 8.73 h, from stations 1–3 recorded 20–22 Nov. Reviewers accepted 4.99 h. Of that, 3.24 h also passes the automated data checks and can ship now; 1.74 h ships only after the left/right camera views are swapped. The other 1,084 episodes (14.38 h) have not been reviewed.</p>
+<div class="kpis">
+<div class="kpi main"><div class="num">3.24 h</div><div class="lab">Deliverable now · 406 episodes<br>HITL accept + data checks pass</div></div>
+<div class="kpi"><div class="num">1.74 h</div><div class="lab">Not yet: needs L/R view swap · 173 eps<br>HITL accept, fails only V9</div></div>
+<div class="kpi"><div class="num">57%</div><div class="lab">HITL yield · 4.99 h of 8.73 h<br>deliverable now: 37%</div></div>
+<div class="kpi"><div class="num">14.38 h</div><div class="lab">Pending HITL · 1,084 eps<br>about 8.9–9.9 h expected deliverable</div></div>
+</div>
+</div></header>
+
+<section class="band"><div class="wrap">
+<h2>The funnel, camera hours to delivery</h2>
+<p class="lede">Recording hours (head camera, one view). The rows down to "data checks pass" come from the ingestion funnel and deep check v4, which agree (2,310 episodes, 23.10 h). HITL splits the processed episodes into reviewed and pending.</p>
+<div class="funnel" id="funnel"></div>
+<div class="legend"><span><i style="background:var(--cob)"></i>pipeline stage</span><span><i style="background:var(--ok)"></i>deliverable now</span><span><i style="background:var(--fix)"></i>after L/R swap</span><span><i style="background:var(--wait)"></i>pending HITL</span><span><i style="background:var(--loss)"></i>rejected, failed or unanswered</span></div>
+</div></section>
+
+<section class="band np"><div class="wrap grid">
+<div class="panel">
+<h3>Phase 1: where the 8.73 h went</h3>
+<div class="stk" id="stk"></div>
+<div class="rows" id="p1rows"></div>
+<p class="note">The first three rows add up to the 4.99 h reviewers accepted. Only the first row is deliverable today.</p>
+</div>
+<div class="panel z">
+<h3>Why the sheet shows 4.33 h and this page 4.99 h</h3>
+<div class="scroll"><table>
+<thead><tr><th>HITL accepted, 583 eps</th><th></th><th>Sheet durations</th><th>Actual durations</th></tr></thead>
+<tbody>
+<tr class="hl"><td>Deliverable now</td><td>406</td><td>3.24</td><td>3.24</td></tr>
+<tr><td>Needs L/R swap (V9)</td><td>173</td><td>1.08</td><td>1.74</td></tr>
+<tr><td>Fails another check</td><td>4</td><td>0.01</td><td>0.01</td></tr>
+<tr class="tot"><td>Total accepted</td><td>583</td><td>4.33</td><td>4.99</td></tr>
+</tbody></table></div>
+<p class="note">The sheet's Duration column is out of date for 53 episodes (station2/2026-11-22/task05 and station1/2026-11-22/task06), which were re-cut longer. All 53 are left/right-swap episodes, so only that row changes. The deliverable-now figure is 3.24 h either way. This page uses the actual durations from deep check v4.</p>
+</div>
+</div></section>
+
+<section class="band np"><div class="wrap grid">
+<div class="panel">
+<h3>Before and after HITL, same 1,226 episodes</h3>
+<div class="rows" id="prepost"></div>
+<p class="note" style="margin-top:12px">The machine-only gate (data checks + VLM count of 3 or more) and the human gate land on about the same hours (3.28 h against 3.24 h), but not on the same episodes.</p>
+</div>
+<div class="panel">
+<h3>Human vs VLM repetition count</h3>
+<div class="cm">
+<div class="h"></div><div class="h">VLM 3+</div><div class="h">VLM under 3</div>
+<div class="h">Human 3+</div><div class="a"><b>441</b>agree</div><div class="d"><b>185</b>VLM missed</div>
+<div class="h">Human under 3</div><div class="d"><b>35</b>VLM over</div><div class="a"><b>450</b>agree</div>
+</div>
+<p class="note">1,111 episodes with both counts. They agree on the 3+ threshold 80% of the time; the exact count matches 55%. When the VLM is wrong it mostly undercounts. Among data-pass hours, reviewers accepted 84% when the VLM said pass and 39% when it said fail, so the VLM is a good way to order today's queue but should not reject on its own.</p>
+</div>
+</div></section>
+
+<section class="band np"><div class="wrap">
+<h2>HITL parameters and why episodes were rejected</h2>
+<p class="lede">What reviewers answered for each episode in <code>hitl_data_day1</code>, and how each answer decides accept or reject.</p>
+<div class="scroll"><table>
+<thead><tr><th>Parameter</th><th>What the reviewer records</th><th>Rule</th><th>Phase 1 answers</th></tr></thead>
+<tbody>
+<tr><td>Both gripper visible</td><td class="w">Yes / No: both grippers in the head view</td><td class="w">Reject if No</td><td class="w">1,111 Yes, 1 No, 114 blank</td></tr>
+<tr><td>Task completed</td><td class="w">Yes / No: task carried out to the end</td><td class="w">Reject if No</td><td class="w">1,046 Yes, 64 No, 116 blank</td></tr>
+<tr><td>Number of repetitions</td><td class="w">Complete cycles counted by hand</td><td class="w">Reject if under 3 (PRD R2)</td><td class="w">626 with 3+, 139 with 2, 341 with 1, 5 with 0, 115 blank</td></tr>
+<tr><td>Task match</td><td class="w">Yes / No: matches the folder's task name</td><td class="w">Relabel, not a rejection</td><td class="w">639 Yes, 513 No (202 of them the <code>#N/A</code> lookup), 74 blank</td></tr>
+<tr><td>Write task if wrong</td><td class="w">Correct task text</td><td class="w">Becomes the new label</td><td class="w">Filled on 511 of 513 "No" rows</td></tr>
+<tr><td>Comment</td><td class="w">Free text</td><td class="w">Not used in the rule</td><td class="w">41 rows</td></tr>
+</tbody></table></div>
+<div class="grid" style="margin-top:20px">
+<div class="panel">
+<h3>Under 3 repetitions: 461 episodes, 2.22 h</h3>
+<p style="margin-top:0">329 have 1 repetition and 132 have 2. Rejected clips average 17 s, accepted ones 31 s: most were cut too short to hold three cycles.</p>
+<div class="scroll"><table>
+<thead><tr><th>Task folder</th><th>Eps</th><th>Hours</th><th>Avg length</th></tr></thead>
+<tbody>
+<tr><td>station1/2026-11-21/task02</td><td>139</td><td>0.54</td><td>13.9 s</td></tr>
+<tr><td>station1/2026-11-21/task03</td><td>144</td><td>0.37</td><td>9.1 s</td></tr>
+<tr><td>station3/task03 (20 Nov)</td><td>16</td><td>0.22</td><td>50.2 s</td></tr>
+<tr><td>station3/task04 (20 Nov)</td><td>25</td><td>0.20</td><td>29.1 s</td></tr>
+<tr><td>station3/2026-11-21/task02</td><td>28</td><td>0.20</td><td>25.7 s</td></tr>
+<tr><td>station3/2026-11-22/task04</td><td>16</td><td>0.14</td><td>31.7 s</td></tr>
+</tbody></table></div>
+<p class="note">Comments on these: "Bare hands visible. Incorrect clipping" (11), "Video was clipped in middle of cycle" (2). Station 1 on 21 Nov points to wrong episode cut points; the station 3 clips are long but have slow cycles.</p>
+</div>
+<div class="panel">
+<h3>Task not completed: 61 episodes, 0.66 h</h3>
+<p style="margin-top:0">Concentrated in station3 on 22 Nov: task01 (29) and task04 (8), then station2 22 Nov task05 (5) and task04 (4). Comments: "incorrect placing" (5), "Technical issue" (3), "1 object not placed inside the bin" (2), "Bare hands visible / incorrect clipping, need to reject" (2).</p>
+<h3 style="margin-top:18px">Grippers not visible: 1 episode</h3>
+<p style="margin-top:0">station2/2026-11-22/task01 episode 1: "Third person hands visible. Need to reject".</p>
+<h3 style="margin-top:18px">Not answered: 120 episodes, 0.85 h</h3>
+<p style="margin-top:0">109 rows fully blank and 11 partly filled. They carry over to today.</p>
+<h3 style="margin-top:18px">Accepted but flagged in comments: 10</h3>
+<p style="margin-top:0">They passed the rule but say otherwise: "Two episodes merged into one" (5), "Need to reject task, handling very poor" (1), "Last cycle needs to be discarded" (1), "Incorrect object interaction" (1), "Clipped mid-cycle" (1), "Bare hands visible" (1). Check them before delivery; they are still counted in the 3.24 h.</p>
+</div>
+</div>
+</div></section>
+
+<section class="band np"><div class="wrap">
+<h2>Phase 1 by station and recording date</h2>
+<p class="lede">Hours. Station 1 on 21 Nov and station 2 on 22 Nov lose most of their data-pass hours to the V9 left/right swap; those come back in the "after swap" column once the views are swapped.</p>
+<div class="scroll"><table id="t1"></table></div>
+</div></section>
+
+<section class="band np"><div class="wrap">
+<h2>Pending HITL today: 14.38 h</h2>
+<p class="lede">1,084 episodes not in phase 1. Nearly all pass the data checks; only 89 very short clips (C3, under 9 s, 0.09 h) fail and can be skipped. Add the 120 phase 1 rows left blank (0.85 h). At the phase 1 rate (62% of data-pass hours accepted) today should give about <b>8.9 h</b> deliverable; weighting by the VLM verdict gives <b>9.9 h</b>. Pending episodes average 48 s against 26 s in phase 1, so more of them should reach 3 repetitions. Review the "VLM also 3+" episodes first: 84% of those hours were accepted in phase 1.</p>
+<div class="scroll"><table id="t2"></table></div>
+</div></section>
+
+<section class="band np"><div class="wrap grid">
+<div class="panel">
+<h3>Data issues in the sheet</h3>
+<ul>
+<li><b>Out-of-date durations.</b> 53 episodes in station2/2026-11-22/task05 and station1/2026-11-22/task06 show their old length; the sheet totals 7.91 h for phase 1 against 8.73 h measured.</li>
+<li><b>202 task names are <code>#N/A</code>.</b> The lookup failed for the undated 20 Nov folders, and all 202 were marked "Task match = No". Task match is a relabel, not a rejection: 239 deliverable episodes (2.09 h) need the corrected task applied.</li>
+<li><b>The <code>v4 status</code> column is not the deep check verdict.</b> 121 "Ready" episodes fail the 9 s minimum (C3); 32 "Drop (confirm)" pass every check.</li>
+<li>The <code>hitl_mosaics.csv</code> tab in this workbook is blank (6 rows answered) and is not used.</li>
+</ul>
+</div>
+<div class="panel">
+<h3>The new sheet (All, presigned)</h3>
+<ul>
+<li>2,310 episodes, 23.10 h: one row per episode in deep check v4.</li>
+<li>Presigned links signed 26 Nov 04:49 UTC, valid 7 days: they stop working <b>3 Dec 04:49 UTC</b>.</li>
+<li>The HITL columns are empty for all 2,310 rows. Phase 1 answers are only in <code>hitl_data_day1</code>; copy them in, or filter the 1,226 reviewed rows out before handing out today's batch.</li>
+</ul>
+<p class="note">Sources: <code>hitl_mosaics-2.xlsx</code> (tab <code>hitl_data_day1</code>), <code>delivery_check.csv</code> (deep check v4, 26 Nov), <code>ingestion/funnel.md</code>. Built 26 Nov 2026.</p>
+</div>
+</div></section>
+
+<script>
+{
+const F=[
+ ['Ingested head videos','production, 674 files',[[55.51,'cob']]],
+ ['Paired takes','342 takes, 3-camera shared window',[[45.08,'cob'],[10.43,'loss']]],
+ ['In processed task folders','267 takes',[[38.10,'cob'],[17.41,'loss']]],
+ ['Episodes cut','2,310 episodes; 15 h cut between episodes',[[23.10,'cob'],[32.41,'loss']]],
+ ['Data checks pass','1,772 eps; +294 eps (2.45 h) fail only L/R swap',[[20.26,'cob'],[2.45,'fix'],[0.39,'loss']]],
+ ['HITL phase 1 reviewed','1,226 episodes',[[3.24,'ok'],[1.74,'fix'],[3.75,'loss']],1],
+ ['HITL pending today','1,084 episodes',[[14.27,'wait'],[0.11,'loss']],1]
+];
+const MAX=55.51;
+document.getElementById('funnel').innerHTML=F.map(([t,s,parts,sp])=>{
+ const tot=parts.reduce((a,p)=>a+p[0],0);
+ const v=sp?tot:parts[0][0];
+ return `<div class="fr${sp?' split':''}"><div class="t">${t}<small>${s}</small></div><div class="bar">${parts.map(p=>`<span style="width:${p[0]/MAX*100}%;background:var(--${p[1]})" title="${p[0]} h"></span>`).join('')}</div><div class="v">${v.toFixed(2)} h</div></div>`}).join('');
+
+const P1=[['Accepted, data pass: deliverable now',3.240,406,'ok'],['Accepted, needs L/R swap first',1.740,173,'fix'],['Accepted, fails another check',0.008,4,'loss'],['Rejected: under 3 repetitions',2.219,461,'bad'],['Rejected: task not completed',0.658,61,'wait'],['Rejected: grippers not visible',0.009,1,'bad'],['Not answered or partly answered',0.852,120,'loss']];
+document.getElementById('stk').innerHTML=P1.map(p=>`<span style="width:${p[1]/8.726*100}%;background:var(--${p[3]})" title="${p[0]}"></span>`).join('');
+document.getElementById('p1rows').innerHTML=P1.map(p=>`<div><i style="background:var(--${p[3]})"></i><span>${p[0]}</span><b>${p[1].toFixed(2)} h</b><em>${p[2]} eps</em></div>`).join('')+`<div class="sum"><i></i><span>Total reviewed</span><b>8.73 h</b><em>1,226 eps</em></div>`;
+
+const PP=[['Reviewed episodes',8.73,1226,'loss'],['Before HITL: data checks pass',5.99,778,'cob'],['Before HITL: data pass + VLM 3+ reps',3.28,415,'cob'],['After HITL: accepted + data pass (deliverable)',3.24,406,'ok'],['After HITL: accepted, needs L/R swap',1.74,173,'fix']];
+document.getElementById('prepost').innerHTML=PP.map(p=>`<div><i style="background:var(--${p[3]})"></i><span>${p[0]}</span><b>${p[1].toFixed(2)} h</b><em>${p[2]} eps</em></div>`).join('');
+
+const T1=[['station1','20 Nov',144,0.917,0.910,0.486,0.486,0.000,71],['station1','21 Nov',420,1.990,0.536,0.923,0.247,0.676,26],['station1','22 Nov',211,1.682,1.437,1.447,1.219,0.225,167],['station2','22 Nov',153,1.499,0.475,1.257,0.415,0.839,60],['station3','20 Nov',57,0.692,0.692,0.253,0.253,0.000,14],['station3','21 Nov',119,0.864,0.864,0.156,0.156,0.000,17],['station3','22 Nov',122,1.082,1.080,0.467,0.464,0.000,51]];
+const f=x=>x.toFixed(2), pc=(a,b)=>b?Math.round(a/b*100)+'%':'–';
+let s=T1.reduce((a,r)=>a.map((v,i)=>i<2?v:v+r[i]),['Total','',0,0,0,0,0,0,0]);
+document.getElementById('t1').innerHTML='<thead><tr><th>Station</th><th>Date</th><th>Eps</th><th>Hours</th><th>Data pass</th><th>HITL accept</th><th>Deliverable now</th><th>After swap</th><th>Now %</th></tr></thead><tbody>'+
+ T1.concat([s]).map((r,i)=>`<tr${i==T1.length?' class="tot"':''}><td>${r[0]}</td><td>${r[1]}</td><td>${r[2].toLocaleString()}</td><td>${f(r[3])}</td><td>${f(r[4])}</td><td>${f(r[5])}</td><td>${f(r[6])} <span class="note">(${r[8]})</span></td><td>${f(r[7])}</td><td>${pc(r[6],r[3])}</td></tr>`).join('')+'</tbody>';
+
+const T2=[['station1','24 Nov',191,2.420,2.374,0.025,1.738],['station2','24 Nov',165,4.166,4.164,0.002,3.214],['station3','24 Nov',179,2.859,2.854,0.005,2.124],['station4','21 Nov',180,0.932,0.907,0.026,0.136],['station4','22 Nov',132,1.481,1.469,0.012,0.845],['station4','24 Nov',142,1.531,1.526,0.004,0.918],['station5','22 Nov',7,0.152,0.152,0.000,0.083],['station5','24 Nov',51,0.743,0.743,0.000,0.522],['stations 1–3','20–22 Nov leftovers',37,0.091,0.078,0.013,0.032]];
+let s2=T2.reduce((a,r)=>a.map((v,i)=>i<2?v:v+r[i]),['Total','',0,0,0,0,0]);
+document.getElementById('t2').innerHTML='<thead><tr><th>Station</th><th>Date</th><th>Eps</th><th>Hours</th><th>Data pass</th><th>Fails (skip)</th><th>VLM also 3+</th><th>Est. deliverable</th></tr></thead><tbody>'+
+ T2.concat([s2]).map((r,i)=>`<tr${i==T2.length?' class="tot"':''}><td>${r[0]}</td><td>${r[1]}</td><td>${r[2].toLocaleString()}</td><td>${f(r[3])}</td><td>${f(r[4])}</td><td>${f(r[5])}</td><td>${f(r[6])}</td><td>${f(r[6]*0.843+(r[4]-r[6])*0.386)}</td></tr>`).join('')+'</tbody>';
+}
+</script>
