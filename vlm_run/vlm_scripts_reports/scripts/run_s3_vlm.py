@@ -521,6 +521,9 @@ def summarize(results, suffix="_vlm_result.json"):
                      "prompt_version": (r.get("prompt_versions") or {}).get("repetition_system"),
                      "canonical_task": ct.get("task_text"), "canonical_action": ct.get("action"),
                      "canonical_task_confidence": ct.get("confidence"),
+                     "canonical_support": (r.get("canonical_task_consolidation") or {}).get("support"),
+                     "canonical_needs_review": (r.get("canonical_task_consolidation") or {}).get("needs_review"),
+                     "canonical_outlier": (r.get("canonical_task_consolidation") or {}).get("outlier"),
                      "task_text": t.get("task_text"), "action": t.get("action"), "task_confidence": t.get("confidence"),
                      "n_repetitions": resp.get("n_repetitions"),
                      "n_repetitions_confidence": resp.get("n_repetitions_confidence"),
@@ -571,49 +574,128 @@ def _norm(text):
     return re.sub(r"[^a-z0-9]+", " ", str(text or "").lower()).strip()
 
 
+AGG_PROMPT = V2 / "prompts" / "canonical_aggregation" / "canonical_aggregation.json"
+
+
+def _majority(props):
+    """Fallback: exact-wording vote (case and punctuation ignored); ties: higher summed confidence."""
+    votes = {}
+    for ep, own in props:
+        v = votes.setdefault(_norm(own["task_text"]), {"n": 0, "conf": 0.0, "best": None, "eps": []})
+        c = float(own.get("confidence") or 0)
+        v["n"] += 1
+        v["conf"] += c
+        v["eps"].append(ep)
+        if v["best"] is None or c > float(v["best"].get("confidence") or 0):
+            v["best"] = own
+    win = max(votes.values(), key=lambda v: (v["n"], v["conf"]))
+    chosen = {k: win["best"].get(k) for k in ("task_text", "task_family", "action", "object_categories")}
+    return chosen, sorted(ep for ep, _ in props if ep not in set(win["eps"])), len(votes)
+
+
+def _aggregate_llm(a, task, props, model, key, mcfg):
+    """One text-only Gemini call for a task folder: every episode's proposal in, one canonical_task and the outlier
+    episodes out (prompts/canonical_aggregation). Cached in <results>/canonical/<task>.json by an input hash, so a
+    re-run with unchanged proposals costs nothing and gives the same answer."""
+    import hashlib
+    spec = json.loads(AGG_PROMPT.read_text())
+    lines = [f"{ep} | {o.get('task_family')} | {o.get('action')} | {', '.join(o.get('object_categories') or [])} | {o.get('task_text')}"
+             for ep, o in props]
+    user = f"task_folder: {task.rsplit('/', 1)[-1]}\nn_episodes: {len(props)}\n" + "\n".join(lines)
+    h = hashlib.sha1((spec["version"] + model + user).encode()).hexdigest()[:16]
+    cache = a.results / "canonical" / (task.replace("/", "__") + ".json")
+    if cache.exists():
+        c = json.loads(cache.read_text())
+        if c.get("input_hash") == h:
+            return c["output"], c["usage"], spec["version"], True
+    req = {"systemInstruction": {"parts": [{"text": spec["system"]}]},
+           "contents": [{"role": "user", "parts": [
+               {"text": json.dumps({k: spec[k] for k in ("instruction", "vocabulary", "schema", "input_format")}, ensure_ascii=False)},
+               {"text": user}]}],
+           "generationConfig": {"temperature": 0.0, "responseMimeType": "application/json", "maxOutputTokens": 16384,
+                                "thinkingConfig": {"thinkingLevel": "low"}}}
+    g = R.gemini_generate(model, key, req, 600)
+    text, fin, um = R.gemini_text_usage(g)
+    out = R.parse_json(text)
+    ct = out.get("canonical_task") or {}
+    if not ct.get("task_text"):
+        raise ValueError(f"no canonical_task.task_text (finish reason {fin})")
+    usage = R.gemini_usage(mcfg, um, False)
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    cache.write_text(json.dumps({"task": task, "input_hash": h, "prompt_version": spec["version"], "model": model,
+                                 "input": user, "output": out, "usage": usage,
+                                 "created": time.strftime("%Y-%m-%d %H:%M:%S")}, indent=1, ensure_ascii=False))
+    return out, usage, spec["version"], False
+
+
 def consolidate_canonical(a, tasks):
-    """One canonical_task per task folder (station/[date/]taskNN): every episode proposes one (response.canonical_task);
-    the most frequent task_text (case and punctuation ignored; ties: higher summed confidence) wins, its fields are
-    taken from the most confident episode that proposed it, and it is written into response.canonical_task of every
-    parsed current-prompt result of the folder. The episode's own proposal stays in canonical_task_model, its
-    response.task (the episode's task, which may differ from the canonical one) is untouched. Re-running it is safe
-    (votes always use canonical_task_model). Returns the result files of these tasks."""
+    """One canonical_task per task folder (station/[date/]taskNN). Every parsed current-prompt episode proposes one
+    (kept in canonical_task_model; its own response.task is untouched). canonical_method 'llm' (default): one text-only
+    Gemini call per folder reads all proposals and returns the folder's task plus the episodes that describe a
+    different task (outliers); 'majority', or a failed call, falls back to the exact-wording vote.
+    support = share of the folder's episodes that are not outliers; it is written as canonical_task.confidence (the
+    episodes' self-reported confidence is about 0.95 everywhere and says nothing about agreement). needs_review when
+    support < canonical_min_support or the folder has fewer than canonical_min_episodes episodes.
+    Re-running is safe: proposals always come from canonical_task_model. Returns the result files of these tasks."""
+    method = getattr(a, "canonical_method", "llm")
+    model, key, mcfg = a.model_key, None, None
+    if method == "llm":
+        mcfg = R.model_cfgs([model])[model]
+        key = R.load_env_key(mcfg["api_key_env"])
+        if not key:
+            print(f"  {mcfg['api_key_env']} not set: canonical_task by exact-wording vote")
+            method = "majority"
     files_by_task = {}
     for f in result_files(a):
         t = result_task(a, f)
         if t in tasks:
             files_by_task.setdefault(t, []).append(f)
-    all_files = []
+    all_files, n_review, cost = [], 0, 0.0
     for task, files in sorted(files_by_task.items()):
         all_files += files
-        rs, votes = {}, {}
+        rs = {}
         for f in files:
             r = json.loads(f.read_text())
             resp = r.get("response")
             if resp is None or r.get("prompt_versions") != R.prompt_versions(False):
                 continue
             own = r.get("canonical_task_model") or resp.get("canonical_task")
-            if not own or not own.get("task_text"):
-                continue
-            rs[f] = (r, own)
-            v = votes.setdefault(_norm(own["task_text"]), {"n": 0, "conf": 0.0, "best": None})
-            c = float(own.get("confidence") or 0)
-            v["n"] += 1
-            v["conf"] += c
-            if v["best"] is None or c > float(v["best"].get("confidence") or 0):
-                v["best"] = own
-        if not votes:
+            if own and own.get("task_text"):
+                rs[f] = (r, own)
+        if not rs:
             continue
-        win_key, win = max(votes.items(), key=lambda kv: (kv[1]["n"], kv[1]["conf"]))
-        chosen = dict(win["best"], confidence=round(win["conf"] / win["n"], 3))
-        info = {"task": task, "method": "majority of episode proposals", "n_episodes": len(rs), "n_agree": win["n"],
-                "n_distinct_proposals": len(votes), "updated": time.strftime("%Y-%m-%d %H:%M:%S")}
+        props = sorted((r.get("episode_id") or f.parts[-2], own) for f, (r, own) in rs.items())
+        eps = {ep for ep, _ in props}
+        info = {"task": task, "n_episodes": len(props), "n_distinct_proposals": len({_norm(o["task_text"]) for _, o in props})}
+        used = method
+        if method == "llm":
+            try:
+                out, usage, ver, cached = _aggregate_llm(a, task, props, model, key, mcfg)
+                chosen = {k: out["canonical_task"].get(k) for k in ("task_text", "task_family", "action", "object_categories")}
+                outliers = sorted(set(out.get("outlier_episodes") or []) & eps)
+                info.update(method="llm aggregation of episode proposals", model=model, prompt_version=ver,
+                            reason=out.get("reason"), cost_usd=usage.get("cost_usd"), cached=cached)
+                cost += 0 if cached else float(usage.get("cost_usd") or 0)
+            except Exception as ex:
+                print(f"  canonical {task}: LLM aggregation failed ({ex!r}); exact-wording vote instead")
+                used = "majority"
+        if used == "majority":
+            chosen, outliers, _ = _majority(props)
+            info.update(method="majority of episode proposals (exact wording)")
+        support = round((len(props) - len(outliers)) / len(props), 3)
+        review = support < a.canonical_min_support or len(props) < a.canonical_min_episodes
+        n_review += review
+        chosen["confidence"] = support
+        info.update(n_covered=len(props) - len(outliers), support=support, needs_review=review,
+                    outlier_episodes=outliers, updated=time.strftime("%Y-%m-%d %H:%M:%S"))
         for f, (r, own) in rs.items():
             r["canonical_task_model"] = own
-            r["response"]["canonical_task"] = chosen
-            r["canonical_task_consolidation"] = info
+            r["response"]["canonical_task"] = dict(chosen)
+            r["canonical_task_consolidation"] = dict(info, outlier=(r.get("episode_id") or f.parts[-2]) in outliers)
             f.write_text(json.dumps(r, indent=1, ensure_ascii=False))
-        print(f"  canonical {task}: {win['n']}/{len(rs)} episodes agree ({len(votes)} distinct): {chosen['task_text']}")
+        print(f"  canonical {task}: {info['n_covered']}/{len(props)} episodes agree ({info['n_distinct_proposals']} distinct, "
+              f"{'LLM' if used == 'llm' else 'vote'}{', REVIEW' if review else ''}): {chosen['task_text']}")
+    print(f"  canonical_task: {len(files_by_task)} folder(s), {n_review} flagged needs_review, aggregation cost ${cost:.4f}")
     return all_files
 
 
@@ -735,6 +817,8 @@ def main():
     ap.add_argument("--upload-only", action="store_true",
                     help="only copy the existing parsed local results next to their MP4s in S3")
     ap.add_argument("--no-upload", action="store_true", help="keep results local (no S3 write)")
+    ap.add_argument("--canonical-method", choices=["llm", "majority"],
+                    help="how one canonical_task per task folder is chosen (default: config canonical_method, llm)")
     ap.add_argument("--consolidate-only", action="store_true",
                     help="only give each task folder one canonical_task from its local results (then upload unless --no-upload)")
     a = ap.parse_args()
@@ -775,6 +859,9 @@ def main():
     a.head_suffix = cfg_run.get("head_suffix", "_head.mp4")
     a.s3_result_suffix = cfg_run.get("s3_result_suffix", "_vlm_result.json")
     a.upload_s3 = cfg_run.get("upload_results_to_s3", True) and not a.no_upload
+    a.canonical_method = a.canonical_method or cfg_run.get("canonical_method", "llm")
+    a.canonical_min_support = float(cfg_run.get("canonical_min_support", 0.5))
+    a.canonical_min_episodes = int(cfg_run.get("canonical_min_episodes", 5))
     migrate_legacy(a)
 
     if a.summary_only:

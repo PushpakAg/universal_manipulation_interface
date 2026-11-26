@@ -6,3 +6,5 @@ run_video_full.log,2026-11-24 09:02,s3://prod-mono-pipeline-v2-data/umi_data/ind
 run_video_remaining.log,2026-11-25 12:20,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/,video,final_video_v1.2,1329,968,361,361,7.7198,True,0,0,0,0
 run_video_new192.log,2026-11-25 16:25,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/,video,final_video_v1.2,1521,1329,192,59,1.0698,True,133,0,133,0
 run_video_new303.log,2026-11-25 19:45,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/,video,final_video_v1.2,1699,1388,311,310,10.8036,True,1,0,0,1
+run_video_new133.log,2026-11-25 21:04,s3://prod-mono-pipeline-v2-data/umi_data/industrial_data_mp4/,video,final_video_v1.2,1827,1698,129,129,3.6454,True,0,0,0,0
+run_canonical_llm.log,2026-11-26 00:12,,,,0,0,0,0,0.0,True,0,0,0,0

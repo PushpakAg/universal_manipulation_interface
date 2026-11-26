@@ -36,6 +36,10 @@
   "upload_results_to_s3": true,
   "s3_result_suffix": "_vlm_result.json",
   "_upload_note": "Each parsed result is also written (same file name) into the S3 folder of its MP4: <...>/<episode>/<name>_head.mp4 -> <...>/<episode>/<name>_vlm_result.json, replacing an earlier result there. Episodes without a parsed response are not uploaded (an older S3 result then stays). --no-upload keeps everything local.",
+  "canonical_method": "llm",
+  "canonical_min_support": 0.5,
+  "canonical_min_episodes": 5,
+  "_canonical_note": "One canonical_task per task folder, chosen after all batches: 'llm' = one text-only Gemini call per folder (vlm_run/prompts/canonical_aggregation) reads every episode's proposal and returns the folder's task plus the episodes describing a different task; 'majority' = exact-wording vote (also the fallback when the call fails). support = share of episodes that are not outliers, written as canonical_task.confidence; needs_review when support < canonical_min_support or the folder has fewer than canonical_min_episodes episodes. Calls are cached in results/canonical/ by input hash.",
   "debug": false,
   "keep_videos": false,
   "frames_prompt_set": "final_v1.2"
